@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta name="robots" content="index,follow" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+{% load static %}
+<title>My Week</title>
+<link rel="stylesheet" href="{% static '/css/login_style.css' %}" />
+</head>
+
+<body>
+    <div class="container">
+        <!-- 
+ _                 _       
+| |               (_)      
+| |     ___   __ _ _ _ __  
+| |    / _ \ / _` | | '_ \ 
+| |___| (_) | (_| | | | | |
+|______\___/ \__, |_|_| |_|
+              __/ |        
+             |___/          -->
+        <h2>Register</h2>
+        <form action="/register/" method="POST">
+            {% csrf_token %}
+
+            <label for="email">Email: </label>
+            <input tabindex="1" required type=" text" name="email">
+            <label for="password">Password: </label>
+            <input tabindex="2" required type="password" name="password">
+
+            <label for="confirm_password">Confirm Password: </label>
+            <input required type="password" name="confirm_password">
+
+            <label for="firstName">First Name: </label>
+            <input required type=" text" name="first_name">
+
+            <label for="last_name">Last Name: </label>
+            <input required type="text" name="last_name">
+
+            <button>Register</button>
+        </form>
+
+
+        <!--     _____            _     _            
+        |  __ \          (_)   | |           
+        | |__) |___  __ _ _ ___| |_ ___ _ __ 
+        |  _  // _ \/ _` | / __| __/ _ \ '__|
+        | | \ \  __/ (_| | \__ \ ||  __/ |   
+        |_|  \_\___|\__, |_|___/\__\___|_|   
+                     __/ |                   
+                    |___/                     -->
+
+        <h2>Login</h2>
+        <form action="/login/" method="POST">
+            {% csrf_token %}
+            <label for="email">Email: </label>
+            <input type="text" name="email">
+            <label for="password">Password: </label>
+            <input type="password" name="password">
+            <button>Enter</button>
+        </form>
+    </div>
+</body>
+
+</html>
