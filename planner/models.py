@@ -9,6 +9,8 @@ class EventManager(models.Manager):
 class Event(models.Model):
     created_by = models.ForeignKey(
         User, related_name='created_event', on_delete=models.CASCADE)
+    title = models.CharField(max_length=255)
+    desc = models.CharField(max_length=255)
     date = models.DateField()
     start_time = models.TimeField()
     end_time = models.TimeField()
