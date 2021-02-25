@@ -10,9 +10,6 @@ class Calendar(HTMLCalendar):
         self.month = month
 
     def formatmonthname(self, theyear, themonth, withyear=True):
-        """
-        Return a month name as a table row.
-        """
         if withyear:
             s = '%s %s' % (month_name[themonth], theyear)
         else:
