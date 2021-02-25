@@ -54,5 +54,4 @@ def details(request, id):
     }
     if context['event'].address:
         context['geo'] = geocode(Event.objects.get(id=id).address)
-    print(context['geo'])
     return render(request, 'details.html', context)
