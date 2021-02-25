@@ -1,13 +1,10 @@
-from .utils import Calendar
-from .models import Event
-from django.utils.safestring import mark_safe
-from django.views import generic
-from django.shortcuts import render
 from django.http import HttpResponseRedirect
+from .utils import Calendar
 from django.shortcuts import redirect, render
 from .models import Event
 from login.models import User
 from datetime import date, datetime
+from .geocode import geocode
 
 
 def get_date(req_day):
@@ -28,7 +25,7 @@ def planner(request):
     cal.setfirstweekday(6)
     context['cal'] = cal.whole_month(withyear=True)
 
-    context['week'] = cal.whole_week()
+    context['week'] = cal.whole_week(d.day)
 
     return render(request, 'planner.html', context)
 
@@ -44,6 +41,18 @@ def create_event(request):
         date=x['date'],
         start_time=x['start_time'],
         end_time=x['end_time'],
-        public=x['public']
+        public=x['public'],
+        address=x['address']
+
     )
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+def details(request, id):
+    context = {
+        'event': Event.objects.get(id=id)
+    }
+    if context['event'].address:
+        context['geo'] = geocode(Event.objects.get(id=id).address)
+
+    return render(request, 'details.html', context)
