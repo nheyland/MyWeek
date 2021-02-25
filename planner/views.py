@@ -1,7 +1,17 @@
 from django.http import HttpResponseRedirect
+from .utils import Calendar
 from django.shortcuts import redirect, render
 from .models import Event
 from login.models import User
+from datetime import date, datetime
+from .geocode import geocode
+
+
+def get_date(req_day):
+    if req_day:
+        year, month = (int(x) for x in req_day.split('-'))
+        return date(year, month, day=1)
+    return datetime.today()
 
 
 def planner(request):
@@ -9,6 +19,14 @@ def planner(request):
         return redirect('/')
     context = {
         'events': Event.objects.all()}
+    # Month
+    d = get_date(request.GET.get('day', None))
+    cal = Calendar(d.year, d.month)
+    cal.setfirstweekday(6)
+    context['cal'] = cal.whole_month(withyear=True)
+
+    context['week'] = cal.whole_week(d.day)
+
     return render(request, 'planner.html', context)
 
 
@@ -23,6 +41,17 @@ def create_event(request):
         date=x['date'],
         start_time=x['start_time'],
         end_time=x['end_time'],
-        public=x['public']
+        public=x['public'],
+        address=x['address']
+
     )
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+def details(request, id):
+    context = {
+        'event': Event.objects.get(id=id)
+    }
+    if context['event'].address:
+        context['geo'] = geocode(Event.objects.get(id=id).address)
+    return render(request, 'details.html', context)

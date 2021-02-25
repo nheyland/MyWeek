@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static%}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css' rel='stylesheet' />
+    <title>Document</title>
+
+</head>
+
+<body>
+    <h4>{{event.date}}</h4>
+    <h4>{{event.title}}</h4>
+    <h4>{{event.desc}}</h4>
+    <h4>{{event.start_time}}</h4>
+    <h4>{{event.end_time}}</h4>
+    <h4>{{event.address}}</h4>
+
+    <div id='map' style='width: 400px; height: 300px;'></div>
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoibmhleWxhbmQiLCJhIjoiY2toZHI4ZWNqMDgwaTMwczFuNnpvcGFuMiJ9.4LH3G0a18_HQY8t55W83lg';
+        var map = new mapboxgl.Map({
+            container: 'map',
+            center: {{ geo }},
+        zoom: 9,
+            style: 'mapbox://styles/mapbox/streets-v11'
+        });
+
+        map.on('load', function () {
+            var marker = new mapboxgl.Marker({
+                color: "#FF0000",
+                draggable: true
+            }).setLngLat({{ geo }})
+            .addTo(map);
+
+        });
+    </script>
+</body>
+
+</html>
