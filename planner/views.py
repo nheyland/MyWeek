@@ -1,5 +1,5 @@
 from .utils import Calendar
-from .models import *
+from .models import Event
 from django.utils.safestring import mark_safe
 from django.views import generic
 from django.shortcuts import render
@@ -25,11 +25,10 @@ def planner(request):
     # Month
     d = get_date(request.GET.get('day', None))
     cal = Calendar(d.year, d.month)
-    context['cal'] = cal.formatmonth(withyear=True)
-    # Week
-    
-    context['cal'] = cal.formatmonth(withyear=True)
-    
+    cal.setfirstweekday(6)
+    context['cal'] = cal.whole_month(withyear=True)
+
+    context['week'] = cal.whole_week()
 
     return render(request, 'planner.html', context)
 

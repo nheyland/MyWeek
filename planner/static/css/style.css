@@ -42,3 +42,6 @@ ul {
 a {
   color: #17a2b8;
 }
+table {
+  max-width: 80%;
+}
