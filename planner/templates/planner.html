@@ -19,9 +19,8 @@
         {% csrf_token %}
         <input type="text" placeholder="Title" name="title">
         <input type="text" placeholder="Description" name="desc">
-        <input type="date" placeholder="YYYY-MM-DD" name="date">
-        <input type="time" placeholder="YYYY-MM-DD HH:MM" name="start_time">
-        <input type="time" placeholder="YYYY-MM-DD HH:MM" name="end_time">
+        <input type="datetime-local" placeholder="YYYY-MM-DD HH:MM" name="start_time">
+        <input type="datetime-local" placeholder="YYYY-MM-DD HH:MM" name="end_time">
         <input type="text" placeholder="Adress" name="address">
         <select name="public">
             <option value="True">Public</option>
@@ -33,7 +32,6 @@
     <h4>heres a whole week</h4>
     {{week | safe }}
     <br>
-
 
     <h4>Heres a whole month </h4>
     {{cal | safe}}
