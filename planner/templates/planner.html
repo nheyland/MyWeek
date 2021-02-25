@@ -12,28 +12,61 @@
     <h4>PLANNER</h4>
 
     <a href="/kill/">Logout</a>
-    <form action="/create_event/" method="POST">
-        {% csrf_token %}
-        <input type="text" name="title">
-        <input type="text" name="desc">
-        <input type="date" name="date">
-        <input type="time" name="start_time">
-        <input type="time" name="end_time">
-        <select name="public">
-            <option value="True">Public</option>
-            <option value="Fasle">Private</option>
-        </select>
-        <input type="submit">
+    
+        
+        {% if event_to_update%}
+        <form action="/process_update/{{event_to_update.id}}" method="POST">
+            {% csrf_token %}
+            <input type="text" name="title" value="{{event_to_update.title}}">
+            <input type="text" name="desc" value="{{event_to_update.desc}}">
+            <input type="date" name="date" value="{{event_to_update.date.year}}-{{event_to_update.date.month}}-{{event_to_update.date.day}}">
+            <input type="time" name="start_time" value="{{event_to_update.start_time.hour}}:{{event_to_update.start_time.minute}}">
+            <input type="time" name="end_time" value="{{event_to_update.end_time.hour}}:{{event_to_update.end_time.minute}}">
+            <select name="public">
+                {%if event_to_update.public %}
+                    <option value="True">Public</option>
+                    <option value="False">Private</option>
+                {%else%}
+                    <option value="False">Private</option>
+                    <option value="True">Public</option>
+                {%endif%}
+            </select>
+            <input type="submit">
+        </form>
+        {%else%}
+        <form action="/create_event/" method="POST">
+            {% csrf_token %}
+            <input type="text" name="title">
+            <input type="text" name="desc">
+            <input type="date" name="date">
+            <input type="time" name="start_time">
+            <input type="time" name="end_time">
+            <select name="public">
+                <option value="True">Public</option>
+                <option value="False">Private</option>
+            </select>
+            <input type="submit">
+        {%endif%}
+        </form>
+        <style type="text/css">
+            div{border-style: solid;
+                border-width:5px;
+                border-color:black;}
+        </style>
         {% for i in events %}
-        <p>{{i.title}}</p>
-        <p>{{i.desc}}</p>
-        <p>{{i.date}}</p>
-        <p>{{i.start_time}}</p>
-        <p>{{i.end_time}}</p>
-        <p>{{i.public}}</p>
+
+        <div>
+                <p>{{i.title}}</p>
+                <p>{{i.desc}}</p>
+                <p>{{i.date}}</p>
+                <p>{{i.start_time}}</p>
+                <p>{{i.end_time}}</p>
+                <p>{{i.public}}</p>
+                <p><a href="/update_event/{{i.id}}">Update Event</a></p>
+        </div>
         {%endfor%}
 
-    </form>
+    
 </body>
 
 </html>
