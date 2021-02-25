@@ -14,5 +14,6 @@ class Event(models.Model):
     date = models.DateField()
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
+    address = models.CharField(max_length=255, null=True)
     public = models.BooleanField(default=False)
     objects = EventManager()
