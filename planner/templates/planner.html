@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+{% load static%}
 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
     <title>Document</title>
 </head>
 
@@ -14,26 +17,26 @@
     <a href="/kill/">Logout</a>
     <form action="/create_event/" method="POST">
         {% csrf_token %}
-        <input type="text" name="title">
-        <input type="text" name="desc">
-        <input type="date" name="date">
-        <input type="time" name="start_time">
-        <input type="time" name="end_time">
+        <input type="text" placeholder="Title" name="title">
+        <input type="text" placeholder="Description" name="desc">
+        <input type="date" placeholder="YYYY-MM-DD" name="date">
+        <input type="time" placeholder="YYYY-MM-DD HH:MM" name="start_time">
+        <input type="time" placeholder="YYYY-MM-DD HH:MM" name="end_time">
+        <input type="text" placeholder="Adress" name="address">
         <select name="public">
             <option value="True">Public</option>
             <option value="Fasle">Private</option>
         </select>
         <input type="submit">
-        {% for i in events %}
-        <p>{{i.title}}</p>
-        <p>{{i.desc}}</p>
-        <p>{{i.date}}</p>
-        <p>{{i.start_time}}</p>
-        <p>{{i.end_time}}</p>
-        <p>{{i.public}}</p>
-        {%endfor%}
 
     </form>
+    <h4>heres a whole week</h4>
+    {{week | safe }}
+    <br>
+
+
+    <h4>Heres a whole month </h4>
+    {{cal | safe}}
 </body>
 
 </html>
