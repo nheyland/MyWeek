@@ -17,12 +17,12 @@
     <a href="/kill/">Logout</a>
     <form action="/create_event/" method="POST">
         {% csrf_token %}
-        <input type="text" name="title">
-        <input type="text" name="desc">
-        <input type="date" name="date">
-        <input type="time" name="start_time">
-        <input type="time" name="end_time">
-        <input type="text" name="address">
+        <input type="text" placeholder="Title" name="title">
+        <input type="text" placeholder="Description" name="desc">
+        <input type="date" placeholder="YYYY-MM-DD" name="date">
+        <input type="time" placeholder="YYYY-MM-DD HH:MM" name="start_time">
+        <input type="time" placeholder="YYYY-MM-DD HH:MM" name="end_time">
+        <input type="text" placeholder="Adress" name="address">
         <select name="public">
             <option value="True">Public</option>
             <option value="Fasle">Private</option>
