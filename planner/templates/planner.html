@@ -26,17 +26,11 @@
             <option value="Fasle">Private</option>
         </select>
         <input type="submit">
-        {% for i in events %}
-        <p>{{i.title}}</p>
-        <p>{{i.desc}}</p>
-        <p>{{i.date}}</p>
-        <p>{{i.start_time}}</p>
-        <p>{{i.end_time}}</p>
-        <p>{{i.public}}</p>
-        {%endfor%}
+
     </form>
 
     {{cal | safe}}
+    {{week | safe }}
 </body>
 
 </html>

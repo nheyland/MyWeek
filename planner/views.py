@@ -22,12 +22,15 @@ def planner(request):
         return redirect('/')
     context = {
         'events': Event.objects.all()}
-
+    # Month
     d = get_date(request.GET.get('day', None))
-    print(d)
     cal = Calendar(d.year, d.month)
-    print(cal)
     context['cal'] = cal.formatmonth(withyear=True)
+    # Week
+    
+    context['cal'] = cal.formatmonth(withyear=True)
+    
+
     return render(request, 'planner.html', context)
 
 
