@@ -11,7 +11,6 @@ class Event(models.Model):
         User, related_name='created_event', on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     desc = models.CharField(max_length=255)
-    date = models.DateField()
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     address = models.CharField(max_length=255, null=True)
