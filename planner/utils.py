@@ -1,13 +1,43 @@
-from datetime import datetime
-from calendar import HTMLCalendar, month_name
+from datetime import datetime, date, timedelta
+from calendar import HTMLCalendar, month_name, day_abbr, weekday
 from .models import Event, EventManager
 
 
 class Calendar(HTMLCalendar):
 
-    def __init__(self, year=None, month=None):
+    def __init__(self, year=None, month=None, day=None):
+        self.day = day
         self.year = year
         self.month = month
+        self.week = datetime(year, month, day).isocalendar()[1]
+        self.date = date(year, month, day)
+
+    def formatweekheaderdates(self):
+        week_header_dates = ''
+        x = self.itermonthdates(self.year, self.month)
+        for i in x:
+            if i == self.date:
+                for j in range(0, 7):
+                    week_header_dates += f'<td>{str(i+timedelta(j))}</td>'
+        return week_header_dates
+
+    def formatweekday(self, day):
+        """
+        Return a weekday name as a table header.
+        """
+        return f'<th class="%s">%s</th>' % (
+            self.cssclasses_weekday_head[day], day_abbr[day])
+
+    def weekdays(self):
+        pass
+
+    def formatweekheader(self, start=False, month=False):
+        """
+        Return a header for a week as a table row.
+        """
+        s = ''.join(self.formatweekday(i) for i in self.iterweekdays())
+        x = f"<tr class='dow'>%s </tr>" % s
+        return x
 
     def formatmonthname(self, theyear, themonth, withyear=True):
         if withyear:
@@ -17,8 +47,9 @@ class Calendar(HTMLCalendar):
         return '<tr><th colspan="7" class="%s"> <i class="fas fa-arrow-left"></i> %s <i class="fas fa-arrow-right"></i></th></tr>' % (
             self.cssclass_month_head, s)
 
-    def formatweekname(self, theyear, themonth, starting_day):
-        s = 'This Week'
+    def formatweekname(self):
+        s = 'Week with ' + str(self.month) + '/' + \
+            str(self.day) + '/'+str(self.year)
         return '<tr><th colspan="7" class="%s"> <i class="fas fa-arrow-left"></i> %s <i class="fas fa-arrow-right"></i></th></tr>' % (
             self.cssclass_month_head, s)
 
@@ -40,8 +71,7 @@ class Calendar(HTMLCalendar):
 
     def formathour(self, theweek, events, year, month):
         day = ''
-        first = theweek[0][0]
-        print(theweek)
+        first = date(year, month, theweek[0][0])
 
         def time(x):
             if x < 10:
@@ -50,14 +80,19 @@ class Calendar(HTMLCalendar):
 
         def row(x):
             row = ''
+            date_arr = []
+            for i in self.itermonthdates(self.year, self.month):
+                if i == first:
+                    for j in range(0, 7):
+                        date_arr.append(i+timedelta(j))
             j = events.last()
-            for i in range(first, first+7):
-                if j.start_time.hour == x and j.start_time.day == i:
-                    print(j.start_time.hour)
-                    print(j.start_time.day)
+            for i in date_arr:
+                if j.start_time.hour == x and j.start_time.day == i.day:
                     row += f"<td class='event'><a href='/details/{j.id}'> <span span id='{i}' >{j.title}</span></a></td>"
-                elif j.start_time.hour < x and j.end_time.hour > x and j.start_time.day == i:
-                    row += f"<td class='event'></td>"
+                elif j.start_time.hour < x and j.end_time.hour > x and j.start_time.day == i.day:
+                    row += f"<td class='event_mid'></td>"
+                elif j.end_time.hour == x and j.end_time.day == i.day:
+                    row += f"<td class='event_end'></td>"
                 else:
                     row += f"<td><span span id='{i}' class='hour'>{time(x)}</span></td>"
             return row
@@ -78,14 +113,17 @@ class Calendar(HTMLCalendar):
             cal += f'{self.formatweek(week, events)}\n'
         return cal
 
-    def whole_week(self, starting_day, year, month, withyear=True):
+    def whole_week(self, day, year, month, withyear=True):
         events = Event.objects.filter(
             start_time__year=self.year, start_time__month=self.month)
-        cal = f'<table border="0" cellpadding="0" cellspacing="0"     class="week">\n'
-        cal += f'{self.formatweekname(self.year, self.month, starting_day)}\n'
-        cal += f'{self.formatweekheader()}\n'
-        for week in self.monthdays2calendar(self.year, self.month):
-            if str(starting_day) in self.formatweek(week, events):
-                cal += f'{self.formathour(week, events, year, month)}\n'
 
+        cal = f'<table border="0" cellpadding="0" cellspacing="0" class="week">\n'
+
+        cal += f'{self.formatweekname()}\n'
+        cal += f'{self.formatweekheader()}\n'
+        cal += f'{self.formatweekheaderdates()}\n'
+
+        for week in self.monthdays2calendar(self.year, self.month):
+            if str(day) in self.formatweek(week, events):
+                cal += f'{self.formathour(week, events, year, month)}\n'
         return cal
