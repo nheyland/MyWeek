@@ -18,7 +18,7 @@ def planner(request):
     if not 'user_id' in request.session.keys():
         return redirect('/')
     d = get_date(request.GET.get('day', None))
-    cal = Calendar(d.year, d.month)
+    cal = Calendar(d.year, d.month, d.day)
     cal.setfirstweekday(6)
     context = {
         'events': Event.objects.all(),
@@ -41,7 +41,6 @@ def create_event(request):
         end_time=x['end_time'],
         public=x['public'],
         address=x['address']
-
     )
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
