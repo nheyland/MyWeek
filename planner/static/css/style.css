@@ -3,15 +3,18 @@
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
-.calendar {
+.calendar,
+.week {
   width: 98%;
   margin: auto;
   font-size: 13px;
 }
 
+.week tr,
+.week td,
 .calendar tr,
 .calendar td {
-  border: 1px solid rgb(58, 58, 58);
+  border: 1px solid gainsboro;
 }
 
 .calendar th {
@@ -36,13 +39,22 @@
 
 ul {
   height: 100%;
-  padding: 0px 5px 0px 20px;
+  padding: 0.2rem;
+}
+.time {
+  font-size: 0.6rem;
 }
 
 a {
   color: #17a2b8;
 }
-table {
-  max-width: 80%;
+table,
+td {
+  border: 0.2rem solid gainsboro;
 }
-
+td {
+  width: 14vw;
+}
+.week .hour {
+  height: 1.2rem;
+}
