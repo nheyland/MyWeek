@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect
-from login.models import User, UserProfile
+from login.models import User
 
 # VIEW USER PROFILE
 def viewProfile(request, userID):
+    currentUser = User.objects.get(id = request.session['user_id'])
     viewUser = User.objects.get(id = userID)
     context = {
-        'viewUser': viewUser
+        'viewUser': viewUser,
+        'currentUser': currentUser
     }
     return render(request, 'social/profile.html', context)
 
@@ -20,8 +22,10 @@ def allUsers(request):
 def addFriend(request):
     # Making Assumptions till the User Profile is built.
     currentUser = User.objects.get(id = request.session['user_id'])
-    friend2Add = User.objects.get(id = request.post['friendID'])
-    currentUser.friends_list.add(friend2Add)
+    # userProfile = UserProfile.objects.get(user = currentUser)
+    friend2Add = User.objects.get(id = request.POST['friendID'])
+    # friendsProfile = UserProfile.objects.get(user = friend2Add)
+    currentUser.friends.add(friend2Add)
     # It should be reciprocal
-    friend2Add.friends_list.add(currentUser)
-    return redirect('/')
+    friend2Add.friends.add(currentUser)
+    return redirect('allUsers')

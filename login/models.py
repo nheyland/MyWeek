@@ -14,16 +14,10 @@ class User(models.Model):
     last_name = models.CharField(max_length=255)
     password = models.CharField(max_length=255)
     email = models.CharField(max_length=255)
-    objects = UserManager()
 
-# A User Profile that can be built on. Right now it's just to hold the friends list.
-# Attach the list to a user (1to1)
-# Then attach friends to the list (MtoM)
-class UserProfile(models.Model):
-    user = models.ForeignKey(User, 
-        related_name = 'userProfile',
-        on_delete = models.CASCADE)
-    friend = models.ManyToManyField(User, 
-        related_name = 'friends')
-    created_at = models.DateTimeField(auto_now_add = True)
-    updated_at = models.DateTimeField(auto_now = True)
+    # Easiest way to handle a friends list is to add the 
+    # M2M field here in the User class. This class can be added
+    # on to create more Bio fields.
+    friends = models.ManyToManyField('self')
+
+    objects = UserManager()
