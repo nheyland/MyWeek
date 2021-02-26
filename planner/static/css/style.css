@@ -96,4 +96,9 @@ td {
 .calendar .dow,
 .week .dow {
   background-color: lightgrey;
+  text-align: center;
+}
+
+.odd {
+  background-color: #ededed;
 }/*# sourceMappingURL=style.css.map */
