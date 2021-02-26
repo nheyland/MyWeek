@@ -56,6 +56,8 @@ class Calendar(HTMLCalendar):
                     print(j.start_time.hour)
                     print(j.start_time.day)
                     row += f"<td class='event'><a href='/details/{j.id}'> <span span id='{i}' >{j.title}</span></a></td>"
+                elif j.start_time.hour < x and j.end_time.hour > x and j.start_time.day == i:
+                    row += f"<td class='event'></td>"
                 else:
                     row += f"<td><span span id='{i}' class='hour'>{time(x)}</span></td>"
             return row
