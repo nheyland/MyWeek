@@ -23,7 +23,7 @@ class Calendar(HTMLCalendar):
         for i in x:
             if i == first:
                 for j in range(0, 7):
-                    week_header_dates += f'<td>{str(i+timedelta(j))}</td>'
+                    week_header_dates += f"<td class='dow'>{str((i+timedelta(j)).month)}/{str((i+timedelta(j)).day)}</td>"
         return week_header_dates
 
     def formatweekday(self, day):
@@ -79,6 +79,7 @@ class Calendar(HTMLCalendar):
         first = date(year, month, theweek[0][0])
 
         def time(x):
+            return ' '
             if x < 10:
                 return '0'+str(x) + ':00'
             return str(x) + ':00'
@@ -95,7 +96,7 @@ class Calendar(HTMLCalendar):
                 hold = 0
                 for j in events.all():
                     if j.start_time.hour == x and j.start_time.day == i.day:
-                        row += f"<td class='event'><a href='/details/{j.id}'> <span span id='{i}' >{j.title}</span></a></td>"
+                        row += f"<td class='event'><a href='/details/{j.id}'> <span id='{i}' >{j.title}</span></a></td>"
                         hold += 1
                 for j in events.all():
                     if j.start_time.hour < x and j.end_time.hour > x and j.start_time.day == i.day:
@@ -106,10 +107,14 @@ class Calendar(HTMLCalendar):
                         row += f"<td class='event_end'></td>"
                         hold += 1
                 if hold == 0:
-                    row += f"<td><span span id='{i}' class='hour'>{time(x)}</span></td>"
+                    row += f"<td ><span id='{i}' class='hour'>{time(x)}</span></td>"
             return row
         for i in range(0, 24):
-            day += f" <tr class='hour'><span class='hour'>{row(i)}</span></tr>"
+            if i % 2 == 0:
+                day += f" <tr class='hour even'><span class='hour'>{row(i)}</span></tr>"
+            else:
+                day += f" <tr class='hour odd'><span class='hour'>{row(i)}</span></tr>"
+
         for d, weekday in theweek:
             self.formatday(d, events)
 
