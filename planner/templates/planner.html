@@ -12,7 +12,7 @@
 </head>
 
 <body>
-    <h4>PLANNER</h4>
+    <h4>Today is {{today}}</h4>
 
     <a href="/kill/">Logout</a>
     <form action="/create_event/" method="POST">
@@ -29,11 +29,8 @@
         <input type="submit">
 
     </form>
-    <h4>heres a whole week</h4>
     {{week | safe }}
-    <br>
 
-    <h4>Heres a whole month </h4>
     {{cal | safe}}
 </body>
 
