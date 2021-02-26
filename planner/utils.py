@@ -40,7 +40,8 @@ class Calendar(HTMLCalendar):
 
     def formathour(self, theweek, events, year, month):
         day = ''
-        first = theweek[4][0]
+        first = theweek[0][0]
+        print(theweek)
 
         def time(x):
             if x < 10:
@@ -49,11 +50,12 @@ class Calendar(HTMLCalendar):
 
         def row(x):
             row = ''
-            j = events.first()
+            j = events.last()
             for i in range(first, first+7):
                 if j.start_time.hour == x and j.start_time.day == i:
-                    print('here')
-                    row += f"<td><span span id='{i}' class='hour'>{j.title}</span></td>"
+                    print(j.start_time.hour)
+                    print(j.start_time.day)
+                    row += f"<td class='event'><a href='/details/{j.id}'> <span span id='{i}' >{j.title}</span></a></td>"
                 else:
                     row += f"<td><span span id='{i}' class='hour'>{time(x)}</span></td>"
             return row
