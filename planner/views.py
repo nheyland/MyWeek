@@ -26,6 +26,7 @@ def planner(request):
         'cal': cal.whole_month(withyear=True),
         'today': str(d.day)+'/'+str(d.month)+'/'+str(d.year)
     }
+
     return render(request, 'planner.html', context)
 
 
