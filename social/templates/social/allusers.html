@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ALL USER LIST</title>
+</head>
+<body>
+    <h1>All Users</h1>
+    <table>
+        <tbody>
+            {% for user in allUsers %}
+            <tr>
+                <th scope="row"><a href="{% url 'viewProfile' user.pk %}">{{ user.pk }}</a></th>
+                <td>{{ user.first_name }}</td>
+                <td>{{ user.last_name }}</td>
+                <td>{{ user.friends.all|length }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

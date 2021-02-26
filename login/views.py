@@ -1,5 +1,5 @@
-from django.shortcuts import redirect
-from login.models import User
+from django.shortcuts import redirect, render
+from login.models import User, UserProfile
 import bcrypt
 
 
