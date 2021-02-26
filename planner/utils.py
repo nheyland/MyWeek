@@ -9,14 +9,19 @@ class Calendar(HTMLCalendar):
         self.day = day
         self.year = year
         self.month = month
-        self.week = datetime(year, month, day).isocalendar()[1]
         self.date = date(year, month, day)
 
-    def formatweekheaderdates(self):
+    def formatweekheaderdates(self, year, month, day, events):
         week_header_dates = ''
+        theweek = ''
+        for week in self.monthdays2calendar(self.year, self.month):
+            if str(day) in self.formatweek(week, events):
+                print(week)
+                theweek = week
         x = self.itermonthdates(self.year, self.month)
+        first = date(year, month, theweek[0][0])
         for i in x:
-            if i == self.date:
+            if i == first:
                 for j in range(0, 7):
                     week_header_dates += f'<td>{str(i+timedelta(j))}</td>'
         return week_header_dates
@@ -128,7 +133,7 @@ class Calendar(HTMLCalendar):
 
         cal += f'{self.formatweekname()}\n'
         cal += f'{self.formatweekheader()}\n'
-        cal += f'{self.formatweekheaderdates()}\n'
+        cal += f'{self.formatweekheaderdates(year, month, day, events)}\n'
 
         for week in self.monthdays2calendar(self.year, self.month):
             if str(day) in self.formatweek(week, events):
