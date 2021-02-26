@@ -58,3 +58,6 @@ td {
 .week .hour {
   height: 1.2rem;
 }
+.event {
+  background-color: lightblue;
+}
