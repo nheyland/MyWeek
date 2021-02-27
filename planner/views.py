@@ -14,9 +14,10 @@ def planner(request, id=0):
     cal.setfirstweekday(6)
     time_start = 1
     time_end = 25
+
     context = {
         'events': Event.objects.all(),
-        'week': cal.whole_week(d.day, d.year, d.month, id, time_start, time_end),
+        'week': cal.whole_week(d.day, d.year, d.month, id, request, time_start, time_end),
         'cal': cal.whole_month(),
         'today': str(d.month)+'/'+str(d.day)+'/'+str(d.year)
     }

@@ -119,9 +119,9 @@ class Calendar(HTMLCalendar):
             cal += f'{self.formatweek(week, events)}\n'
         return cal
 
-    def whole_week(self, day, year, month, id, time_start=1, time_end=25):
+    def whole_week(self, day, year, month, id, request, time_start=1, time_end=25):
         events = Event.objects.filter(
-            start_time__year=self.year, start_time__month=self.month)
+            created_by=User.objects.get(id=request.session['user_id']), start_time__year=self.year, start_time__month=self.month)
 
         cal = f'<table border="0" cellpadding="0" cellspacing="0" class="week">\n'
         cal += f'{self.day_picker(id)}\n'
