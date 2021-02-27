@@ -1,10 +1,13 @@
+import os
+from dotenv import load_dotenv
+load_dotenv()
 from django.shortcuts import render, redirect
 from login.models import User
 from planner.models import Event
-# vv SEND_MAIL NEEDED FOR EMAILING. vv
 from django.core.mail import send_mail
-# vv MESSAGES NEEDED FOR FLASH ALERTS vv
 from django.contrib import messages
+from twilio.rest import Client
+
 
 # VIEW USER PROFILE
 def viewProfile(request, userID):
@@ -16,21 +19,34 @@ def viewProfile(request, userID):
     }
     return render(request, 'social/profile.html', context)
 
-# ALL USER LIST - NOT FOR PRODUCTION, JUST FOR DEVELOPMENT USE.
-def allUsers(request):
-    context = {
-        'allUsers': User.objects.all()
-    }
-    return render(request, 'social/allusers.html', context)
+# EDIT PROFILE.
+def editProfile(request, userID):
+    if userID != request.session['user_id']:
+        return redirect('viewProfile', userID)
+    else:
+        if request.method == 'POST':
+            userToUpdate = User.objects.get(id = userID)
+            userToUpdate.first_name = request.POST['first_name']
+            userToUpdate.last_name = request.POST['last_name']
+            userToUpdate.email = request.POST['email']
+            # GOT TO PROPERLY FORMAT PHONE NUMBER, IF THEY ADDED ONE!
+            if request.POST['phone']:
+                phoneNumber = '+1'
+                phoneNumber += request.POST['phone']
+                userToUpdate.phone = phoneNumber
+            userToUpdate.save()
+            return redirect('viewProfile', userID)
+        else:
+            context = {
+                'user': User.objects.get(id = userID)
+            }
+            return render(request, 'social/editprofile.html', context)
 
 # ADD TO FRIENDS LIST
 def addFriend(request):
-    # Making Assumptions till the User Profile is built.
     currentUser = User.objects.get(id = request.session['user_id'])
     friend2Add = User.objects.get(id = request.POST['friendID'])
     currentUser.friends.add(friend2Add)
-    # REMOVED FRIEND RECIPROCATION. JUST BECAUSE YOU WANT SOMEONE ON YOUR LIST DOESN'T MEAN THEY
-    # WANT YOU ON THEIRS...
     return redirect('allUsers')
 
 # EMAIL YOUR FRIEND AND TELL HIM TO JOIN OUR SITE!!!
@@ -72,6 +88,20 @@ def addFriendToEvent(request):
             [friend.email],
             fail_silently = False,
         )
+        # IF THE FRIEND HAS A MOBILE NUMBER ON FILE, WE'LL SEND THEM AN SMS MESSAGE AS WELL!
+        if friend.phone and friend.phone != '+10000000000':
+            account_sid = os.environ.get('TWILIO_ACCOUNT_SID')
+            auth_token = os.environ.get('TWILIO_AUTH_TOKEN')
+            client = Client(account_sid, auth_token)
+
+            message = client.messages \
+                            .create(
+                                messaging_service_sid='MG18a350dc9187f88d26f477f64c72fc68',
+                                body=f"Hi, {friend.first_name}! {userInviting.first_name} {userInviting.last_name} is planning an event at http://localhost:8000{eventURL} and has added you to the event. This only means that you were invited and in no way means you actually have to show up. ;) Regards, MyWeek.",
+                                to=friend.phone
+                            )
+
+            print(message.sid)
         messages.success(request, f'Congrats! {friend.first_name} has been added to the event and notified!')
         return redirect(eventURL)
     else:
