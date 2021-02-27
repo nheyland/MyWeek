@@ -1,6 +1,7 @@
 from datetime import datetime, date, timedelta
-from calendar import HTMLCalendar, month_name, day_abbr, weekday
-from .models import Event, EventManager
+from calendar import HTMLCalendar,  month_name, day_abbr
+import time
+from .models import Event, User
 
 
 class Calendar(HTMLCalendar):
@@ -11,29 +12,18 @@ class Calendar(HTMLCalendar):
         self.month = month
         self.date = date(year, month, day)
 
-    def formatweekheaderdates(self, year, month, day, events):
+    def dow_date_format(self, year, month, day):
         week_header_dates = ''
-        theweek = ''
-        for week in self.monthdays2calendar(self.year, self.month):
-            if str(day) in self.formatweek(week, events):
-                print(week)
-                theweek = week
-        x = self.itermonthdates(self.year, self.month)
-        first = date(year, month, theweek[0][0])
-        for i in x:
-            if i == first:
-                for j in range(0, 7):
-                    week_header_dates += f"<td class='dow'>{str((i+timedelta(j)).month)}/{str((i+timedelta(j)).day)}</td>"
+        week = ''
+        for i in Calendar.monthdatescalendar(self, year, month):
+            for j in i:
+                if self.date == j:
+                    week = i
+        for j in week:
+            week_header_dates += f"<td class='dow'>{j.month}/{j.day}</td>"
         return week_header_dates
 
-    def formatweekday(self, day):
-        return f'<th class="%s">%s</th>' % (
-            self.cssclasses_weekday_head[day], day_abbr[day])
-
-    def weekdays(self):
-        pass
-
-    def formatweekheader(self, start=False, month=False):
+    def dow(self, start=False, month=False):
         s = ''.join(self.formatweekday(i) for i in self.iterweekdays())
         x = f"<tr class='dow'>%s </tr>" % s
         return x
@@ -46,10 +36,19 @@ class Calendar(HTMLCalendar):
         return '<tr><th colspan="7" class="%s"> <i class="fas fa-arrow-left"></i> %s <i class="fas fa-arrow-right"></i></th></tr>' % (
             self.cssclass_month_head, s)
 
-    def formatweekname(self):
-        s = 'Week with ' + str(self.month) + '/' + \
-            str(self.day) + '/'+str(self.year)
-        return '<tr><th colspan="7" class="%s"> <i class="fas fa-arrow-left"></i> %s <i class="fas fa-arrow-right"></i></th></tr>' % (
+    def day_picker(self, weeks_out):
+        s = ''
+        if weeks_out == 0:
+            s = 'This Week'
+        elif weeks_out == 1:
+            s = f'{weeks_out} Week Out'
+        else:
+            s = f'{weeks_out} Weeks Out'
+        prev = weeks_out - 1
+        next = weeks_out + 1
+        if prev < 0:
+            prev = 0
+        return f'<tr><th colspan="7" class="%s"> <a href="/planner/{prev}" <i class="fas fa-arrow-left"></i></a> %s <a href="{next}" <i class="fas fa-arrow-right"></i></a></th></tr>' % (
             self.cssclass_month_head, s)
 
     def formatday(self, day, events):
@@ -67,17 +66,19 @@ class Calendar(HTMLCalendar):
             week += self.formatday(d, events)
         return f'<tr> {week} </tr>'
 
-    def formathour(self, theweek, events, year, month):
+    def formathour(self, week, events, year, month):
         day = ''
-        first = date(year, month, theweek[0][0])
+        print(week)
+        first = date(year, month, week[0][1])
 
         def row(x):
             row = ''
             date_arr = []
-            for i in self.itermonthdates(self.year, self.month):
-                if i == first:
-                    for j in range(0, 7):
-                        date_arr.append(i+timedelta(j))
+            week = ''
+            for i in Calendar.monthdatescalendar(self, year, month):
+                for j in i:
+                    if self.date == j:
+                        date_arr = i
             j = events.last()
             for i in date_arr:
                 hold = 0
@@ -102,7 +103,7 @@ class Calendar(HTMLCalendar):
             else:
                 day += f" <tr class='hour odd'><span class='hour'>{row(i)}</span></tr>"
 
-        for d, weekday in theweek:
+        for d, weekday in week:
             self.formatday(d, events)
 
         return day
@@ -112,22 +113,53 @@ class Calendar(HTMLCalendar):
             start_time__year=self.year, start_time__month=self.month)
         cal = f'<table border="0" cellpadding="0" cellspacing="0"     class="calendar">\n'
         cal += f'{self.formatmonthname(self.year, self.month, withyear=withyear)}\n'
-        cal += f'{self.formatweekheader()}\n'
+        cal += f'{self.dow()}\n'
         for week in self.monthdays2calendar(self.year, self.month):
             cal += f'{self.formatweek(week, events)}\n'
         return cal
 
-    def whole_week(self, day, year, month, withyear=True):
+    def whole_week(self, day, year, month, id):
         events = Event.objects.filter(
             start_time__year=self.year, start_time__month=self.month)
 
         cal = f'<table border="0" cellpadding="0" cellspacing="0" class="week">\n'
-
-        cal += f'{self.formatweekname()}\n'
-        cal += f'{self.formatweekheader()}\n'
-        cal += f'{self.formatweekheaderdates(year, month, day, events)}\n'
+        cal += f'{self.day_picker(id)}\n'
+        cal += f'{self.dow()}\n'
 
         for week in self.monthdays2calendar(self.year, self.month):
-            if str(day) in self.formatweek(week, events):
-                cal += f'{self.formathour(week, events, year, month)}\n'
+            for i in week:
+                if i[0] == day:
+                    cal += f'{self.dow_date_format(year, month, day)}\n'
+                    cal += f'{self.formathour(week, events, year, month)}\n'
         return cal
+
+
+class Time_return:
+
+    def get_date(req_day):
+        if req_day:
+            year, month = (int(x) for x in req_day.split('-'))
+            return date(year, month, day=1)
+        return datetime.today()
+
+    def dst(request):
+        tz = {
+            'dls': {
+                'est': 4,
+                'cnt': 5,
+                'mtn': 6,
+                'pcf': 7
+            },
+            'std': {
+                'est': 5,
+                'cnt': 6,
+                'mtn': 7,
+                'pcf': 8
+            }
+        }
+        d = Time_return.get_date(request.GET.get('day', None))
+        svg = 'dls' if time.localtime().tm_isdst < 0 else 'std'
+        zone = User.objects.get(id=request.session['user_id']).tz if hasattr(
+            User.objects.get(id=request.session['user_id']), 'tz') else 'est'
+
+        return d-timedelta(hours=tz[svg][zone])
