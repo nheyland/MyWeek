@@ -13,6 +13,16 @@
 </head>
 
 <body>
+    <!-- FLASH MESSAGES. NEEDED FOR CONFIRMATION OF SUCCESSFUL FRIENDSHIP EVENTS. -->
+    {% if messages %}
+        {% for message in messages %}
+            <div style="border: 2px solid black; padding: 5px; margin: 5px auto;">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    <!-- END OF FLASH MESSAGES. MUCHO STYLING NEEDED! -->
+
     <h4>{{event.date}}</h4>
     <h4>{{event.title}}</h4>
     <h4>{{event.desc}}</h4>
@@ -40,6 +50,32 @@
         });
 
     </script>
+
+    <!-- PLACING SOCIAL PIECES OF THE PLANNER DOWN HERE FOR NOW. FRONT-END/LEAD CAN MOVE TO WHEREEVER. /ew -->
+    <h2>ADD A FRIEND PLACEHOLDER</h2>
+    <!-- PLACEHOLDER LIST OF FRIENDS. -->
+    <select name="addFriend" id="addFriend">
+        <option selected value="FRIEND ONE">PICK A FRIEND!</option>
+        <option value="FRIEND ONE">ROSS</option>
+        <option value="FRIEND ONE">RACHEL</option>
+        <option value="FRIEND ONE">JOEY</option>
+        <option value="FRIEND ONE">PHOEBE</option>
+        <option value="FRIEND ONE">MONICA</option>
+        <option value="FRIEND ONE">CHANDLER</option>
+    </select>
+    <h3>Is your friend not a member of MyWeek?</h3>
+    <p>
+        No big deal! Send him an invite to join! Don't worry, we won't keep the email address or send spam!
+    </p>
+    <form action="{% url 'inviteFriend' %}" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="eventURL" value="{% url 'eventDetail' event.id %}">
+        <label for="invitee_name">Friend's Name:</label>
+        <input type="text" name="invitee_name" id="invitee_name">
+        <label for="invitee_email">Friend's Email:</label>
+        <input type="email" name="invitee_email" id="invitee_email">
+        <input type="submit" value="Invite A Buddy!">
+    </form>
 </body>
 
 </html>
