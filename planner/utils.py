@@ -80,7 +80,7 @@ class Calendar(HTMLCalendar):
                 hold = 0
                 for j in events.all():
                     if j.start_time.hour == x and j.start_time.day == i.day:
-                        row += f"<td class='event'><a href='/details/{j.id}'> <span id='{i}' >{j.title}</span></a></td>"
+                        row += f"<td class='event'><a href='/details/{j.id}'>{j.title}</a></td>"
                         hold += 1
                 for j in events.all():
                     if j.start_time.hour < x and j.end_time.hour > x and j.start_time.day == i.day:
@@ -91,7 +91,8 @@ class Calendar(HTMLCalendar):
                         row += f"<td class='event_end'></td>"
                         hold += 1
                 if hold == 0:
-                    row += f"<td ><span id='{i}' class='hour'>   </span></td>"
+
+                    row += f"<td id='{i} {x}' class='hour'>  </td>"
             return row
 
         def bettertime(t):
