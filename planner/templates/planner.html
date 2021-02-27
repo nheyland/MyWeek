@@ -12,14 +12,14 @@
 </head>
 
 <body>
-    <h4>Today is {{today}}</h4>
+    <h4>Viewing {{today}}</h4>
 
     <a href="/kill/">Logout</a>
     <form action="/create_event/" method="POST">
         {% csrf_token %}
         <input type="text" placeholder="Title" name="title">
         <input type="text" placeholder="Description" name="desc">
-        <input type="datetime-local" placeholder="YYYY-MM-DD HH:MM" name="start_time">
+        <input type="datetime-local" id='start' placeholder="YYYY-MM-DD HH:MM" name="start_time">
         <input type="datetime-local" placeholder="YYYY-MM-DD HH:MM" name="end_time">
         <input type="text" placeholder="Adress" name="address">
         <select name="public">
@@ -31,6 +31,29 @@
     </form>
     {{week | safe }}
     {{cal | safe}}
+    <script>
+        function create(start, end) {
+            const y = document.getElementById('start')
+            if (/Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)) {
+                var start = start.replace(/\s/g, ' ');
+
+                y.setAttribute('value', start)
+
+
+            } else {
+                y.setAttribute('value', start)
+            }
+        }
+
+        window.addEventListener("click", function (event) {
+            if (event.target.parentNode.parentNode.parentNode.className == 'week') {
+
+                create(event.target.id)
+
+            }
+        });
+
+    </script>
 
 </body>
 
