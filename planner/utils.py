@@ -27,9 +27,6 @@ class Calendar(HTMLCalendar):
         return week_header_dates
 
     def formatweekday(self, day):
-        """
-        Return a weekday name as a table header.
-        """
         return f'<th class="%s">%s</th>' % (
             self.cssclasses_weekday_head[day], day_abbr[day])
 
@@ -37,9 +34,6 @@ class Calendar(HTMLCalendar):
         pass
 
     def formatweekheader(self, start=False, month=False):
-        """
-        Return a header for a week as a table row.
-        """
         s = ''.join(self.formatweekday(i) for i in self.iterweekdays())
         x = f"<tr class='dow'>%s </tr>" % s
         return x
@@ -61,7 +55,6 @@ class Calendar(HTMLCalendar):
     def formatday(self, day, events):
         events_per_day = events.filter(start_time__day=day)
         d = ''
-
         for event in events_per_day:
             d += f"<li class='calendar_event'> <a href='/details/{event.id}''>{event.title}</a><p class='time'>{event.start_time.time } </p> </li >"
         if day != 0:
@@ -77,12 +70,6 @@ class Calendar(HTMLCalendar):
     def formathour(self, theweek, events, year, month):
         day = ''
         first = date(year, month, theweek[0][0])
-
-        def time(x):
-            return ' '
-            if x < 10:
-                return '0'+str(x) + ':00'
-            return str(x) + ':00'
 
         def row(x):
             row = ''
@@ -107,7 +94,7 @@ class Calendar(HTMLCalendar):
                         row += f"<td class='event_end'></td>"
                         hold += 1
                 if hold == 0:
-                    row += f"<td ><span id='{i}' class='hour'>{time(x)}</span></td>"
+                    row += f"<td ><span id='{i}' class='hour'>   </span></td>"
             return row
         for i in range(0, 24):
             if i % 2 == 0:
