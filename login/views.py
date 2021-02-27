@@ -27,7 +27,7 @@ def login(request):
                 request.session['user_id'] = User.objects.get(
                     email=request.POST['email']).id
                 request.session.set_expiry(259200)
-                return redirect('/planner')
+                return redirect('/planner/0')
     return redirect('/')
 
 
