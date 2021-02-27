@@ -68,12 +68,12 @@ td {
   height: 1.2rem;
 }
 
-.event {
+.event_start {
   text-align: center;
   background-color: lightblue;
   border-radius: 0.4rem 0.4rem 0 0;
 }
-.event a {
+.event_start a {
   text-decoration: none;
 }
 
