@@ -32,8 +32,9 @@ def planner(request):
 
 def create_event(request):
     if not 'user_id' in request.session.keys():
-        return redirect('/')z
+        return redirect('/')
     x = request.POST
+    errors = Event.objects.validations(x)
     Event.objects.create(
         created_by=User.objects.get(id=request.session['user_id']),
         title=x['title'],
