@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editing {{user.first_name}}'s Profile</title>
+</head>
+<body>
+    <h1>Edit Profile</h1>
+    <form action="{% url 'editProfile' user.id %}" method="POST">
+        {% csrf_token %}
+        <label for="first_name">First Name</label>
+        <input type="text" name="first_name" id="first_name" value="{{ user.first_name }}">
+        <label for="last_name">Last Name</label>
+        <input type="text" name="last_name" id="last_name" value="{{ user.last_name }}">
+        <label for="email">email</label>
+        <input type="email" name="email" id="email" value="{{ user.email }}">
+        <label for="phone">Mobile Phone #</label>
+        <input type="text" name="phone" id="phone" aria-describedby="phonehelp" value="{{ user.phone }}" maxlength="12">
+        <small id="phonehelp">Phone Number should be formatted 2065555555, no () or -, just numbers. US/Canada ONLY. If you want to remove your
+            phone number, just replace yours with all 0s.
+        </small>
+        <input type="submit" value="Update Your Info">
+    </form>
+</body>
+</html>

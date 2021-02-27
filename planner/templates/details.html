@@ -63,13 +63,6 @@
         });
 
     </script>
-    <!-- A PHONE TEST -->
-    {% if event.created_by.phone %}
-    <h2>Yes there is a phone number there.</h2>
-    {% else %}
-    <h2>No, there is no phone number.</h2>
-    {% endif %}
-
     <!-- YOU DON'T GET TO ADD A FRIEND TO THIS IF YOU'RE NOT THE PERSON WHO CREATED THE EVENT. -->
     {% if event.created_by.id == request.session.user_id %}
     <!-- PLACING SOCIAL PIECES OF THE PLANNER DOWN HERE FOR NOW. FRONT-END/LEAD CAN MOVE TO WHEREEVER. /ew -->
