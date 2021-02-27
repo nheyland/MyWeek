@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from login.models import User
+from planner.models import Event
 # vv SEND_MAIL NEEDED FOR EMAILING. vv
 from django.core.mail import send_mail
 # vv MESSAGES NEEDED FOR FLASH ALERTS vv
@@ -32,7 +33,6 @@ def addFriend(request):
     # WANT YOU ON THEIRS...
     return redirect('allUsers')
 
-
 # EMAIL YOUR FRIEND AND TELL HIM TO JOIN OUR SITE!!!
 def inviteFriend(request):
     if request.method == 'POST':
@@ -49,6 +49,30 @@ def inviteFriend(request):
             fail_silently = False,
         )
         messages.success(request, f'Congrats! an email has been sent to {invitee} telling them about your event and inviting them to sign up!')
+        return redirect(eventURL)
+    else:
+        return redirect('/')
+
+# ADD YOUR FRIEND TO AN EVENT!
+def addFriendToEvent(request):
+    if request.method == 'POST':
+        userInviting = User.objects.get(id = request.session['user_id'])
+        event = Event.objects.get(id = request.POST['eventID'])
+        friend = User.objects.get(id = request.POST['addFriend'])
+        eventURL = request.POST['eventURL']
+        # ADD FRIEND TO THE EVENT. 
+        event.invitees.add(friend)
+        # LET THE FRIEND KNOW THEY WERE ADDED TO AN EVENT!
+        subject = f'{userInviting.first_name} has invited you to their event!'
+        message = f"Hi there, {friend.first_name}! {userInviting.first_name} {userInviting.last_name} is planning an event at http://localhost:8000{eventURL} and has added you to the event. This only means that you were invited and in no way means you actually have to show up. ;) \n Regards, MyWeek."
+        send_mail(
+            subject,
+            message,
+            'myweek@MyWeek.com',
+            [friend.email],
+            fail_silently = False,
+        )
+        messages.success(request, f'Congrats! {friend.first_name} has been added to the event and notified!')
         return redirect(eventURL)
     else:
         return redirect('/')
