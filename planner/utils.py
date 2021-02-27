@@ -80,15 +80,15 @@ class Calendar(HTMLCalendar):
                 hold = 0
                 for j in events.all():
                     if j.start_time.hour == x and j.start_time.day == i.day:
-                        row += f"<td class='event_start event'><a href='/details/{j.id}'>{j.title}</a></td>"
+                        row += f"<td class='event'><a href='/details/{j.id}'>{j.title}</a></td>"
                         hold += 1
                 for j in events.all():
                     if j.start_time.hour < x and j.end_time.hour > x and j.start_time.day == i.day:
-                        row += f"<td class='event_mid event'></td>"
+                        row += f"<td class='event_mid'></td>"
                         hold += 1
                 for j in events.all():
                     if j.end_time.hour == x and j.end_time.day == i.day:
-                        row += f"<td class='event_end event'></td>"
+                        row += f"<td class='event_end'></td>"
                         hold += 1
                 if hold == 0:
 

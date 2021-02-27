@@ -27,6 +27,7 @@
             <option value="Fasle">Private</option>
         </select>
         <input type="submit">
+        <!-- 2021-02-23T01:01 -->
 
     </form>
     {{week | safe }}
@@ -35,9 +36,10 @@
         function create(start, end) {
             const y = document.getElementById('start')
             if (/Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)) {
-                var start = start.replace(/\s/g, ' ');
+                console.log('Chrome :(')
+                var start = start.replace(/\s/g, 'T');
+                console.log(start)
                 y.setAttribute('value', start)
-
 
             } else {
                 y.setAttribute('value', start)
