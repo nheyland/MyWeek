@@ -3,7 +3,7 @@ from .utils import Calendar
 from django.shortcuts import redirect, render
 from .models import Event
 from login.models import User
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from .geocode import geocode
 
 
