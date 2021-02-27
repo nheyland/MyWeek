@@ -37,7 +37,7 @@
             const y = document.getElementById('start')
             if (/Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)) {
                 console.log('Chrome :(')
-                var start = start.replace(/\s/g, 'T');
+                var start = start.replace(/\s/g, 'T') + ':00';
                 console.log(start)
                 y.setAttribute('value', start)
 
@@ -48,12 +48,12 @@
 
         window.addEventListener("click", function (event) {
             if (event.target.parentNode.parentNode.parentNode.className == 'week') {
-
+                document.getElementById(event.target.id).style.backgroundColor = 'red';
                 create(event.target.id)
 
             }
         });
-
+        //JQUERY CLICK DOWN
     </script>
 
 </body>
