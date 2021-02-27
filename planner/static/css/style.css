@@ -101,4 +101,23 @@ td {
 
 .odd {
   background-color: #ededed;
+}
+
+.arrow {
+  text-decoration: none;
+  color: black;
+}
+
+.arrow:hover {
+  color: #17a2b8;
+}
+
+.side_by_side {
+  display: flex;
+}
+
+.time {
+  text-align: center;
+  background-color: lightgrey;
+  width: 4rem;
 }/*# sourceMappingURL=style.css.map */

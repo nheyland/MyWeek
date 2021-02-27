@@ -1,7 +1,8 @@
 from datetime import datetime, date, timedelta
-from calendar import HTMLCalendar,  month_name, day_abbr
-import time
+from calendar import HTMLCalendar,  month_name
 from .models import Event, User
+import requests as r
+import time
 
 
 class Calendar(HTMLCalendar):
@@ -23,16 +24,14 @@ class Calendar(HTMLCalendar):
             week_header_dates += f"<td class='dow'>{j.month}/{j.day}</td>"
         return week_header_dates
 
-    def dow(self, start=False, month=False):
+    def dow(self, month=False):
         s = ''.join(self.formatweekday(i) for i in self.iterweekdays())
-        x = f"<tr class='dow'>%s </tr>" % s
-        return x
+        if month:
+            return f"<tr class='dow'>%s </tr>" % s
+        return f"<tr class='dow'><td></td>%s </tr>" % s
 
-    def formatmonthname(self, theyear, themonth, withyear=True):
-        if withyear:
-            s = '%s %s' % (month_name[themonth], theyear)
-        else:
-            s = '%s' % month_name[themonth]
+    def formatmonthname(self, theyear, themonth):
+        s = '%s %s' % (month_name[themonth], theyear)
         return '<tr><th colspan="7" class="%s"> <i class="fas fa-arrow-left"></i> %s <i class="fas fa-arrow-right"></i></th></tr>' % (
             self.cssclass_month_head, s)
 
@@ -48,7 +47,7 @@ class Calendar(HTMLCalendar):
         next = weeks_out + 1
         if prev < 0:
             prev = 0
-        return f'<tr><th colspan="7" class="%s"> <a href="/planner/{prev}" <i class="fas fa-arrow-left"></i></a> %s <a href="{next}" <i class="fas fa-arrow-right"></i></a></th></tr>' % (
+        return f'<tr><th colspan="8" class="%s"> <a href="/planner/{prev}" <i class="arrow fas fa-arrow-left"></i></a> %s <a href="{next}" <i class="arrow fas fa-arrow-right"></i></a></th></tr>' % (
             self.cssclass_month_head, s)
 
     def formatday(self, day, events):
@@ -66,15 +65,12 @@ class Calendar(HTMLCalendar):
             week += self.formatday(d, events)
         return f'<tr> {week} </tr>'
 
-    def formathour(self, week, events, year, month):
-        day = ''
-        print(week)
-        first = date(year, month, week[0][1])
+    def formathour(self, week, events, year, month, time_start, time_end):
+        big_row = ''
 
         def row(x):
             row = ''
             date_arr = []
-            week = ''
             for i in Calendar.monthdatescalendar(self, year, month):
                 for j in i:
                     if self.date == j:
@@ -97,28 +93,33 @@ class Calendar(HTMLCalendar):
                 if hold == 0:
                     row += f"<td ><span id='{i}' class='hour'>   </span></td>"
             return row
-        for i in range(0, 24):
-            if i % 2 == 0:
-                day += f" <tr class='hour even'><span class='hour'>{row(i)}</span></tr>"
+
+        def bettertime(t):
+            if t < 13:
+                if t == 0:
+                    return f'12:00 AM'
+                return f'{t}:00 AM'
             else:
-                day += f" <tr class='hour odd'><span class='hour'>{row(i)}</span></tr>"
+                t = t-12
+                return f'{t}:00 PM'
+        for i in range(time_start, time_end):
+            if i % 2 == 0:
+                big_row += f" <tr class='hour even'><td class='time'>{bettertime(i)}</td><span class='hour'>{row(i)}</span></tr>"
+            else:
+                big_row += f" <tr class='hour odd'><td class='time'>{bettertime(i)}</td><span class='hour'>{row(i)}</span></tr>"
+        return big_row
 
-        for d, weekday in week:
-            self.formatday(d, events)
-
-        return day
-
-    def whole_month(self, withyear=True):
+    def whole_month(self):
         events = Event.objects.filter(
             start_time__year=self.year, start_time__month=self.month)
         cal = f'<table border="0" cellpadding="0" cellspacing="0"     class="calendar">\n'
-        cal += f'{self.formatmonthname(self.year, self.month, withyear=withyear)}\n'
-        cal += f'{self.dow()}\n'
+        cal += f'{self.formatmonthname(self.year, self.month)}\n'
+        cal += f'{self.dow(month=True)}\n'
         for week in self.monthdays2calendar(self.year, self.month):
             cal += f'{self.formatweek(week, events)}\n'
         return cal
 
-    def whole_week(self, day, year, month, id):
+    def whole_week(self, day, year, month, id, time_start=1, time_end=25):
         events = Event.objects.filter(
             start_time__year=self.year, start_time__month=self.month)
 
@@ -129,12 +130,12 @@ class Calendar(HTMLCalendar):
         for week in self.monthdays2calendar(self.year, self.month):
             for i in week:
                 if i[0] == day:
-                    cal += f'{self.dow_date_format(year, month, day)}\n'
-                    cal += f'{self.formathour(week, events, year, month)}\n'
+                    cal += f"<td class='dow'>Time</td>{self.dow_date_format(year, month, day)}\n"
+                    cal += f'{self.formathour(week, events, year, month, time_start, time_end)}\n'
         return cal
 
 
-class Time_return:
+class Tools:
 
     def get_date(req_day):
         if req_day:
@@ -157,9 +158,15 @@ class Time_return:
                 'pcf': 8
             }
         }
-        d = Time_return.get_date(request.GET.get('day', None))
+        d = Tools.get_date(request.GET.get('day', None))
         svg = 'dls' if time.localtime().tm_isdst < 0 else 'std'
         zone = User.objects.get(id=request.session['user_id']).tz if hasattr(
             User.objects.get(id=request.session['user_id']), 'tz') else 'est'
 
         return d-timedelta(hours=tz[svg][zone])
+
+    def geocode(x):
+        y = r.get('https://api.mapbox.com/geocoding/v5/mapbox.places/' + x +
+                  '.json?access_token=pk.eyJ1IjoibmhleWxhbmQiLCJhIjoiY2toZHI4ZWNqMDgwaTMwczFuNnpvcGFuMiJ9.4LH3G0a18_HQY8t55W83lg').json()
+
+        return y['features'][0]['center']
