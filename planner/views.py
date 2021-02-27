@@ -1,22 +1,23 @@
-from django.http import HttpResponseRedirect
-from .utils import Calendar, Time_return
 from django.shortcuts import redirect, render
-from .models import Event
+from django.http import HttpResponseRedirect
+from .utils import Calendar, Tools
+from datetime import timedelta
 from login.models import User
-from .geocode import geocode
-from datetime import datetime, timedelta
+from .models import Event
 
 
 def planner(request, id=0):
     if not 'user_id' in request.session.keys():
         return redirect('/')
-    d = Time_return.dst(request)+timedelta(days=id*7)
+    d = Tools.dst(request)+timedelta(days=id*7)
     cal = Calendar(d.year, d.month, d.day)
     cal.setfirstweekday(6)
+    time_start = 1
+    time_end = 25
     context = {
         'events': Event.objects.all(),
-        'week': cal.whole_week(d.day, d.year, d.month, id),
-        'cal': cal.whole_month(withyear=True),
+        'week': cal.whole_week(d.day, d.year, d.month, id, time_start, time_end),
+        'cal': cal.whole_month(),
         'today': str(d.month)+'/'+str(d.day)+'/'+str(d.year)
     }
 
@@ -44,5 +45,5 @@ def details(request, id):
         'event': Event.objects.get(id=id)
     }
     if context['event'].address:
-        context['geo'] = geocode(Event.objects.get(id=id).address)
+        context['geo'] = Tools.geocode(Event.objects.get(id=id).address)
     return render(request, 'details.html', context)
