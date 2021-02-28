@@ -96,10 +96,13 @@ class Calendar(HTMLCalendar):
             return row
 
         def bettertime(t):
-            if t < 13:
+            if t == 12:
+                return '12:00 PM'
+            if t < 12:
                 if t == 0:
                     return f'12:00 AM'
                 return f'{t}:00 AM'
+
             else:
                 t = t-12
                 return f'{t}:00 PM'

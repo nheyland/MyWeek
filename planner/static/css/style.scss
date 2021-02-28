@@ -110,10 +110,11 @@ td {
   background-color: lightgrey;
   width: 4rem;
 }
-
-*::selection {
-  background: transparent;
-}
-*::-moz-selection {
-  background: transparent;
+table * {
+  *::selection {
+    background: transparent;
+  }
+  *::-moz-selection {
+    background: transparent;
+  }
 }
