@@ -1,4 +1,4 @@
-import datetime
+
 from django.shortcuts import redirect, render
 from django.http import HttpResponseRedirect
 from .utils import Calendar, Tools
@@ -11,17 +11,17 @@ def planner(request, id=0):
     if not 'user_id' in request.session.keys():
         return redirect('/')
     d = Tools.dst(request)+timedelta(days=id*7)
-    cal = Calendar(d.year, d.month, d.day)
-    cal.setfirstweekday(6)
-    time_start = 0
-    time_end = 24
-
+    cal = Calendar(request, d.year, d.month, d.day, id)
     context = {
         'events': Event.objects.all(),
-        'week': cal.whole_week(d.day, d.year, d.month, id, request, time_start, time_end),
-        'cal': cal.whole_month(),
-        'today': str(d.month)+'/'+str(d.day)+'/'+str(d.year)
+        'week': cal.whole_week(),
+        'cal': cal.whole_month()
     }
+
+    if 'errors' in request.session.keys():
+        context['errors'] = request.session['errors']
+        print(context['errors'])
+        del request.session['errors']
     return render(request, 'planner.html', context)
 
 
@@ -32,7 +32,8 @@ def create_event(request):
     errors = Event.objects.validations(
         request)
     if len(errors) > 0:
-        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        request.session['errors'] = errors
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'), errors)
     Event.objects.create(
         created_by=User.objects.get(id=request.session['user_id']),
         title=x['title'],

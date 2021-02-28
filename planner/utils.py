@@ -1,3 +1,4 @@
+import calendar
 from datetime import datetime, date, timedelta
 from calendar import HTMLCalendar,  month_name
 from .models import Event, User
@@ -7,11 +8,16 @@ import time
 
 class Calendar(HTMLCalendar):
 
-    def __init__(self, year=None, month=None, day=None):
+    def __init__(self, request, year=None, month=None, day=None, week=0, time_start=0, time_end=24):
         self.day = day
         self.year = year
         self.month = month
         self.date = date(year, month, day)
+        self.week = week
+        self.time_start = time_start
+        self.time_end = time_end
+        self.events = Event.objects.filter(
+            created_by=User.objects.get(id=request.session['user_id']), start_time__year=self.year, start_time__month=self.month)
 
     def dow_date_format(self, year, month, day):
         week_header_dates = ''
@@ -49,6 +55,9 @@ class Calendar(HTMLCalendar):
             prev = 0
         return f'<tr><th colspan="8" class="%s"> <a href="/planner/{prev}" <i class="arrow fas fa-arrow-left"></i></a> %s <a href="{next}" <i class="arrow fas fa-arrow-right"></i></a></th></tr>' % (
             self.cssclass_month_head, s)
+
+    def history():
+        return 'yes'
 
     def formatday(self, day, events):
         events_per_day = events.filter(start_time__day=day)
@@ -102,7 +111,6 @@ class Calendar(HTMLCalendar):
                 if t == 0:
                     return f'12:00 AM'
                 return f'{t}:00 AM'
-
             else:
                 t = t-12
                 return f'{t}:00 PM'
@@ -114,8 +122,7 @@ class Calendar(HTMLCalendar):
         return big_row
 
     def whole_month(self):
-        events = Event.objects.filter(
-            start_time__year=self.year, start_time__month=self.month)
+        events = self.events
         cal = f'<table border="0" cellpadding="0" cellspacing="0"     class="calendar">\n'
         cal += f'{self.formatmonthname(self.year, self.month)}\n'
         cal += f'{self.dow(month=True)}\n'
@@ -123,19 +130,17 @@ class Calendar(HTMLCalendar):
             cal += f'{self.formatweek(week, events)}\n'
         return cal
 
-    def whole_week(self, day, year, month, id, request, time_start=1, time_end=25):
-        events = Event.objects.filter(
-            created_by=User.objects.get(id=request.session['user_id']), start_time__year=self.year, start_time__month=self.month)
-
+    def whole_week(self):
+        self.setfirstweekday(6)
+        events = self.events
         cal = f'<table border="0" cellpadding="0" cellspacing="0" id="week" class="week">\n'
-        cal += f'{self.day_picker(id)}\n'
+        cal += f'{self.day_picker(self.week)}\n'
         cal += f'{self.dow()}\n'
-
         for week in self.monthdays2calendar(self.year, self.month):
             for i in week:
-                if i[0] == day:
-                    cal += f"<td class='dow'>Time</td>{self.dow_date_format(year, month, day)}\n"
-                    cal += f'{self.formathour(week, events, year, month, time_start, time_end)}\n'
+                if i[0] == self.day:
+                    cal += f"<td class='dow'>Time</td>{self.dow_date_format(self.year, self.month, self.day)}\n"
+                    cal += f'{self.formathour(week, events, self.year, self.month, self.time_start, self.time_end)}\n'
         return cal
 
 
