@@ -7,21 +7,22 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'js/app.js' %}">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
     <title>Document</title>
 </head>
 
 <body>
-    <h4>PLANNER</h4>
+    <h4>Viewing {{today}}</h4>
 
     <a href="/kill/">Logout</a>
     <form action="/create_event/" method="POST">
         {% csrf_token %}
         <input type="text" placeholder="Title" name="title">
         <input type="text" placeholder="Description" name="desc">
-        <input type="datetime-local" placeholder="YYYY-MM-DD HH:MM" name="start_time">
-        <input type="datetime-local" placeholder="YYYY-MM-DD HH:MM" name="end_time">
-        <input type="text" placeholder="Adress" name="address">
+        <input type="datetime-local" id='start' placeholder="YYYY-MM-DD HH:MM" name="start_time">
+        <input type="datetime-local" id='end' placeholder="YYYY-MM-DD HH:MM" name="end_time">
+        <input type="text" placeholder="Address" name="address">
         <select name="public">
             <option value="True">Public</option>
             <option value="Fasle">Private</option>
@@ -29,15 +30,67 @@
         <input type="submit">
 
     </form>
-
-    
-
-    <h4>heres a whole week</h4>
     {{week | safe }}
-    <br>
-
-    <h4>Heres a whole month </h4>
     {{cal | safe}}
+    <script>
+        function create(start, end) {
+            const y = document.getElementById('start')
+            const z = document.getElementById('end')
+
+            if (/Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)) {
+                if (start.split(' ')[1] < 10) {
+                    start = start.split(' ')
+                    start[1] = '0' + start[1]
+                    start = start[0] + ' ' + start[1]
+                }
+                y.setAttribute('value', start.replace(/\s/g, 'T') + ':00')
+            } else {
+                start = start + ':00';
+                y.setAttribute('value', start)
+            }
+            if (/Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)) {
+                if (end.split(' ')[1] < 10) {
+                    end = end.split(' ')
+                    end[1] = '0' + end[1]
+                    end = end[0] + ' ' + end[1]
+                }
+                z.setAttribute('value', end.replace(/\s/g, 'T') + ':00')
+
+            } else {
+                end = end + ':00';
+                z.setAttribute('value', end)
+            }
+        }
+        function reset() {
+            const reset = document.getElementsByClassName('hour')
+            for (var i = 0; i < reset.length; i++) {
+                reset[i].style.backgroundColor = "";
+            }
+        }
+        const week = document.getElementById('week')
+        week.addEventListener("mousedown", function (down) {
+            reset()
+            if (down.target.parentNode.parentNode.parentNode.className == 'week' && !down.target.classList.contains('event')) {
+                document.getElementById(down.target.id).style.backgroundColor = 'pink';
+                week.onmouseover = function (move) {
+                    if (Number(down.target.id.split(' ')[1]) < Number(move.target.id.split(' ')[1]) && down.target.id.split(' ')[0] == move.target.id.split(' ')[0]) {
+                        document.getElementById(move.target.id).style.backgroundColor = 'pink';
+
+                    }
+                };
+                week.addEventListener("mouseup", function (up) {
+                    create(down.target.id, up.target.id)
+                    document.getElementById(down.target.id).style.borderRadius = '.4rem .4rem 0 0';
+                    document.getElementById(up.target.id).style.borderRadius = '0 0 .4rem .4rem ';
+                    week.onmouseover = null
+
+                });
+
+            }
+
+        });
+    </script>
+
 </body>
 
 </html>

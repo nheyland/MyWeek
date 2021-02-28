@@ -3,15 +3,22 @@
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
-.calendar {
+
+.calendar,
+.week {
   width: 98%;
   margin: auto;
   font-size: 13px;
 }
 
+.week tr,
+.week td,
 .calendar tr,
 .calendar td {
-  border: 1px solid rgb(58, 58, 58);
+  border: 0.01rem solid transparent;
+  border-left: 0.01rem solid lightgrey;
+  border-right: 0.01rem solid lightgrey;
+  padding: 0.2rem;
 }
 
 .calendar th {
@@ -24,6 +31,7 @@
   width: 200px;
   height: 150px;
   padding: 20px 0px 0px 5px;
+  border: 0.1rem solid lightgrey;
 }
 
 .month {
@@ -36,13 +44,97 @@
 
 ul {
   height: 100%;
-  padding: 0px 5px 0px 20px;
+  padding: 0.2rem;
+}
+
+s .time {
+  font-size: 0.6rem;
 }
 
 a {
   color: #17a2b8;
 }
-table {
-  max-width: 80%;
+
+table,
+td {
+  border: 0.2rem solid lightgrey;
 }
 
+td {
+  max-width: 5rem;
+  min-width: 4rem;
+}
+
+.hour {
+  height: 1.2rem;
+}
+
+.hour:hover {
+  cursor: row-resize;
+}
+
+.event_start {
+  text-align: center;
+  background-color: lightblue;
+  border-radius: 0.4rem 0.4rem 0 0;
+}
+.event_start a {
+  text-decoration: none;
+}
+
+.event_mid {
+  text-align: center;
+  background-color: lightblue;
+}
+
+.event_end {
+  text-align: center;
+  background-color: lightblue;
+  border-radius: 0 0 0.4rem 0.4rem;
+}
+
+.calendar,
+.week {
+  max-width: 80rem;
+  margin-top: 4rem;
+}
+.calendar .dow,
+.week .dow {
+  background-color: lightgrey;
+  text-align: center;
+}
+
+.odd {
+  background-color: #ededed;
+}
+
+.arrow {
+  text-decoration: none;
+  color: black;
+}
+
+.arrow:hover {
+  color: #17a2b8;
+}
+
+.side_by_side {
+  display: flex;
+}
+
+.time {
+  text-align: center;
+  background-color: lightgrey;
+  width: 4rem;
+}
+
+*::-moz-selection {
+  background: transparent;
+}
+
+*::selection {
+  background: transparent;
+}
+
+*::-moz-selection {
+  background: transparent;
+} /*# sourceMappingURL=style.css.map */
