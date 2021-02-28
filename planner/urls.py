@@ -6,4 +6,8 @@ urlpatterns = [
     path('planner/<int:id>', views.planner),
     path('create_event/', views.create_event),
     path('details/<int:id>', views.details),
+    path('edit/<int:id>', views.edit_event),
+    path('delete/<int:id>', views.delete_event),
+    path('process_edit', views.process_edit),
+
 ]
