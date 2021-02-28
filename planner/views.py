@@ -1,32 +1,27 @@
-from django.http import HttpResponseRedirect
-from .utils import Calendar
 from django.shortcuts import redirect, render
-from .models import Event
+from django.http import HttpResponseRedirect
+from .utils import Calendar, Tools
+from datetime import timedelta
 from login.models import User
-from datetime import date, datetime
-from .geocode import geocode
+from .models import Event
 
 
-def get_date(req_day):
-    if req_day:
-        year, month = (int(x) for x in req_day.split('-'))
-        return date(year, month, day=1)
-    return datetime.today()
-
-
-def planner(request):
+def planner(request, id=0):
     if not 'user_id' in request.session.keys():
         return redirect('/')
-    context = {
-        'events': Event.objects.all()
-    }
-    # Month
-    d = get_date(request.GET.get('day', None))
-    cal = Calendar(d.year, d.month)
+    d = Tools.dst(request)+timedelta(days=id*7)
+    cal = Calendar(d.year, d.month, d.day)
     cal.setfirstweekday(6)
-    context['cal'] = cal.whole_month(withyear=True)
-    context['week'] = cal.whole_week(d.day)
+    time_start = 1
+    time_end = 25
 
+    context = {
+        'events': Event.objects.all(),
+        'week': cal.whole_week(d.day, d.year, d.month, id, request, time_start, time_end),
+        'cal': cal.whole_month(),
+        'today': str(d.month)+'/'+str(d.day)+'/'+str(d.year)
+    }
+    
     return render(request, 'planner.html', context)
 
 
@@ -43,7 +38,6 @@ def create_event(request):
         end_time=x['end_time'],
         public=x['public'],
         address=x['address']
-
     )
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
@@ -53,5 +47,5 @@ def details(request, id):
         'event': Event.objects.get(id=id)
     }
     if context['event'].address:
-        context['geo'] = geocode(Event.objects.get(id=id).address)
+        context['geo'] = Tools.geocode(Event.objects.get(id=id).address)
     return render(request, 'details.html', context)
