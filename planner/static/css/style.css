@@ -1,7 +1,6 @@
 * {
   list-style-type: none;
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
 
 .calendar,
@@ -127,14 +126,13 @@ td {
   width: 4rem;
 }
 
-*::-moz-selection {
+table * *::-moz-selection {
   background: transparent;
 }
 
-*::selection {
+table * *::selection {
   background: transparent;
 }
-
-*::-moz-selection {
+table * *::-moz-selection {
   background: transparent;
-} /*# sourceMappingURL=style.css.map */
+}/*# sourceMappingURL=style.css.map */
