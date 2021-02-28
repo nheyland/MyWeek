@@ -25,10 +25,12 @@ class EventManager(models.Manager):
             errors['invalid'] = "You can't end an event before it started"
         for event in user.created_event.all():
             print(event.start_time)
+
             if event.start_time <= timereformat(postData['start_time']) <= event.end_time:
                 errors['conflict'] = f"You have a sceduling conflict with {event.title}"
             if event.start_time <= timereformat(postData['end_time']) <= event.end_time:
                 errors['conflict'] = f"You have a sceduling conflict with {event.title}"
+
         return errors
 
 

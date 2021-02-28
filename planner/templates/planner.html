@@ -13,22 +13,24 @@
 </head>
 
 <body>
-    <h4>Viewing {{today}}</h4>
-
     <a href="/kill/">Logout</a>
     <form action="/create_event/" method="POST">
         {% csrf_token %}
         <input type="text" placeholder="Title" name="title">
         <input type="text" placeholder="Description" name="desc">
-        <input type="datetime-local" id='start' placeholder="YYYY-MM-DD HH:MM" name="start_time">
-        <input type="datetime-local" id='end' placeholder="YYYY-MM-DD HH:MM" name="end_time">
+        <input type="datetime-local" required id='start' placeholder="YYYY-MM-DD HH:MM" name="start_time">
+        <input type="datetime-local" required id='end' placeholder="YYYY-MM-DD HH:MM" name="end_time">
         <input type="text" placeholder="Address" name="address">
         <select name="public">
             <option value="True">Public</option>
             <option value="Fasle">Private</option>
         </select>
         <input type="submit">
-
+        {% if errors %}
+        {%for i in errors%}
+        {{i}}
+        {%endfor %}
+        {%endif%}
     </form>
     {{week | safe }}
     {{cal | safe}}
