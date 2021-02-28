@@ -1,6 +1,7 @@
 * {
   list-style-type: none;
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
 
 .calendar,
@@ -68,12 +69,16 @@ td {
   height: 1.2rem;
 }
 
-.event {
+.hour:hover {
+  cursor: row-resize;
+}
+
+.event_start {
   text-align: center;
   background-color: lightblue;
   border-radius: 0.4rem 0.4rem 0 0;
 }
-.event a {
+.event_start a {
   text-decoration: none;
 }
 
@@ -120,4 +125,16 @@ td {
   text-align: center;
   background-color: lightgrey;
   width: 4rem;
-}/*# sourceMappingURL=style.css.map */
+}
+
+*::-moz-selection {
+  background: transparent;
+}
+
+*::selection {
+  background: transparent;
+}
+
+*::-moz-selection {
+  background: transparent;
+} /*# sourceMappingURL=style.css.map */

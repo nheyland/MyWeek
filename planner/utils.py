@@ -80,15 +80,15 @@ class Calendar(HTMLCalendar):
                 hold = 0
                 for j in events.all():
                     if j.start_time.hour == x and j.start_time.day == i.day:
-                        row += f"<td class='event'><a href='/details/{j.id}'>{j.title}</a></td>"
+                        row += f"<td class='event event_start'><a href='/details/{j.id}'>{j.title}</a></td>"
                         hold += 1
                 for j in events.all():
                     if j.start_time.hour < x and j.end_time.hour > x and j.start_time.day == i.day:
-                        row += f"<td class='event_mid'></td>"
+                        row += f"<td class='event event_mid'></td>"
                         hold += 1
                 for j in events.all():
                     if j.end_time.hour == x and j.end_time.day == i.day:
-                        row += f"<td class='event_end'></td>"
+                        row += f"<td class='event event_end'></td>"
                         hold += 1
                 if hold == 0:
 
@@ -124,7 +124,7 @@ class Calendar(HTMLCalendar):
         events = Event.objects.filter(
             created_by=User.objects.get(id=request.session['user_id']), start_time__year=self.year, start_time__month=self.month)
 
-        cal = f'<table border="0" cellpadding="0" cellspacing="0" class="week">\n'
+        cal = f'<table border="0" cellpadding="0" cellspacing="0" id="week" class="week">\n'
         cal += f'{self.day_picker(id)}\n'
         cal += f'{self.dow()}\n'
 
