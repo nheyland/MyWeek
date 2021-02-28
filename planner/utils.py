@@ -1,4 +1,4 @@
-import calendar
+
 from datetime import datetime, date, timedelta
 from calendar import HTMLCalendar,  month_name
 from .models import Event, User
@@ -17,7 +17,7 @@ class Calendar(HTMLCalendar):
         self.time_start = time_start
         self.time_end = time_end
         self.events = Event.objects.filter(
-            created_by=User.objects.get(id=request.session['user_id']), start_time__year=self.year, start_time__month=self.month)
+            created_by=User.objects.get(id=request.session['user_id']), start_time__year=self.year)
 
     def dow_date_format(self, year, month, day):
         week_header_dates = ''
@@ -84,19 +84,21 @@ class Calendar(HTMLCalendar):
                 for j in i:
                     if self.date == j:
                         date_arr = i
+
             j = events.last()
+
             for i in date_arr:
                 hold = 0
                 for j in events.all():
-                    if j.start_time.hour == x and j.start_time.day == i.day:
+                    if j.start_time.hour == x and j.start_time.day == i.day and j.start_time.month == i.month:
                         row += f"<td class='event event_start'><a href='/details/{j.id}'>{j.title}</a></td>"
                         hold += 1
                 for j in events.all():
-                    if j.start_time.hour < x and j.end_time.hour > x and j.start_time.day == i.day:
+                    if j.start_time.hour < x and j.end_time.hour > x and j.start_time.day == i.day and j.start_time.month == i.month:
                         row += f"<td class='event event_mid'></td>"
                         hold += 1
                 for j in events.all():
-                    if j.end_time.hour == x and j.end_time.day == i.day:
+                    if j.end_time.hour == x and j.end_time.day == i.day and j.start_time.month == i.month:
                         row += f"<td class='event event_end'></td>"
                         hold += 1
                 if hold == 0:

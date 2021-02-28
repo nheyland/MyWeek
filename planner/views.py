@@ -22,6 +22,9 @@ def planner(request, id=0):
         context['errors'] = request.session['errors']
         print(context['errors'])
         del request.session['errors']
+    for event in Event.objects.filter(created_by=User.objects.get(id=request.session['user_id'])):
+        print(event.start_time)
+    
     return render(request, 'planner.html', context)
 
 

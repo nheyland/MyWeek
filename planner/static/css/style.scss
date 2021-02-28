@@ -1,13 +1,60 @@
+// --------------------------------------------------------------------
+//    _____          _____ _____
+//  / ____|  /\    / ____/ ____|
+//  | (___   /  \  | (___| (___
+//  \___ \ / /\ \  \___ \\___ \
+//  ____) / ____ \ ____) |___) |
+//  |_____/_/    \_\_____/_____/
+// --------------------------------------------------------------------
+
+$text: #253031;
+$border: #616468;
+$blue: #2978a0;
+$background: #eeeeee;
+$event: #c6e0ff;
+$text: #426ea8;
+$new: rgb(247, 157, 172);
+$title: 4.8rem;
+$icon: 8.8rem;
+$subtitle: 3.6rem;
+$text: 2.4rem;
+$medtext: 2rem;
+$subtext: 1.6rem;
+
 * {
-  list-style-type: none;
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Montserrat", sans-serif;
+  color: $text;
 }
+html {
+  color: $text;
+}
+
 .calendar,
 .week {
   width: 98%;
   margin: auto;
   font-size: 13px;
+  .month {
+    font-size: 25px;
+  }
+  .date {
+    font-size: 16px;
+  }
+  max-width: 80rem;
+  margin-top: 4rem;
+  .dow {
+    background-color: lightgrey;
+    text-align: center;
+  }
+  *::selection {
+    background: transparent;
+  }
+  *::-moz-selection {
+    background: transparent;
+  }
 }
 
 .week tr,
@@ -20,101 +67,72 @@
   padding: 0.2rem;
 }
 
-.calendar th {
-  padding: 10px;
-  text-align: center;
-  font-size: 18px;
-}
-
-.calendar td {
-  width: 200px;
-  height: 150px;
-  padding: 20px 0px 0px 5px;
-  border: 0.1rem solid lightgrey;
-}
-
-.month {
-  font-size: 25px;
-}
-
-.date {
-  font-size: 16px;
-}
-
-ul {
-  height: 100%;
-  padding: 0.2rem;
-}
-s .time {
-  font-size: 0.6rem;
-}
-
-a {
-  color: #17a2b8;
-}
-table,
-td {
-  border: 0.2rem solid lightgrey;
-}
-td {
-  max-width: 5rem;
-  min-width: 4rem;
-}
-.hour {
-  height: 1.2rem;
-}
-.hour:hover {
-  cursor: row-resize;
-}
-.event_start {
-  text-align: center;
-  background-color: lightblue;
-  border-radius: 0.4rem 0.4rem 0 0;
-  a {
-    text-decoration: none;
+.calendar {
+  * {
+    color: $border;
   }
-}
-.event_mid {
-  text-align: center;
-  background-color: lightblue;
-}
-.event_end {
-  text-align: center;
-  background-color: lightblue;
-  border-radius: 0 0 0.4rem 0.4rem;
-}
-.calendar,
-.week {
-  max-width: 80rem;
-  margin-top: 4rem;
-  .dow {
-    background-color: lightgrey;
+  th {
+    padding: 10px;
     text-align: center;
+    font-size: 18px;
+  }
+  td {
+    width: 200px;
+    height: 150px;
+    padding: 20px 0px 0px 5px;
+    border: 0.1rem solid $border;
+  }
+
+  ul {
+    height: 100%;
+    padding: 0.2rem;
   }
 }
-.odd {
-  background-color: #ededed;
-}
-.arrow {
-  text-decoration: none;
-  color: black;
-}
-.arrow:hover {
-  color: #17a2b8;
-}
-.side_by_side {
-  display: flex;
-}
-.time {
-  text-align: center;
-  background-color: lightgrey;
-  width: 4rem;
-}
-table * {
-  *::selection {
-    background: transparent;
+
+.week {
+  td {
+    max-width: 4.2rem;
+    min-width: 4rem;
   }
-  *::-moz-selection {
-    background: transparent;
+
+  .hour:hover {
+    cursor: row-resize;
   }
+  .event_start {
+    text-align: center;
+    background-color: $event;
+    border-radius: 0.4rem 0.4rem 0 0;
+    a {
+      color: $text;
+      text-decoration: none;
+    }
+  }
+  .event_mid {
+    text-align: center;
+    background-color: $event;
+  }
+  .event_end {
+    text-align: center;
+    background-color: $event;
+    border-radius: 0 0 0.4rem 0.4rem;
+  }
+  .arrow {
+    text-decoration: none;
+    color: $text;
+  }
+  .arrow:hover {
+    color: #17a2b8;
+  }
+  .odd {
+    background-color: #ededed;
+  }
+  .time {
+    text-align: center;
+    background-color: lightgrey;
+    width: 5rem;
+  }
+}
+
+* {
+  color: $text;
 }
