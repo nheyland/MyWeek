@@ -18,6 +18,7 @@ sqlparse = "==0.4.1"
 urllib3 = "==1.26.3"
 Django = "==3.1.7"
 python-dotenv = "*"
+twilio = "*"
 
 [dev-packages]
 
