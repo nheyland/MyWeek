@@ -11,7 +11,10 @@ db.sqlite3
 db.sqlite3-journal
 media
 .vscode
-login\__pycache__
+# login\__pycache__/*
+login/pycache/*
+myWeek/pycache/*
+planner/pycache
 
 
 # If your build process includes running collectstatic, then you probably don't need or want to include staticfiles/
