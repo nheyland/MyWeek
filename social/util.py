@@ -27,7 +27,7 @@ def notifyAllInvitees(user, event):
             message = client.messages \
                             .create(
                                 messaging_service_sid='MG18a350dc9187f88d26f477f64c72fc68',
-                                body=f"Hi, {user.first_name}! The event, {event_title} at {event_time}, planned by {creator} has been cancelled. This is a courtesy email to let you know. Regards, MyWeek.",
+                                body=f"Hi, {user.first_name}! The event, {event_title} at {event_time}, planned by {creator} has been cancelled. This is a courtesy text to let you know. Regards, MyWeek.",
                                 to=user.phone
                             )
             print(message.sid)
