@@ -1,4 +1,4 @@
-import calendar
+
 from datetime import datetime, date, timedelta
 from calendar import HTMLCalendar,  month_name
 from .models import Event, User
@@ -17,7 +17,7 @@ class Calendar(HTMLCalendar):
         self.time_start = time_start
         self.time_end = time_end
         self.events = Event.objects.filter(
-            created_by=User.objects.get(id=request.session['user_id']), start_time__year=self.year, start_time__month=self.month)
+            created_by=User.objects.get(id=request.session['user_id']), start_time__year=self.year)
 
     def dow_date_format(self, year, month, day):
         week_header_dates = ''
@@ -27,18 +27,18 @@ class Calendar(HTMLCalendar):
                 if self.date == j:
                     week = i
         for j in week:
-            week_header_dates += f"<td class='dow'>{j.month}/{j.day}</td>"
+            week_header_dates += f"<td class='dow '>{j.month}/{j.day}</td>"
         return week_header_dates
 
     def dow(self, month=False):
         s = ''.join(self.formatweekday(i) for i in self.iterweekdays())
         if month:
             return f"<tr class='dow'>%s </tr>" % s
-        return f"<tr class='dow'><td></td>%s </tr>" % s
+        return f"<tr class='dow week'><td>%s</td></tr>" % s
 
     def formatmonthname(self, theyear, themonth):
         s = '%s %s' % (month_name[themonth], theyear)
-        return '<tr><th colspan="7" class="%s"> <i class="fas fa-arrow-left"></i> %s <i class="fas fa-arrow-right"></i></th></tr>' % (
+        return '<tr ><th colspan="7" class="%s">  %s </th></tr>' % (
             self.cssclass_month_head, s)
 
     def day_picker(self, weeks_out):
@@ -84,19 +84,21 @@ class Calendar(HTMLCalendar):
                 for j in i:
                     if self.date == j:
                         date_arr = i
+
             j = events.last()
+
             for i in date_arr:
                 hold = 0
                 for j in events.all():
-                    if j.start_time.hour == x and j.start_time.day == i.day:
+                    if j.start_time.hour == x and j.start_time.day == i.day and j.start_time.month == i.month:
                         row += f"<td class='event event_start'><a href='/details/{j.id}'>{j.title}</a></td>"
                         hold += 1
                 for j in events.all():
-                    if j.start_time.hour < x and j.end_time.hour > x and j.start_time.day == i.day:
+                    if j.start_time.hour < x and j.end_time.hour > x and j.start_time.day == i.day and j.start_time.month == i.month:
                         row += f"<td class='event event_mid'></td>"
                         hold += 1
                 for j in events.all():
-                    if j.end_time.hour == x and j.end_time.day == i.day:
+                    if j.end_time.hour == x and j.end_time.day == i.day and j.start_time.month == i.month:
                         row += f"<td class='event event_end'></td>"
                         hold += 1
                 if hold == 0:
@@ -123,7 +125,7 @@ class Calendar(HTMLCalendar):
 
     def whole_month(self):
         events = self.events
-        cal = f'<table border="0" cellpadding="0" cellspacing="0"     class="calendar">\n'
+        cal = f'<table id="calendar" border="0" cellpadding="0" cellspacing="0"     class="calendar">\n'
         cal += f'{self.formatmonthname(self.year, self.month)}\n'
         cal += f'{self.dow(month=True)}\n'
         for week in self.monthdays2calendar(self.year, self.month):
@@ -135,6 +137,7 @@ class Calendar(HTMLCalendar):
         events = self.events
         cal = f'<table border="0" cellpadding="0" cellspacing="0" id="week" class="week">\n'
         cal += f'{self.day_picker(self.week)}\n'
+        cal += f'<tr><th colspan="8" class="%s"> </th></tr>\n'
         cal += f'{self.dow()}\n'
         for week in self.monthdays2calendar(self.year, self.month):
             for i in week:

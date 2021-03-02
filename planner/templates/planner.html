@@ -32,9 +32,26 @@
         {%endfor %}
         {%endif%}
     </form>
+    <h4>
+        <div class="line"></div>
+    </h4>
     {{week | safe }}
     {{cal | safe}}
+    <a id='show_cal' href="javascript:;" onclick="show()"> See Full Calendar</a>
     <script>
+        function show() {
+            var x = document.getElementById('calendar')
+            var y = document.getElementById('show_cal')
+            if (x.style.display === "block") {
+                x.style.display = "none";
+                y.innerText = 'Show Full Calendar';
+            } else {
+                x.style.display = "block";
+                y.innerText = 'Hide Full Calendar';
+
+            }
+
+        }
         function create(start, end) {
             const y = document.getElementById('start')
             const z = document.getElementById('end')
