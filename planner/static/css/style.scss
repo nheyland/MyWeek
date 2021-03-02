@@ -117,6 +117,9 @@ table {
     text-align: center;
     background-color: $event;
     border-radius: 0.4rem 0.4rem 0 0;
+    border-left: 0.1rem solid $text;
+    border-right: 0.1rem solid $text;
+    border-top: 0.1rem solid $text;
 
     a {
       color: $text;
@@ -127,12 +130,17 @@ table {
   .event_mid {
     text-align: center;
     background-color: $event;
+    border-left: 0.1rem solid $text;
+    border-right: 0.1rem solid $text;
   }
 
   .event_end {
     text-align: center;
     background-color: $event;
     border-radius: 0 0 0.4rem 0.4rem;
+    border-left: 0.1rem solid $text;
+    border-right: 0.1rem solid $text;
+    border-bottom: 0.1rem solid $text;
   }
   .month {
     background-color: $odd;

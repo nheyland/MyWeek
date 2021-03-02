@@ -111,6 +111,9 @@ table {
   text-align: center;
   background-color: #98d2eb;
   border-radius: 0.4rem 0.4rem 0 0;
+  border-left: 0.1rem solid #0b181e;
+  border-right: 0.1rem solid #0b181e;
+  border-top: 0.1rem solid #0b181e;
 }
 .week .event_start a {
   color: #0b181e;
@@ -119,11 +122,16 @@ table {
 .week .event_mid {
   text-align: center;
   background-color: #98d2eb;
+  border-left: 0.1rem solid #0b181e;
+  border-right: 0.1rem solid #0b181e;
 }
 .week .event_end {
   text-align: center;
   background-color: #98d2eb;
   border-radius: 0 0 0.4rem 0.4rem;
+  border-left: 0.1rem solid #0b181e;
+  border-right: 0.1rem solid #0b181e;
+  border-bottom: 0.1rem solid #0b181e;
 }
 .week .month {
   background-color: #d6e2f3;
