@@ -27,18 +27,18 @@ class Calendar(HTMLCalendar):
                 if self.date == j:
                     week = i
         for j in week:
-            week_header_dates += f"<td class='dow'>{j.month}/{j.day}</td>"
+            week_header_dates += f"<td class='dow '>{j.month}/{j.day}</td>"
         return week_header_dates
 
     def dow(self, month=False):
         s = ''.join(self.formatweekday(i) for i in self.iterweekdays())
         if month:
             return f"<tr class='dow'>%s </tr>" % s
-        return f"<tr class='dow'><td></td>%s </tr>" % s
+        return f"<tr class='dow week'><td>%s</td></tr>" % s
 
     def formatmonthname(self, theyear, themonth):
         s = '%s %s' % (month_name[themonth], theyear)
-        return '<tr><th colspan="7" class="%s"> <i class="fas fa-arrow-left"></i> %s <i class="fas fa-arrow-right"></i></th></tr>' % (
+        return '<tr ><th colspan="7" class="%s">  %s </th></tr>' % (
             self.cssclass_month_head, s)
 
     def day_picker(self, weeks_out):
@@ -125,7 +125,7 @@ class Calendar(HTMLCalendar):
 
     def whole_month(self):
         events = self.events
-        cal = f'<table border="0" cellpadding="0" cellspacing="0"     class="calendar">\n'
+        cal = f'<table id="calendar" border="0" cellpadding="0" cellspacing="0"     class="calendar">\n'
         cal += f'{self.formatmonthname(self.year, self.month)}\n'
         cal += f'{self.dow(month=True)}\n'
         for week in self.monthdays2calendar(self.year, self.month):
@@ -137,6 +137,7 @@ class Calendar(HTMLCalendar):
         events = self.events
         cal = f'<table border="0" cellpadding="0" cellspacing="0" id="week" class="week">\n'
         cal += f'{self.day_picker(self.week)}\n'
+        cal += f'<tr><th colspan="8" class="%s"> </th></tr>\n'
         cal += f'{self.dow()}\n'
         for week in self.monthdays2calendar(self.year, self.month):
             for i in week:
