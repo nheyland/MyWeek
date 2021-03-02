@@ -106,3 +106,13 @@ def addFriendToEvent(request):
         return redirect(eventURL)
     else:
         return redirect('/')
+
+# CONFIRM DELETION BEFORE DELETING & NOTIFY FRIENDS.
+def confirmDeletionAndNotify(request, id):
+    event = Event.objects.get(id = id)
+    invitees = event.invitees.all
+    context = {
+        'event': event,
+        'invitees': invitees,
+    }
+    return render(request, 'social/confirm_delete.html', context)

@@ -56,7 +56,8 @@
     {% endif %}
     <hr>
 
-    <h4><a href="/delete/{{event.id}}">Delete Event</a></h4>
+    <!-- EVENT DELETION NEEDS TO GO THROUGH CONFIRMATION PROCESS! /ew -->
+    <h4><a href="{% url 'confirmDelete' event.id %}">Delete Event</a></h4>
     <h4><a href="/edit/{{event.id}}">Edit Event</a></h4>
     {%endif%}
     <div id='map' style='width: 400px; height: 300px;'></div>
@@ -78,9 +79,8 @@
     </script>
     <!-- YOU DON'T GET TO ADD A FRIEND TO THIS IF YOU'RE NOT THE PERSON WHO CREATED THE EVENT. -->
     {% if event.created_by.id == request.session.user_id %}
-    <!-- PLACING SOCIAL PIECES OF THE PLANNER DOWN HERE FOR NOW. FRONT-END/LEAD CAN MOVE TO WHEREEVER. /ew -->
-    <h2>ADD A FRIEND PLACEHOLDER</h2>
-    <!-- PLACEHOLDER LIST OF FRIENDS. -->
+    <!-- PLACING SOCIAL PIECES OF THE PLANNER DOWN HERE FOR NOW. FRONT-END/LEAD CAN MOVE TO WHERE EVER. /ew -->
+    <h2>Invite A Friend!</h2>
     {% if event.created_by.friends.all %}
     <form action="{% url 'inviteToEvent' %}" method="POST">
         {% csrf_token %}

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm Deletion of Event</title>
+</head>
+<body>
+    <h1>You are about to delete an event.</h1>
+    <hr>
+    <h2>Event Details</h2>
+    <h4>{{event.date}}</h4>
+    <h4>{{event.title}}</h4>
+    <h4>{{event.desc}}</h4>
+    <h4>{{event.start_time}}</h4>
+    <h4>{{event.end_time}}</h4>
+    <h4>{{event.address}}</h4>
+    <hr>
+    <h2>You also have {{ invitees|length }} other users invited to this event.</h2>
+    <form action="{% url 'deleteEvent' event.id %}" method="POST">
+        {% csrf_token %}
+        <fieldset>
+            <label for="notify">Do you want to notify the invitees?</label>
+            <input type="checkbox" name="notify" id="notify" value="YES">
+            <input type="checkbox" name="notify" id="notify" value="NO">
+        </fieldset>
+        <h3>Are you sure you want to delete this event?</h3>
+        <a href="{% url 'eventDetail' event.id %}"><button>No. Return Me To The Event.</button></a>
+        <button type="submit">Yes, Delete The Event.</button>
+    </form>
+
+</body>
