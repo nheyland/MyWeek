@@ -32,7 +32,7 @@ def create_event(request):
     x = request.POST
     errors = Event.objects.validations(
         request)
-    errors = Event.objects.validations(x, request.session['user_id'])
+    errors = Event.objects.validations(request)
     if errors:
         for key, value in errors.items():
             messages.error(request, value)
@@ -68,13 +68,14 @@ def delete_event(request, id):
 
 def edit_event(request, id):
     event = Event.objects.get(id=id)
-    start_time = Event.objects.time_to_str(event.start_time)
-    end_time = Event.objects.time_to_str(event.end_time)
+    # Naive time format is a pain, but I can alter this soon
+    # start_time = Event.objects.timereformat(event.start_time)
+    # end_time = Event.objects.timereformat(event.end_time)
     context = {
         'event': Event.objects.get(id=id),
         'edit': True,
-        'start': start_time,
-        'end': end_time
+        'start': 'start_time',
+        'end': 'end_time'
     }
     if context['event'].address:
         context['geo'] = Tools.geocode(Event.objects.get(id=id).address)
@@ -85,7 +86,7 @@ def process_edit(request):
     if not 'user_id' in request.session.keys():
         return redirect('/')
     x = request.POST
-    errors = Event.objects.validations(x, request.session['user_id'])
+    errors = Event.objects.validations(request)
     if errors:
         for key, value in errors.items():
             messages.error(request, value)
