@@ -110,7 +110,7 @@ def addFriendToEvent(request):
 # CONFIRM DELETION BEFORE DELETING & NOTIFY FRIENDS.
 def confirmDeletionAndNotify(request, id):
     event = Event.objects.get(id = id)
-    invitees = event.invitees.all
+    invitees = event.invitees.all()
     context = {
         'event': event,
         'invitees': invitees,

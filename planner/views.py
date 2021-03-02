@@ -1,4 +1,3 @@
-
 from django.shortcuts import redirect, render
 from django.http import HttpResponseRedirect
 from .utils import Calendar, Tools
@@ -6,6 +5,7 @@ from datetime import timedelta
 from login.models import User
 from .models import Event
 from django.contrib import messages
+from social.util import notifyAllInvitees as Notify
 
 
 def planner(request, id=0):
@@ -60,10 +60,18 @@ def details(request, id):
 
 
 def delete_event(request, id):
-    event_to_delete = Event.objects.get(id=id)
-    user = event_to_delete.created_by.id
-    event_to_delete.delete()
-    return redirect("/planner/"+str(user))
+    if request.method == 'POST':
+        event_to_delete = Event.objects.get(id=id)
+        user = event_to_delete.created_by.id
+        if request.POST['notify'] == 'YES':
+            for invitee in event_to_delete.invitees.all():
+                Notify(invitee, event_to_delete)
+        event_to_delete.delete()
+        messages.success("The event was deleted. If so requested, all the invitees have been notified.")
+        return redirect("/planner/"+str(user))
+    else:
+        messages.error("Sorry, your request is invalid.")
+        return redirect('eventDetail', id)
 
 
 def edit_event(request, id):
