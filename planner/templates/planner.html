@@ -26,11 +26,13 @@
             <option value="Fasle">Private</option>
         </select>
         <input type="submit">
-        {% if errors %}
-        {%for i in errors%}
-        {{i}}
-        {%endfor %}
-        {%endif%}
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
     </form>
     <h4>
         <div class="line"></div>
