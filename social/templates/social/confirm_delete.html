@@ -17,6 +17,7 @@
     <h4>{{event.end_time}}</h4>
     <h4>{{event.address}}</h4>
     <hr>
+    {% if invitees|length > 0 %}
     <h2>You also have {{ invitees|length }} other users invited to this event.</h2>
     <form action="{% url 'deleteEvent' event.id %}" method="POST">
         {% csrf_token %}
@@ -26,7 +27,17 @@
             <input type="radio" name="notify" id="notify" value="YES">
         </fieldset>
         <h3>Are you sure you want to delete this event?</h3>
-        <a href="{% url 'eventDetail' event.id %}"><button>No. Return Me To The Event.</button></a>
         <button type="submit">Yes, Delete The Event.</button>
     </form>
+    <a href="{% url 'eventDetail' event.id %}"><button>No. Return Me To The Event.</button></a>
+    {% else %}
+    <form action="{% url 'deleteEvent' event.id %}" method="POST">
+        {% csrf_token %}
+        <h3>Are you sure you want to delete this event?</h3>
+        <!-- NEED THIS HIDDEN INPUT FOR THE DELETION VIEW TO FUNCTION PROPERLY. -->
+        <input type="radio" name="notify" id="notify" value="NO" checked=True hidden>
+        <button type="submit">Yes, Delete The Event.</button>
+    </form>
+    <a href="{% url 'eventDetail' event.id %}"><button>No. Return Me To The Event.</button></a>
+    {% endif %}
 </body>
