@@ -65,7 +65,7 @@ class Calendar(HTMLCalendar):
         for event in events_per_day:
             d += f"<li class='calendar_event'> <a href='/details/{event.id}''>{event.title}</a><p class='time'>{event.start_time.time } </p> </li >"
         if day != 0:
-            return f"<td><span class='date'>{day}</span><ul> {d} </ul> </td >"
+            return f"<td class='week_full'><span class='date'>{day}</span><ul> {d} </ul> </td >"
         return '<td></td>'
 
     def formatweek(self, theweek, events):

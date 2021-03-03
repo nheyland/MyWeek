@@ -3,17 +3,57 @@
   padding: 0;
   box-sizing: border-box;
   font-family: "Montserrat", sans-serif;
+  font-weight: bold;
   color: #0b181e;
 }
 
-html {
-  color: 2.4rem;
+#form_pop_up {
+  background-color: #98d2eb;
+  transition: height 0.5s ease-in-out, width 0.5s ease-in-out;
+  position: absolute;
+  height: 3.5rem;
+  width: 3.5rem;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  line-height: 0;
+  overflow: hidden;
+  border-radius: 0.6rem 0 0.6rem 0;
+  border: 0.1rem solid #0b181e;
+  margin: 0 1rem;
+  padding: 1rem;
+}
+#form_pop_up select,
+#form_pop_up input {
+  font-size: 1.2rem;
+}
+#form_pop_up textarea,
+#form_pop_up input,
+#form_pop_up input[type=datetime-local] {
+  font-size: 0.8rem;
+  margin-bottom: 1rem;
+}
+#form_pop_up i {
+  margin-bottom: 1rem;
+  text-align: center;
+  font-size: 1.2rem;
+}
+#form_pop_up a {
+  text-align: center;
+  font-size: 2.4rem;
+}
+#form_pop_up select,
+#form_pop_up a,
+#form_pop_up button,
+#form_pop_up input {
+  height: 1.6rem;
+  margin-bottom: 1rem;
 }
 
 .calendar,
 .week {
   width: 98%;
-  margin: auto;
+  margin: 0 1rem;
   font-size: 13px;
   max-width: 80rem;
   margin-top: 4rem;
@@ -71,11 +111,14 @@ html {
 }
 
 table {
-  border: 0.6rem solid #0b181e;
+  border: 0.1rem solid #0b181e;
   border-radius: 0.6rem;
   background-color: #d6e2f3;
 }
 
+.calendar .week_full {
+  background-color: white;
+}
 .calendar tr,
 .calendar td {
   border: 0.01rem solid transparent;
@@ -147,6 +190,7 @@ table {
 .week .hour {
   border-left: 0.01rem solid #d6e2f3;
   border-right: 0.01rem solid #d6e2f3;
+  border-radius: none;
 }
 .week .odd {
   background-color: #e1f2fe;
@@ -158,5 +202,4 @@ table {
   text-align: center;
   background-color: #d6e2f3;
   width: 5rem;
-}
-/*# sourceMappingURL=style.css.map *//*# sourceMappingURL=style.css.map */
+}/*# sourceMappingURL=style.css.map */
