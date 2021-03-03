@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 load_dotenv()
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponseRedirect
 from login.models import User
 from planner.models import Event
 from django.core.mail import send_mail
@@ -47,7 +47,8 @@ def addFriend(request):
     currentUser = User.objects.get(id = request.session['user_id'])
     friend2Add = User.objects.get(id = request.POST['friendID'])
     currentUser.friends.add(friend2Add)
-    return redirect('allUsers')
+    messages.success(request, f'Yay! {friend2Add.first_name} has been added to your friends list!')
+    return redirect('viewProfile', currentUser.id)
 
 # EMAIL YOUR FRIEND AND TELL HIM TO JOIN OUR SITE!!!
 def inviteFriend(request):
@@ -86,7 +87,6 @@ def addFriendToEvent(request):
             message,
             'myweek@MyWeek.com',
             [friend.email],
-            fail_silently = False,
         )
         # IF THE FRIEND HAS A MOBILE NUMBER ON FILE, WE'LL SEND THEM AN SMS MESSAGE AS WELL!
         if friend.phone and friend.phone != '+10000000000':
@@ -106,3 +106,13 @@ def addFriendToEvent(request):
         return redirect(eventURL)
     else:
         return redirect('/')
+
+# CONFIRM DELETION BEFORE DELETING & NOTIFY FRIENDS.
+def confirmDeletionAndNotify(request, eventID):
+    event = Event.objects.get(id = eventID)
+    invitees = event.invitees.all()
+    context = {
+        'event': event,
+        'invitees': invitees,
+    }
+    return render(request, 'social/confirm_delete.html', context)

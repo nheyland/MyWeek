@@ -44,9 +44,7 @@ class Event(models.Model):
     address = models.CharField(max_length=255, null=True)
     public = models.BooleanField(default=False)
 
-    # This MtoM field allows events to have multiple invitees, while allowing users to be invited to
-    # multiple events!
     invitees = models.ManyToManyField(User,
-                                      related_name='invited_to')
+        related_name='invited_to') # Indentation change. /ew
 
     objects = EventManager()
