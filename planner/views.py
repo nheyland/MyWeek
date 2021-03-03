@@ -63,14 +63,16 @@ def delete_event(request, id):
     if request.method == 'POST':
         event_to_delete = Event.objects.get(id=id)
         user = event_to_delete.created_by.id
+        # Function to email, text all users listed as invitees. Only runs if checkbox is active.
         if request.POST['notify'] == 'YES':
             for invitee in event_to_delete.invitees.all():
                 Notify(invitee, event_to_delete)
-        event_to_delete.delete()
-        messages.success("The event was deleted. If so requested, all the invitees have been notified.")
+        else:
+            event_to_delete.delete()
+        messages.success(request, "The event was deleted. If so requested, all the invitees have been notified.")
         return redirect("/planner/"+str(user))
     else:
-        messages.error("Sorry, your request is invalid.")
+        messages.error(request, "Sorry, your request is invalid.")
         return redirect('eventDetail', id)
 
 

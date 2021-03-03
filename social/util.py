@@ -17,7 +17,6 @@ def notifyAllInvitees(user, event):
         email_message,
         'MyWeek@MyWeek.com',
         [email],
-        fail_silently = False,
     )
     if user.phone and user.phone != '+10000000000':
             account_sid = os.environ.get('TWILIO_ACCOUNT_SID')
