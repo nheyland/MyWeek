@@ -6,7 +6,7 @@ import requests as r
 import time
 import json
 import pytz
-
+import pickle
 class Calendar(HTMLCalendar):
 
     def __init__(self, request, year=None, month=None, day=None, week=0, time_start=0, time_end=24):
@@ -185,8 +185,11 @@ class Tools:
         return y['features'][0]['center']
 
     def weather(latitude, longitude, time):
+
+        OPEN_WEATHER = pickle.load(open("weather.p", "rb"))
+
         unix_time = int((time - datetime(1970,1,1, tzinfo=timezone.utc)).total_seconds())
-        response = r.get(f'http://api.openweathermap.org/data/2.5/onecall?lat={str(latitude)}&lon={str(longitude)}&dt={str(unix_time)}&appid=d2a3dc25d1517d879112b4a6198e92db&units=imperial')
+        response = r.get(f'http://api.openweathermap.org/data/2.5/onecall?lat={str(latitude)}&lon={str(longitude)}&dt={str(unix_time)}&appid={OPEN_WEATHER}&units=imperial')
 
         json_data = json.loads(response.text)
         daily_data_full = json_data['daily'][0] #returns day of weather
