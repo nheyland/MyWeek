@@ -1,24 +1,71 @@
 $even: #e1f2fe;
 $odd: #d6e2f3;
 $text: #0b181e;
+$text_input: 1.2rem;
 $border: #b2b1cf;
 $event: #98d2eb;
+$openH: 35rem;
+$openW: 15rem;
+$closedH: 3.5rem;
+$closedW: 3.5rem;
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: "Montserrat", sans-serif;
+  font-weight: bold;
   color: $text;
 }
 
-html {
-  color: 2.4rem;
+#form_pop_up {
+  background-color: $event;
+  transition: height 0.5s ease-in-out, width 0.5s ease-in-out;
+  position: absolute;
+  height: $closedH;
+  width: $closedW;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  line-height: 0;
+  overflow: hidden;
+  border-radius: 0.6rem 0 0.6rem 0;
+  border: 0.1rem solid $text;
+  margin: 0 1rem;
+  padding: 1rem;
+  select,
+  input {
+    font-size: $text_input;
+  }
+  textarea,
+  input,
+  input[type="datetime-local"] {
+    font-size: 0.8rem;
+    margin-bottom: 1rem;
+  }
+  i {
+    margin-bottom: 1rem;
+    text-align: center;
+    font-size: $text_input;
+  }
+  a {
+    text-align: center;
+    font-size: 2.4rem;
+  }
+
+  select,
+  a,
+  button,
+  input {
+    height: 1.6rem;
+
+    margin-bottom: 1rem;
+  }
 }
 
 .calendar,
 .week {
   width: 98%;
-  margin: auto;
+  margin: 0 1rem;
   font-size: 13px;
   max-width: 80rem;
   margin-top: 4rem;
@@ -70,11 +117,14 @@ html {
   display: none;
 }
 table {
-  border: 0.6rem solid $text;
+  border: 0.1rem solid $text;
   border-radius: 0.6rem;
   background-color: $odd;
 }
 .calendar {
+  .week_full {
+    background-color: white;
+  }
   tr,
   td {
     border: 0.01rem solid transparent;
@@ -117,6 +167,9 @@ table {
     text-align: center;
     background-color: $event;
     border-radius: 0.4rem 0.4rem 0 0;
+    border-left: 0.1rem solid $text;
+    border-right: 0.1rem solid $text;
+    border-top: 0.1rem solid $text;
 
     a {
       color: $text;
@@ -127,12 +180,17 @@ table {
   .event_mid {
     text-align: center;
     background-color: $event;
+    border-left: 0.1rem solid $text;
+    border-right: 0.1rem solid $text;
   }
 
   .event_end {
     text-align: center;
     background-color: $event;
     border-radius: 0 0 0.4rem 0.4rem;
+    border-left: 0.1rem solid $text;
+    border-right: 0.1rem solid $text;
+    border-bottom: 0.1rem solid $text;
   }
   .month {
     background-color: $odd;
@@ -149,6 +207,7 @@ table {
   .hour {
     border-left: 0.01rem solid $odd;
     border-right: 0.01rem solid $odd;
+    border-radius: none;
   }
   .odd {
     background-color: $even;
@@ -163,5 +222,36 @@ table {
     width: 5rem;
   }
 }
+.sidebar * {
+  white-space: nowrap;
+}
+.sidebar {
+  position: absolute;
+  display: flex;
+  width: 10rem;
+  right: 0;
+  top: 3rem;
+  background-color: $odd;
+  padding: 1rem;
+  border-bottom: 0.1rem solid $text;
+  border-left: 0.1rem solid $text;
+  border-top: 0.1rem solid $text;
+  border-radius: 0.6rem 0 0 0.6rem;
+  transition: width 0.5s ease-in-out;
+  line-height: -1;
+  overflow: hidden;
+  z-index: 100000000;
+  a {
+    margin: 0 2rem;
+    color: $text;
+    text-decoration: none;
+  }
+  a:hover {
+    color: $event;
+  }
+}
 
-/*# sourceMappingURL=style.css.map */
+#menu_button {
+  opacity: 100%;
+  transition: opacity 0.5s;
+}

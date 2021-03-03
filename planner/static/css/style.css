@@ -3,17 +3,57 @@
   padding: 0;
   box-sizing: border-box;
   font-family: "Montserrat", sans-serif;
+  font-weight: bold;
   color: #0b181e;
 }
 
-html {
-  color: 2.4rem;
+#form_pop_up {
+  background-color: #98d2eb;
+  transition: height 0.5s ease-in-out, width 0.5s ease-in-out;
+  position: absolute;
+  height: 3.5rem;
+  width: 3.5rem;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  line-height: 0;
+  overflow: hidden;
+  border-radius: 0.6rem 0 0.6rem 0;
+  border: 0.1rem solid #0b181e;
+  margin: 0 1rem;
+  padding: 1rem;
+}
+#form_pop_up select,
+#form_pop_up input {
+  font-size: 1.2rem;
+}
+#form_pop_up textarea,
+#form_pop_up input,
+#form_pop_up input[type=datetime-local] {
+  font-size: 0.8rem;
+  margin-bottom: 1rem;
+}
+#form_pop_up i {
+  margin-bottom: 1rem;
+  text-align: center;
+  font-size: 1.2rem;
+}
+#form_pop_up a {
+  text-align: center;
+  font-size: 2.4rem;
+}
+#form_pop_up select,
+#form_pop_up a,
+#form_pop_up button,
+#form_pop_up input {
+  height: 1.6rem;
+  margin-bottom: 1rem;
 }
 
 .calendar,
 .week {
   width: 98%;
-  margin: auto;
+  margin: 0 1rem;
   font-size: 13px;
   max-width: 80rem;
   margin-top: 4rem;
@@ -71,11 +111,14 @@ html {
 }
 
 table {
-  border: 0.6rem solid #0b181e;
+  border: 0.1rem solid #0b181e;
   border-radius: 0.6rem;
   background-color: #d6e2f3;
 }
 
+.calendar .week_full {
+  background-color: white;
+}
 .calendar tr,
 .calendar td {
   border: 0.01rem solid transparent;
@@ -111,6 +154,9 @@ table {
   text-align: center;
   background-color: #98d2eb;
   border-radius: 0.4rem 0.4rem 0 0;
+  border-left: 0.1rem solid #0b181e;
+  border-right: 0.1rem solid #0b181e;
+  border-top: 0.1rem solid #0b181e;
 }
 .week .event_start a {
   color: #0b181e;
@@ -119,11 +165,16 @@ table {
 .week .event_mid {
   text-align: center;
   background-color: #98d2eb;
+  border-left: 0.1rem solid #0b181e;
+  border-right: 0.1rem solid #0b181e;
 }
 .week .event_end {
   text-align: center;
   background-color: #98d2eb;
   border-radius: 0 0 0.4rem 0.4rem;
+  border-left: 0.1rem solid #0b181e;
+  border-right: 0.1rem solid #0b181e;
+  border-bottom: 0.1rem solid #0b181e;
 }
 .week .month {
   background-color: #d6e2f3;
@@ -139,6 +190,7 @@ table {
 .week .hour {
   border-left: 0.01rem solid #d6e2f3;
   border-right: 0.01rem solid #d6e2f3;
+  border-radius: none;
 }
 .week .odd {
   background-color: #e1f2fe;
@@ -151,4 +203,38 @@ table {
   background-color: #d6e2f3;
   width: 5rem;
 }
-/*# sourceMappingURL=style.css.map *//*# sourceMappingURL=style.css.map */
+
+.sidebar * {
+  white-space: nowrap;
+}
+
+.sidebar {
+  position: absolute;
+  display: flex;
+  width: 10rem;
+  right: 0;
+  top: 3rem;
+  background-color: #d6e2f3;
+  padding: 1rem;
+  border-bottom: 0.1rem solid #0b181e;
+  border-left: 0.1rem solid #0b181e;
+  border-top: 0.1rem solid #0b181e;
+  border-radius: 0.6rem 0 0 0.6rem;
+  transition: width 0.5s ease-in-out;
+  line-height: -1;
+  overflow: hidden;
+  z-index: 100000000;
+}
+.sidebar a {
+  margin: 0 2rem;
+  color: #0b181e;
+  text-decoration: none;
+}
+.sidebar a:hover {
+  color: #98d2eb;
+}
+
+#menu_button {
+  opacity: 100%;
+  transition: opacity 0.5s;
+}/*# sourceMappingURL=style.css.map */
