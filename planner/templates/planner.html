@@ -17,6 +17,13 @@
 
 <body>
 
+    <div id='sidebar' class="sidebar" onmouseover="javascript:sidebar_open(true);" onmouseout="javascript:sidebar_open(false);">
+        <a id="menu_button" class="" href="javascript:sidebar_open(true);">Menu</a>
+        <a href="/profile/{{user.id}}/">My Profile</a>
+        <a href="">Explore</a>
+        <a href="">Invite others</a>
+    </div>
+
     <div class="pop_up_form">
         <form id="form_pop_up" action="/create_event/" method="POST">
             {% csrf_token %}
@@ -49,6 +56,32 @@
     <a href="/kill/">Logout</a>
     <script>
 
+        function sidebar_open(open) {
+            var x = document.getElementById('sidebar')
+            if (open == true) {
+                x.style.width = '50rem'
+                document.getElementById('menu_button').href = 'javascript:sidebar_open(false);'
+                console.log('YES')
+                document.getElementById('menu_button').style.opacity = '0%'
+                document.getElementById('menu_button').style.transition = 'opacity .5s'
+
+
+            } else {
+                x.style.width = '10rem'
+                document.getElementById('menu_button').href = 'javascript:sidebar_open(true);'
+                document.getElementById('menu_button').style.transition = 'opacity 1.5s'
+                document.getElementById('menu_button').style.opacity = '100%'
+            }
+
+        }
+        window.addEventListener('click', function (e) {
+            if (!e.target.matches('.sidebar')) {
+                sidebar_open(false)
+            }
+        })
+    </script>
+    <script>
+
         function form_pop_up(open) {
             var y = document.getElementById('rotate')
             var x = document.getElementById('form_pop_up')
@@ -78,7 +111,6 @@
             } else {
                 x.style.display = "block";
                 y.innerText = 'Hide Full Calendar';
-
             }
 
         }

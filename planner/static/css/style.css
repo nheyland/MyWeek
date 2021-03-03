@@ -202,4 +202,39 @@ table {
   text-align: center;
   background-color: #d6e2f3;
   width: 5rem;
+}
+
+.sidebar * {
+  white-space: nowrap;
+}
+
+.sidebar {
+  position: absolute;
+  display: flex;
+  width: 10rem;
+  right: 0;
+  top: 3rem;
+  background-color: #d6e2f3;
+  padding: 1rem;
+  border-bottom: 0.1rem solid #0b181e;
+  border-left: 0.1rem solid #0b181e;
+  border-top: 0.1rem solid #0b181e;
+  border-radius: 0.6rem 0 0 0.6rem;
+  transition: width 0.5s ease-in-out;
+  line-height: -1;
+  overflow: hidden;
+  z-index: 100000000;
+}
+.sidebar a {
+  margin: 0 2rem;
+  color: #0b181e;
+  text-decoration: none;
+}
+.sidebar a:hover {
+  color: #98d2eb;
+}
+
+#menu_button {
+  opacity: 100%;
+  transition: opacity 0.5s;
 }/*# sourceMappingURL=style.css.map */
