@@ -76,6 +76,14 @@
             .addTo(map);
         });
     </script>
+
+    <h4>Weather</h4>
+    <p>{{weather.dt}}</p>
+    <p>Day Temp: {{weather.day_temp}}</p>
+    <p>Night Temp: {{weather.night_temp}}</p>
+    <p>{{weather.main}}, {{weather.desc}}</p>
+    <img src="http://openweathermap.org/img/wn/{{weather.icon}}.png">
+    
     <!-- YOU DON'T GET TO ADD A FRIEND TO THIS IF YOU'RE NOT THE PERSON WHO CREATED THE EVENT. -->
     {% if event.created_by.id == request.session.user_id %}
     <!-- PLACING SOCIAL PIECES OF THE PLANNER DOWN HERE FOR NOW. FRONT-END/LEAD CAN MOVE TO WHEREEVER. /ew -->
