@@ -56,7 +56,9 @@ def details(request, id):
     }
     if context['event'].address:
         context['geo'] = Tools.geocode(Event.objects.get(id=id).address)
+        context['weather'] = Tools.weather(context['geo'][1],context['geo'][0], Event.objects.get(id=id).start_time)
     return render(request, 'details.html', context)
+
 
 
 def delete_event(request, id):

@@ -1,10 +1,11 @@
 
-from datetime import datetime, date, timedelta
+from datetime import datetime, date, timedelta, timezone
 from calendar import HTMLCalendar,  month_name
 from .models import Event, User
 import requests as r
 import time
-
+import json
+import pytz
 
 class Calendar(HTMLCalendar):
 
@@ -182,3 +183,21 @@ class Tools:
                   '.json?access_token=pk.eyJ1IjoibmhleWxhbmQiLCJhIjoiY2toZHI4ZWNqMDgwaTMwczFuNnpvcGFuMiJ9.4LH3G0a18_HQY8t55W83lg').json()
 
         return y['features'][0]['center']
+
+    def weather(latitude, longitude, time):
+        unix_time = int((time - datetime(1970,1,1, tzinfo=timezone.utc)).total_seconds())
+        response = r.get(f'http://api.openweathermap.org/data/2.5/onecall?lat={str(latitude)}&lon={str(longitude)}&dt={str(unix_time)}&appid=d2a3dc25d1517d879112b4a6198e92db&units=imperial')
+
+        json_data = json.loads(response.text)
+        daily_data_full = json_data['daily'][0] #returns day of weather
+        new_day = datetime.utcfromtimestamp(int(daily_data_full['dt'])).strftime('%Y-%m-%d %H:%M:%S')
+        new_day = datetime.fromisoformat(new_day)
+        event_weather_data = {}
+        event_weather_data['dt'] = pytz.utc.localize(new_day)
+        event_weather_data['day_temp'] = daily_data_full['temp']['day']
+        event_weather_data['night_temp'] = daily_data_full['temp']['night']
+        event_weather_data['main'] = daily_data_full['weather'][0]['main']
+        event_weather_data['desc'] = daily_data_full['weather'][0]['description']
+        event_weather_data['icon'] = daily_data_full['weather'][0]['icon']
+
+        return event_weather_data
