@@ -1,9 +1,9 @@
 $even: #e1f2fe;
-$odd: #d6e2f3;
+$odd: #cee1ee;
 $text: #0b181e;
 $text_input: 1.2rem;
 $border: #b2b1cf;
-$event: #98d2eb;
+$event: #99e036;
 $openH: 35rem;
 $openW: 15rem;
 $closedH: 3.5rem;
@@ -18,51 +18,6 @@ $closedW: 3.5rem;
   color: $text;
 }
 
-#form_pop_up {
-  background-color: $event;
-  transition: height 0.5s ease-in-out, width 0.5s ease-in-out;
-  position: absolute;
-  height: $closedH;
-  width: $closedW;
-  left: 0;
-  display: flex;
-  flex-direction: column;
-  line-height: 0;
-  overflow: hidden;
-  border-radius: 0.6rem 0 0.6rem 0;
-  border: 0.1rem solid $text;
-  margin: 0 1rem;
-  padding: 1rem;
-  select,
-  input {
-    font-size: $text_input;
-  }
-  textarea,
-  input,
-  input[type="datetime-local"] {
-    font-size: 0.8rem;
-    margin-bottom: 1rem;
-  }
-  i {
-    margin-bottom: 1rem;
-    text-align: center;
-    font-size: $text_input;
-  }
-  a {
-    text-align: center;
-    font-size: 2.4rem;
-  }
-
-  select,
-  a,
-  button,
-  input {
-    height: 1.6rem;
-
-    margin-bottom: 1rem;
-  }
-}
-
 .calendar,
 .week {
   width: 98%;
@@ -72,59 +27,17 @@ $closedW: 3.5rem;
   margin-top: 4rem;
 }
 
-.calendar .month,
-.week .month {
-  font-size: 25px;
-  border-radius: 0.6rem 0.6rem 0 0;
-}
-
-.calendar .date,
-.week .date {
-  font-size: 16px;
-}
-
-.calendar .dow,
-.week .dow {
-  background-color: $odd;
-  text-align: center;
-}
-.calendar *::-moz-selection,
-.week *::-moz-selection {
-  background: transparent;
-}
-.calendar *::selection,
-.week *::selection {
-  background: transparent;
-}
-.calendar *::-moz-selection,
-.week *::-moz-selection {
-  background: transparent;
-}
-
-.week {
-  *::-moz-selection {
-    background: transparent;
-  }
-
-  tr,
-  td {
-    border: 0.01rem solid transparent;
-    border-left: 0.01rem solid transparent;
-    border-right: 0.01rem solid transparent;
-    padding: 0.2rem;
-  }
-}
 .calendar {
-  display: none;
-}
-table {
   border: 0.1rem solid $text;
   border-radius: 0.6rem;
   background-color: $odd;
-}
-.calendar {
+  display: none;
   .week_full {
     background-color: white;
+  }
+  .dow {
+    background-color: $odd;
+    text-align: center;
   }
   tr,
   td {
@@ -155,15 +68,47 @@ table {
 }
 
 .week {
+  border: 0.1rem solid $text;
+  border-radius: 0.6rem;
+  background-color: $odd;
+
+  .this_week {
+    font-size: 1.8rem;
+    margin: 1rem;
+  }
+  .arrow {
+    text-decoration: none;
+    font-size: 1.4rem;
+
+    &:hover {
+      color: #17a2b8;
+    }
+  }
+  .dow {
+    text-align: center;
+  }
+  *::-moz-selection {
+    background: transparent;
+  }
+  *::selection {
+    background: transparent;
+  }
+  *::-moz-selection {
+    background: transparent;
+  }
+  *::-moz-selection {
+    background: transparent;
+  }
+
+  tr,
   td {
+    border: 0.01rem solid transparent;
+    border-left: 0.01rem solid transparent;
+    border-right: 0.01rem solid transparent;
+    padding: 0.2rem;
     max-width: 4.2rem;
     min-width: 4rem;
   }
-
-  .hour:hover {
-    cursor: row-resize;
-  }
-
   .event_start {
     text-align: center;
     background-color: $event;
@@ -177,7 +122,6 @@ table {
       text-decoration: none;
     }
   }
-
   .event_mid {
     text-align: center;
     background-color: $event;
@@ -193,22 +137,14 @@ table {
     border-right: 0.1rem solid $text;
     border-bottom: 0.1rem solid $text;
   }
-  .month {
-    background-color: $odd;
-    padding: 1rem;
-  }
-  .arrow {
-    text-decoration: none;
-    color: 2.4rem;
 
-    &:hover {
-      color: #17a2b8;
-    }
-  }
   .hour {
     border-left: 0.01rem solid $odd;
     border-right: 0.01rem solid $odd;
     border-radius: none;
+  }
+  .hour:hover {
+    cursor: row-resize;
   }
   .odd {
     background-color: $even;
@@ -223,9 +159,7 @@ table {
     width: 5rem;
   }
 }
-.sidebar * {
-  white-space: nowrap;
-}
+
 .menu_button {
   position: absolute;
   right: 0;
@@ -269,6 +203,9 @@ table {
   border-radius: 0.6rem 0 0 0.6rem;
   transition: 0.5s;
   z-index: 1000000;
+  * {
+    white-space: nowrap;
+  }
 
   a {
     margin: 1rem 2rem;
@@ -280,5 +217,49 @@ table {
   }
   a:hover {
     color: $event;
+  }
+}
+#form_pop_up {
+  background-color: $event;
+  transition: height 0.5s ease-in-out, width 0.5s ease-in-out;
+  position: absolute;
+  height: $closedH;
+  width: $closedW;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  line-height: 0;
+  overflow: hidden;
+  border-radius: 0.6rem 0 0.6rem 0;
+  border: 0.1rem solid $text;
+  margin: 0 1rem;
+  padding: 1rem;
+  select,
+  input {
+    font-size: $text_input;
+  }
+  textarea,
+  input,
+  input[type="datetime-local"] {
+    font-size: 0.8rem;
+    margin-bottom: 1rem;
+  }
+  i {
+    margin-bottom: 1rem;
+    text-align: center;
+    font-size: $text_input;
+  }
+  a {
+    text-align: center;
+    font-size: 2.4rem;
+  }
+
+  select,
+  a,
+  button,
+  input {
+    height: 1.6rem;
+
+    margin-bottom: 1rem;
   }
 }

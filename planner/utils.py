@@ -7,6 +7,8 @@ import time
 import json
 import pytz
 import pickle
+
+
 class Calendar(HTMLCalendar):
 
     def __init__(self, request, year=None, month=None, day=None, week=0, time_start=0, time_end=24):
@@ -54,7 +56,7 @@ class Calendar(HTMLCalendar):
         next = weeks_out + 1
         if prev < 0:
             prev = 0
-        return f'<tr><th colspan="8" class="%s"> <a href="/planner/{prev}" <i class="arrow fas fa-arrow-left"></i></a> %s <a href="{next}" <i class="arrow fas fa-arrow-right"></i></a></th></tr>' % (
+        return f'<tr><th colspan="8" class="%s"><p class="this_week"> <a href="/planner/{prev}" <i class="arrow fas fa-arrow-left"></i></a>  %s <a href="{next}" <i class="arrow fas fa-arrow-right"></i></a></p> </th></tr>' % (
             self.cssclass_month_head, s)
 
     def history():
@@ -188,12 +190,15 @@ class Tools:
 
         OPEN_WEATHER = pickle.load(open("weather.p", "rb"))
 
-        unix_time = int((time - datetime(1970,1,1, tzinfo=timezone.utc)).total_seconds())
-        response = r.get(f'http://api.openweathermap.org/data/2.5/onecall?lat={str(latitude)}&lon={str(longitude)}&dt={str(unix_time)}&appid={OPEN_WEATHER}&units=imperial')
+        unix_time = int(
+            (time - datetime(1970, 1, 1, tzinfo=timezone.utc)).total_seconds())
+        response = r.get(
+            f'http://api.openweathermap.org/data/2.5/onecall?lat={str(latitude)}&lon={str(longitude)}&dt={str(unix_time)}&appid={OPEN_WEATHER}&units=imperial')
 
         json_data = json.loads(response.text)
-        daily_data_full = json_data['daily'][0] #returns day of weather
-        new_day = datetime.utcfromtimestamp(int(daily_data_full['dt'])).strftime('%Y-%m-%d %H:%M:%S')
+        daily_data_full = json_data['daily'][0]  # returns day of weather
+        new_day = datetime.utcfromtimestamp(
+            int(daily_data_full['dt'])).strftime('%Y-%m-%d %H:%M:%S')
         new_day = datetime.fromisoformat(new_day)
         event_weather_data = {}
         event_weather_data['dt'] = pytz.utc.localize(new_day)
