@@ -1,9 +1,9 @@
 $even: #e1f2fe;
-$odd: #d6e2f3;
+$odd: #cee1ee;
 $text: #0b181e;
 $text_input: 1.2rem;
 $border: #b2b1cf;
-$event: #98d2eb;
+$event: #99e036;
 $openH: 35rem;
 $openW: 15rem;
 $closedH: 3.5rem;
@@ -14,9 +14,211 @@ $closedW: 3.5rem;
   box-sizing: border-box;
   font-family: "Montserrat", sans-serif;
   font-weight: bold;
+
   color: $text;
 }
 
+.calendar,
+.week {
+  width: 98%;
+  margin: 0 1rem;
+  font-size: 13px;
+  max-width: 80rem;
+  margin-top: 4rem;
+}
+
+.calendar {
+  border: 0.1rem solid $text;
+  border-radius: 0.6rem;
+  background-color: $odd;
+  display: none;
+  .week_full {
+    background-color: white;
+  }
+  .dow {
+    background-color: $odd;
+    text-align: center;
+  }
+  tr,
+  td {
+    border: 0.01rem solid transparent;
+    border-left: 0.01rem solid $border;
+    border-right: 0.01rem solid $border;
+    padding: 0.2rem;
+  }
+
+  th {
+    padding: 10px;
+    text-align: center;
+    font-size: 18px;
+  }
+
+  td {
+    width: 200px;
+    height: 150px;
+    padding: 20px 0px 0px 5px;
+    border: 0.1rem solid $border;
+  }
+
+  ul {
+    height: 100%;
+    padding: 0.2rem;
+    list-style-type: none;
+  }
+}
+
+.week {
+  border: 0.1rem solid $text;
+  border-radius: 0.6rem;
+  background-color: $odd;
+
+  .this_week {
+    font-size: 1.8rem;
+    margin: 1rem;
+  }
+  .arrow {
+    text-decoration: none;
+    font-size: 1.4rem;
+
+    &:hover {
+      color: #17a2b8;
+    }
+  }
+  .dow {
+    text-align: center;
+  }
+  *::-moz-selection {
+    background: transparent;
+  }
+  *::selection {
+    background: transparent;
+  }
+  *::-moz-selection {
+    background: transparent;
+  }
+  *::-moz-selection {
+    background: transparent;
+  }
+
+  tr,
+  td {
+    border: 0.01rem solid transparent;
+    border-left: 0.01rem solid transparent;
+    border-right: 0.01rem solid transparent;
+    padding: 0.2rem;
+    max-width: 4.2rem;
+    min-width: 4rem;
+  }
+  .event_start {
+    text-align: center;
+    background-color: $event;
+    border-radius: 0.4rem 0.4rem 0 0;
+    border-left: 0.1rem solid $text;
+    border-right: 0.1rem solid $text;
+    border-top: 0.1rem solid $text;
+
+    a {
+      color: $text;
+      text-decoration: none;
+    }
+  }
+  .event_mid {
+    text-align: center;
+    background-color: $event;
+    border-left: 0.1rem solid $text;
+    border-right: 0.1rem solid $text;
+  }
+
+  .event_end {
+    text-align: center;
+    background-color: $event;
+    border-radius: 0 0 0.4rem 0.4rem;
+    border-left: 0.1rem solid $text;
+    border-right: 0.1rem solid $text;
+    border-bottom: 0.1rem solid $text;
+  }
+
+  .hour {
+    border-left: 0.01rem solid $odd;
+    border-right: 0.01rem solid $odd;
+    border-radius: none;
+  }
+  .hour:hover {
+    cursor: row-resize;
+  }
+  .odd {
+    background-color: $even;
+  }
+  .even {
+    background-color: white;
+  }
+
+  .time {
+    text-align: center;
+    background-color: $odd;
+    width: 5rem;
+  }
+}
+
+.menu_button {
+  position: absolute;
+  right: 0;
+  z-index: 100000000;
+  top: 1rem;
+  position: absolute;
+  width: 5rem;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  right: 0rem;
+  border-radius: 0.6rem 0 0 0.6rem;
+  transition: width 0.5s ease-in-out;
+  overflow: hidden;
+  z-index: 100000000;
+  font-size: 1.8rem;
+  i {
+    color: white;
+  }
+  background-color: lightslategray;
+  a {
+    margin: 1rem 0;
+
+    color: $text;
+    text-decoration: none;
+  }
+  a:hover {
+    color: $event;
+  }
+}
+.sidebar {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  width: 0;
+  overflow: hidden;
+  right: 0rem;
+  padding: 1rem 0;
+  top: 1rem;
+  background-color: lightslategray;
+  border-radius: 0.6rem 0 0 0.6rem;
+  transition: 0.5s;
+  z-index: 1000000;
+  * {
+    white-space: nowrap;
+  }
+
+  a {
+    margin: 1rem 2rem;
+    color: white;
+    text-decoration: none;
+  }
+  i {
+    color: white;
+  }
+  a:hover {
+    color: $event;
+  }
+}
 #form_pop_up {
   background-color: $event;
   transition: height 0.5s ease-in-out, width 0.5s ease-in-out;
@@ -60,198 +262,4 @@ $closedW: 3.5rem;
 
     margin-bottom: 1rem;
   }
-}
-
-.calendar,
-.week {
-  width: 98%;
-  margin: 0 1rem;
-  font-size: 13px;
-  max-width: 80rem;
-  margin-top: 4rem;
-}
-
-.calendar .month,
-.week .month {
-  font-size: 25px;
-  border-radius: 0.6rem 0.6rem 0 0;
-}
-
-.calendar .date,
-.week .date {
-  font-size: 16px;
-}
-
-.calendar .dow,
-.week .dow {
-  background-color: $odd;
-  text-align: center;
-}
-.calendar *::-moz-selection,
-.week *::-moz-selection {
-  background: transparent;
-}
-.calendar *::selection,
-.week *::selection {
-  background: transparent;
-}
-.calendar *::-moz-selection,
-.week *::-moz-selection {
-  background: transparent;
-}
-
-.week {
-  *::-moz-selection {
-    background: transparent;
-  }
-
-  tr,
-  td {
-    border: 0.01rem solid transparent;
-    border-left: 0.01rem solid transparent;
-    border-right: 0.01rem solid transparent;
-    padding: 0.2rem;
-  }
-}
-.calendar {
-  display: none;
-}
-table {
-  border: 0.1rem solid $text;
-  border-radius: 0.6rem;
-  background-color: $odd;
-}
-.calendar {
-  .week_full {
-    background-color: white;
-  }
-  tr,
-  td {
-    border: 0.01rem solid transparent;
-    border-left: 0.01rem solid $border;
-    border-right: 0.01rem solid $border;
-    padding: 0.2rem;
-  }
-
-  th {
-    padding: 10px;
-    text-align: center;
-    font-size: 18px;
-  }
-
-  td {
-    width: 200px;
-    height: 150px;
-    padding: 20px 0px 0px 5px;
-    border: 0.1rem solid $border;
-  }
-
-  ul {
-    height: 100%;
-    padding: 0.2rem;
-    list-style-type: none;
-  }
-}
-
-.week {
-  td {
-    max-width: 4.2rem;
-    min-width: 4rem;
-  }
-
-  .hour:hover {
-    cursor: row-resize;
-  }
-
-  .event_start {
-    text-align: center;
-    background-color: $event;
-    border-radius: 0.4rem 0.4rem 0 0;
-    border-left: 0.1rem solid $text;
-    border-right: 0.1rem solid $text;
-    border-top: 0.1rem solid $text;
-
-    a {
-      color: $text;
-      text-decoration: none;
-    }
-  }
-
-  .event_mid {
-    text-align: center;
-    background-color: $event;
-    border-left: 0.1rem solid $text;
-    border-right: 0.1rem solid $text;
-  }
-
-  .event_end {
-    text-align: center;
-    background-color: $event;
-    border-radius: 0 0 0.4rem 0.4rem;
-    border-left: 0.1rem solid $text;
-    border-right: 0.1rem solid $text;
-    border-bottom: 0.1rem solid $text;
-  }
-  .month {
-    background-color: $odd;
-    padding: 1rem;
-  }
-  .arrow {
-    text-decoration: none;
-    color: 2.4rem;
-
-    &:hover {
-      color: #17a2b8;
-    }
-  }
-  .hour {
-    border-left: 0.01rem solid $odd;
-    border-right: 0.01rem solid $odd;
-    border-radius: none;
-  }
-  .odd {
-    background-color: $even;
-  }
-  .even {
-    background-color: white;
-  }
-
-  .time {
-    text-align: center;
-    background-color: $odd;
-    width: 5rem;
-  }
-}
-.sidebar * {
-  white-space: nowrap;
-}
-.sidebar {
-  position: absolute;
-  display: flex;
-  width: 10rem;
-  right: 0;
-  top: 3rem;
-  background-color: $odd;
-  padding: 1rem;
-  border-bottom: 0.1rem solid $text;
-  border-left: 0.1rem solid $text;
-  border-top: 0.1rem solid $text;
-  border-radius: 0.6rem 0 0 0.6rem;
-  transition: width 0.5s ease-in-out;
-  line-height: -1;
-  overflow: hidden;
-  z-index: 100000000;
-  a {
-    margin: 0 2rem;
-    color: $text;
-    text-decoration: none;
-  }
-  a:hover {
-    color: $event;
-  }
-}
-
-#menu_button {
-  opacity: 100%;
-  transition: opacity 0.5s;
 }
