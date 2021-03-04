@@ -3,7 +3,7 @@ $odd: #cee1ee;
 $text: #0b181e;
 $text_input: 1.2rem;
 $border: #b2b1cf;
-$event: #99e036;
+$event: #5ccfe0;
 $openH: 35rem;
 $openW: 15rem;
 $closedH: 3.5rem;
@@ -17,9 +17,9 @@ $closedW: 3.5rem;
 
   color: $text;
 }
-.container {
-  padding: 30px;
+html {
   background: #3b4465;
+  padding: 30px;
 }
 
 .calendar,
@@ -33,6 +33,7 @@ $closedW: 3.5rem;
 
 .calendar {
   border: 0.1rem solid $text;
+  transition: all 0.5s ease-in-out;
   border-radius: 0.6rem;
   background-color: $odd;
   display: none;
@@ -223,13 +224,13 @@ $closedW: 3.5rem;
     color: $event;
   }
 }
+
 #form_pop_up {
   background-color: $event;
   transition: height 0.5s ease-in-out, width 0.5s ease-in-out;
   position: absolute;
   height: $closedH;
   width: $closedW;
-  left: 0;
   display: flex;
   flex-direction: column;
   line-height: 0;
@@ -326,4 +327,18 @@ $closedW: 3.5rem;
 .event-header {
   margin-bottom: 30px;
   text-align: center;
+}
+#show_cal {
+  background-color: lightslategray;
+  border: 0.1rem solid $text;
+  color: white;
+  padding: 1rem;
+  position: relative;
+  top: 1rem;
+  left: 1rem;
+  border-radius: 0 0 0.6rem 0.6rem;
+
+  i {
+    color: white;
+  }
 }

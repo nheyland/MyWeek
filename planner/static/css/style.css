@@ -7,9 +7,9 @@
   color: #0b181e;
 }
 
-.container {
-  padding: 30px;
+html {
   background: #3b4465;
+  padding: 30px;
 }
 
 .calendar,
@@ -23,6 +23,7 @@
 
 .calendar {
   border: 0.1rem solid #0b181e;
+  transition: all 0.5s ease-in-out;
   border-radius: 0.6rem;
   background-color: #cee1ee;
   display: none;
@@ -100,7 +101,7 @@
 }
 .week .event_start {
   text-align: center;
-  background-color: #99e036;
+  background-color: #5ccfe0;
   border-radius: 0.4rem 0.4rem 0 0;
   border-left: 0.1rem solid #0b181e;
   border-right: 0.1rem solid #0b181e;
@@ -112,13 +113,13 @@
 }
 .week .event_mid {
   text-align: center;
-  background-color: #99e036;
+  background-color: #5ccfe0;
   border-left: 0.1rem solid #0b181e;
   border-right: 0.1rem solid #0b181e;
 }
 .week .event_end {
   text-align: center;
-  background-color: #99e036;
+  background-color: #5ccfe0;
   border-radius: 0 0 0.4rem 0.4rem;
   border-left: 0.1rem solid #0b181e;
   border-right: 0.1rem solid #0b181e;
@@ -171,7 +172,7 @@
   text-decoration: none;
 }
 .menu_button a:hover {
-  color: #99e036;
+  color: #5ccfe0;
 }
 
 .sidebar {
@@ -200,16 +201,15 @@
   color: white;
 }
 .sidebar a:hover {
-  color: #99e036;
+  color: #5ccfe0;
 }
 
 #form_pop_up {
-  background-color: #99e036;
+  background-color: #5ccfe0;
   transition: height 0.5s ease-in-out, width 0.5s ease-in-out;
   position: absolute;
   height: 3.5rem;
   width: 3.5rem;
-  left: 0;
   display: flex;
   flex-direction: column;
   line-height: 0;
@@ -304,4 +304,18 @@
 .event-header {
   margin-bottom: 30px;
   text-align: center;
+}
+
+#show_cal {
+  background-color: lightslategray;
+  border: 0.1rem solid #0b181e;
+  color: white;
+  padding: 1rem;
+  position: relative;
+  top: 1rem;
+  left: 1rem;
+  border-radius: 0 0 0.6rem 0.6rem;
+}
+#show_cal i {
+  color: white;
 }/*# sourceMappingURL=style.css.map */

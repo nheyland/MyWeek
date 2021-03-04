@@ -27,35 +27,35 @@
             <a href="/kill/"><i class="fas fa-door-open"></i> Logout</a>
         </div>
 
-        <div class="pop_up_form">
-            <form id="form_pop_up" action="/create_event/" method="POST">
-                {% csrf_token %}
-                <a href="javascript:;"><i id="rotate" onclick="javascript:form_pop_up(true);" class="fas fa-plus"></i></a>
-                <br>
-                <input type="text" placeholder="Title" name="title">
-                <textarea type="text" placeholder="Description" rows="10" name="desc"></textarea>
-                <input type="datetime-local" required id='start' placeholder="YYYY-MM-DD HH:MM" name="start_time">
-                <input type="datetime-local" required id='end' placeholder="YYYY-MM-DD HH:MM" name="end_time">
-                <input type="text" placeholder="Address" name="address">
-                <select name="public">
-                    <option value="True">Public</option>
-                    <option value="Fasle">Private</option>
-                </select>
-                <button> Add!</button>
-                {% if messages %}
-                <ul class="messages">
-                    {% for message in messages %}
-                    <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
-                    {% endfor %}
-                </ul>
-                {% endif %}
-            </form>
+        <div class="planner">
+            <div class="pop_up_form">
+                <form id="form_pop_up" action="/create_event/" method="POST">
+                    {% csrf_token %}
+                    <a href="javascript:;"><i id="rotate" onclick="javascript:form_pop_up(true);" class="fas fa-plus"></i></a>
+                    <br>
+                    <input type="text" placeholder="Title" name="title">
+                    <textarea type="text" placeholder="Description" rows="10" name="desc"></textarea>
+                    <input type="datetime-local" required id='start' placeholder="YYYY-MM-DD HH:MM" name="start_time">
+                    <input type="datetime-local" required id='end' placeholder="YYYY-MM-DD HH:MM" name="end_time">
+                    <input type="text" placeholder="Address" name="address">
+                    <select name="public">
+                        <option value="True">Public</option>
+                        <option value="Fasle">Private</option>
+                    </select>
+                    <button> Add!</button>
+                    {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                        <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </form>
+            </div>
+            {{week | safe }}
         </div>
-
-        {{week | safe }}
         {{cal | safe}}
-        <a id='show_cal' href="javascript:;" onclick="form_pop_up(true)"> Scheudle An Event!</a>
-        <a id='show_cal' href="javascript:;" onclick="show()"> See Full Calendar</a>
+        <a id='show_cal' href="javascript:;" onclick="show()"><i class="fas fa-calendar-alt"></i></a>
     </section>
     <script>
 
@@ -100,17 +100,27 @@
                 x.style.height = "35rem";
             }
         }
+        window.onload = function () {
+            console.log('hi')
+            document.getElementById('calendar').style.display = 'block';
+            document.getElementById('calendar').style.opacity = '0';
+            document.getElementById('show_cal').style.transition = 'background-color 0.5s';
+        }
 
 
         function show() {
             var x = document.getElementById('calendar')
             var y = document.getElementById('show_cal')
-            if (x.style.display === "block") {
-                x.style.display = "none";
-                y.innerText = 'Show Full Calendar';
+            if (x.style.opacity == "0") {
+                console.log('here')
+                x.style.opacity = "100%";
+                y.style.backgroundColor = 'pink';
+                y.innerHTML = '<i class="fas fa-times"></i>';
             } else {
-                x.style.display = "block";
-                y.innerText = 'Hide Full Calendar';
+                y.style.backgroundColor = 'lightslategrey';
+                x.style.opacity = "0";
+                y.innerHTML = '<i class="fas fa-calendar-alt">';
+
             }
 
         }
