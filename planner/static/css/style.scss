@@ -3,6 +3,11 @@
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
+
+.container{
+	background: #3b4465;
+}
+
 .calendar,
 .week {
   width: 98%;
@@ -15,7 +20,7 @@
 .calendar tr,
 .calendar td {
   border: 0.01rem solid transparent;
-  border-left: 0.01rem solid lightgrey;
+  border-left: 0.01rem solid 	lightgrey;
   border-right: 0.01rem solid lightgrey;
   padding: 0.2rem;
 }
@@ -50,7 +55,7 @@ s .time {
 }
 
 a {
-  color: #17a2b8;
+  color: grey;
 }
 table,
 td {
@@ -112,9 +117,9 @@ td {
 }
 table * {
   *::selection {
-    background: transparent;
+    background: white;
   }
   *::-moz-selection {
-    background: transparent;
+    background: white;
   }
 }
