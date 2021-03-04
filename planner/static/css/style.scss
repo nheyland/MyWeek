@@ -14,6 +14,7 @@ $closedW: 3.5rem;
   box-sizing: border-box;
   font-family: "Montserrat", sans-serif;
   font-weight: bold;
+
   color: $text;
 }
 
@@ -225,24 +226,29 @@ table {
 .sidebar * {
   white-space: nowrap;
 }
-.sidebar {
+.menu_button {
   position: absolute;
-  display: flex;
-  width: 10rem;
   right: 0;
-  top: 3rem;
-  background-color: $odd;
-  padding: 1rem;
-  border-bottom: 0.1rem solid $text;
-  border-left: 0.1rem solid $text;
-  border-top: 0.1rem solid $text;
+  z-index: 100000000;
+  top: 1rem;
+  position: absolute;
+  width: 5rem;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  right: 0rem;
   border-radius: 0.6rem 0 0 0.6rem;
   transition: width 0.5s ease-in-out;
-  line-height: -1;
   overflow: hidden;
   z-index: 100000000;
+  font-size: 1.8rem;
+  i {
+    color: white;
+  }
+  background-color: lightslategray;
   a {
-    margin: 0 2rem;
+    margin: 1rem 0;
+
     color: $text;
     text-decoration: none;
   }
@@ -250,8 +256,29 @@ table {
     color: $event;
   }
 }
+.sidebar {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  width: 0;
+  overflow: hidden;
+  right: 0rem;
+  padding: 1rem 0;
+  top: 1rem;
+  background-color: lightslategray;
+  border-radius: 0.6rem 0 0 0.6rem;
+  transition: 0.5s;
+  z-index: 1000000;
 
-#menu_button {
-  opacity: 100%;
-  transition: opacity 0.5s;
+  a {
+    margin: 1rem 2rem;
+    color: white;
+    text-decoration: none;
+  }
+  i {
+    color: white;
+  }
+  a:hover {
+    color: $event;
+  }
 }
