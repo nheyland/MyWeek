@@ -3,7 +3,7 @@ $odd: #cee1ee;
 $text: #0b181e;
 $text_input: 1.2rem;
 $border: #b2b1cf;
-$event: #99e036;
+$event: #5ccfe0;
 $openH: 35rem;
 $openW: 15rem;
 $closedH: 3.5rem;
@@ -17,6 +17,10 @@ $closedW: 3.5rem;
 
   color: $text;
 }
+html {
+  background: #3b4465;
+  padding: 30px;
+}
 
 .calendar,
 .week {
@@ -29,6 +33,7 @@ $closedW: 3.5rem;
 
 .calendar {
   border: 0.1rem solid $text;
+  transition: all 0.5s ease-in-out;
   border-radius: 0.6rem;
   background-color: $odd;
   display: none;
@@ -219,13 +224,13 @@ $closedW: 3.5rem;
     color: $event;
   }
 }
+
 #form_pop_up {
   background-color: $event;
   transition: height 0.5s ease-in-out, width 0.5s ease-in-out;
   position: absolute;
   height: $closedH;
   width: $closedW;
-  left: 0;
   display: flex;
   flex-direction: column;
   line-height: 0;
@@ -261,5 +266,79 @@ $closedW: 3.5rem;
     height: 1.6rem;
 
     margin-bottom: 1rem;
+  }
+}
+
+.btn-login {
+  margin-left: 88%;
+  margin-top: 30px;
+  padding: 15px;
+  text-decoration: none;
+  border-radius: 10px;
+  color: #245b6f;
+  background: #d7e7f1;
+  transform: translateX(-30%);
+}
+
+.forms-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.form {
+  overflow: hidden;
+  min-width: 260px;
+  margin-top: 50px;
+  padding: 25px 30px;
+  border-radius: 10px;
+  transform-origin: top;
+  background-color: #d7e7f1;
+}
+
+.event-button {
+  width: 250px;
+  margin-left: 40%;
+  padding: 20px;
+  font-family: sans-serif;
+  font-size: 12pt;
+  background-color: #a7e245;
+  border-radius: 20px;
+  border: none;
+  font-weight: bold;
+}
+
+.dropdown {
+  width: 155px;
+  padding: 8px 0px;
+  border-radius: 5px;
+  border: none;
+}
+
+.input-block {
+  width: 185px;
+  margin-bottom: 20px;
+  padding: 10px;
+  border-radius: 10px;
+  border: gray;
+}
+
+.event-header {
+  margin-bottom: 30px;
+  text-align: center;
+}
+#show_cal {
+  background-color: lightslategray;
+  border: 0.1rem solid $text;
+  color: white;
+  padding: 1rem;
+  position: relative;
+  top: 1rem;
+  left: 1rem;
+  border-radius: 0 0 0.6rem 0.6rem;
+
+  i {
+    color: white;
   }
 }

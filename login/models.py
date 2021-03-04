@@ -14,10 +14,10 @@ class User(models.Model):
     last_name = models.CharField(max_length=255)
     password = models.CharField(max_length=255)
     email = models.CharField(max_length=255)
-    # PHONE NUMBER FIELD FOR SMS. OPTIONAL, SO BLANK = TRUE. /ew
-    phone = models.CharField(max_length = 12, blank = True)
-
-    # M2M FOR FRIENDS LIST. /ew
+    phone = models.CharField(max_length=12, blank=True)
+    # Easiest way to handle a friends list is to add the
+    # M2M field here in the User class. This class can be added
+    # on to create more Bio fields.
     friends = models.ManyToManyField('self')
 
     objects = UserManager()
