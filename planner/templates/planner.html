@@ -12,50 +12,51 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
-    <title>Document</title>
+    <title>My Planner</title>
 </head>
 
 <body>
-    <div id="menu_button" class="menu_button" onclick="javascript:sidebar_open(true);">
-        <a class="" href="javascript:sidebar_open(true);"><i class="fas fa-compass"></i></a>
-    </div>
-    <div id='sidebar' class="sidebar" ;">
-        <a href="/u/profile/{{user.id}}/"><i class="fas fa-user"></i> My Profile</a>
-        <a href=""><i class="fas fa-globe-americas"></i> Explore</a>
-        <a href=""><i class="fas fa-users"></i> Invite others</a>
-        <a href="/kill/"><i class="fas fa-door-open"></i> Logout</a>
-    </div>
+    <section class="container">
+        <div id="menu_button" class="menu_button" onclick="javascript:sidebar_open(true);">
+            <a class="" href="javascript:sidebar_open(true);"><i class="fas fa-compass"></i></a>
+        </div>
+        <div id='sidebar' class="sidebar" ;">
+            <a href="/u/profile/{{user.id}}/"><i class="fas fa-user"></i> My Profile</a>
+            <a href=""><i class="fas fa-globe-americas"></i> Explore</a>
+            <a href=""><i class="fas fa-users"></i> Invite others</a>
+            <a href="/kill/"><i class="fas fa-door-open"></i> Logout</a>
+        </div>
 
-    <div class="pop_up_form">
-        <form id="form_pop_up" action="/create_event/" method="POST">
-            {% csrf_token %}
-            <a href="javascript:;"><i id="rotate" onclick="javascript:form_pop_up(true);" class="fas fa-plus"></i></a>
-            <br>
-            <input type="text" placeholder="Title" name="title">
-            <textarea type="text" placeholder="Description" rows="10" name="desc"></textarea>
-            <input type="datetime-local" required id='start' placeholder="YYYY-MM-DD HH:MM" name="start_time">
-            <input type="datetime-local" required id='end' placeholder="YYYY-MM-DD HH:MM" name="end_time">
-            <input type="text" placeholder="Address" name="address">
-            <select name="public">
-                <option value="True">Public</option>
-                <option value="Fasle">Private</option>
-            </select>
-            <button> Add!</button>
-            {% if messages %}
-            <ul class="messages">
-                {% for message in messages %}
-                <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
-                {% endfor %}
-            </ul>
-            {% endif %}
-        </form>
-    </div>
+        <div class="pop_up_form">
+            <form id="form_pop_up" action="/create_event/" method="POST">
+                {% csrf_token %}
+                <a href="javascript:;"><i id="rotate" onclick="javascript:form_pop_up(true);" class="fas fa-plus"></i></a>
+                <br>
+                <input type="text" placeholder="Title" name="title">
+                <textarea type="text" placeholder="Description" rows="10" name="desc"></textarea>
+                <input type="datetime-local" required id='start' placeholder="YYYY-MM-DD HH:MM" name="start_time">
+                <input type="datetime-local" required id='end' placeholder="YYYY-MM-DD HH:MM" name="end_time">
+                <input type="text" placeholder="Address" name="address">
+                <select name="public">
+                    <option value="True">Public</option>
+                    <option value="Fasle">Private</option>
+                </select>
+                <button> Add!</button>
+                {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </form>
+        </div>
 
-    {{week | safe }}
-    {{cal | safe}}
-    <a id='show_cal' href="javascript:;" onclick="form_pop_up(true)"> Scheudle An Event!</a>
-    <a id='show_cal' href="javascript:;" onclick="show()"> See Full Calendar</a>
-
+        {{week | safe }}
+        {{cal | safe}}
+        <a id='show_cal' href="javascript:;" onclick="form_pop_up(true)"> Scheudle An Event!</a>
+        <a id='show_cal' href="javascript:;" onclick="show()"> See Full Calendar</a>
+    </section>
     <script>
 
         function sidebar_open(open) {

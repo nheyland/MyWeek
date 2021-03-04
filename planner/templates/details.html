@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.js'></script>
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css' rel='stylesheet' />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
     <title>Document</title>
 
 </head>
@@ -84,7 +85,7 @@
     <p>Night Temp: {{weather.night_temp}}</p>
     <p>{{weather.main}}, {{weather.desc}}</p>
     <img src="http://openweathermap.org/img/wn/{{weather.icon}}.png">
-    
+
     <!-- YOU DON'T GET TO ADD A FRIEND TO THIS IF YOU'RE NOT THE PERSON WHO CREATED THE EVENT. -->
     {% if event.created_by.id == request.session.user_id %}
     <!-- PLACING SOCIAL PIECES OF THE PLANNER DOWN HERE FOR NOW. FRONT-END/LEAD CAN MOVE TO WHERE EVER. /ew -->

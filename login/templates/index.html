@@ -5,61 +5,87 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 {% load static %}
 <title>My Week</title>
-<link rel="stylesheet" href="{% static '/css/login_style.css' %}" />
+<link rel="stylesheet" href="{% static 'css/style.css' %}" />
+<script src="{% static 'js/app.js' %}" defer></script>
 </head>
 
 <body>
-    <div class="container">
-        <!-- 
- _                 _       
-| |               (_)      
-| |     ___   __ _ _ _ __  
-| |    / _ \ / _` | | '_ \ 
-| |___| (_) | (_| | | | | |
-|______\___/ \__, |_|_| |_|
-              __/ |        
-             |___/          -->
-        <h2>Register</h2>
-        <form action="/register/" method="POST">
-            {% csrf_token %}
-
-            <label for="email">Email: </label>
-            <input tabindex="1" required type=" text" name="email">
-            <label for="password">Password: </label>
-            <input tabindex="2" required type="password" name="password">
-
-            <label for="confirm_password">Confirm Password: </label>
-            <input required type="password" name="confirm_password">
-
-            <label for="firstName">First Name: </label>
-            <input required type=" text" name="first_name">
-
-            <label for="last_name">Last Name: </label>
-            <input required type="text" name="last_name">
-
-            <button>Register</button>
-        </form>
-
-
-        <!--     _____            _     _            
-        |  __ \          (_)   | |           
-        | |__) |___  __ _ _ ___| |_ ___ _ __ 
-        |  _  // _ \/ _` | / __| __/ _ \ '__|
-        | | \ \  __/ (_| | \__ \ ||  __/ |   
-        |_|  \_\___|\__, |_|___/\__\___|_|   
-                     __/ |                   
-                    |___/                     -->
-
-        <h2>Login</h2>
-        <form action="/login/" method="POST">
-            {% csrf_token %}
-            <label for="email">Email: </label>
-            <input type="text" name="email">
-            <label for="password">Password: </label>
-            <input type="password" name="password">
-            <button>Enter</button>
-        </form>
-    </div>
+    <section class="forms-section">
+        <h1 class="section-title">My Planner</h1>
+        <div class="forms">
+            <div class="form-wrapper is-active">
+                <!-- 
+        _                 _       
+        | |               (_)      
+        | |     ___   __ _ _ _ __  
+        | |    / _ \ / _` | | '_ \ 
+        | |___| (_) | (_| | | | | |
+        |______\___/ \__, |_|_| |_|
+                    __/ |        
+                    |___/          -->
+                <button type="button" class="switcher-login">
+                    Login
+                    <span class="underline"></span>
+                </button>
+                <form action="/login/" method="POST" class="form form-login">
+                    <fieldset>
+                        <legend>Please enter your email and password for login</legend>
+                        {% csrf_token %}
+                        <div class="input-block">
+                            <label for="email">Email</label>
+                            <input type="text" name="email">
+                        </div>
+                        <div class="input-block">
+                            <label for="password">Password</label>
+                            <input type="password" name="password">
+                        </div>
+                    </fieldset>
+                    <button type="submit" class="btn-login">Login</button>
+                </form>
+            </div>
+            <div class="form-wrapper">
+                <button type="button" class="switcher switcher-signup">
+                    Sign Up
+                    <span class="underline"></span>
+                </button>
+                <!--     _____            _     _            
+                |  __ \          (_)   | |           
+                | |__) |___  __ _ _ ___| |_ ___ _ __ 
+                |  _  // _ \/ _` | / __| __/ _ \ '__|
+                | | \ \  __/ (_| | \__ \ ||  __/ |   
+                |_|  \_\___|\__, |_|___/\__\___|_|   
+                            __/ |                   
+                            |___/                     -->
+                <form action="/register/" method="POST" class="form form-signup">
+                    <fieldset>
+                        <legend>Please enter your email, password, first and last Name</legend>
+                        {% csrf_token %}
+                        <div class="input-block">
+                            <label for="email">Email: </label>
+                            <input tabindex="1" required type=" text" name="email">
+                        </div>
+                        <div class="input-block">
+                            <label for="password">Password: </label>
+                            <input tabindex="2" required type="password" name="password">
+                        </div>
+                        <div class="input-block">
+                            <label for="confirm_password">Confirm Password: </label>
+                            <input required type="password" name="confirm_password">
+                        </div>
+                        <div class="input-block">
+                            <label for="firstName">First Name: </label>
+                            <input required type=" text" name="first_name">
+                        </div>
+                        <div class="input-block">
+                            <label for="last_name">Last Name: </label>
+                            <input required type="text" name="last_name">
+                        </div>
+                    </fieldset>
+                    <button type="submit" class="btn-signup">Continue</button>
+                </form>
+            </div>
+        </div>
+    </section>
 </body>
 
 </html>

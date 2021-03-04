@@ -7,6 +7,11 @@
   color: #0b181e;
 }
 
+.container {
+  padding: 30px;
+  background: #3b4465;
+}
+
 .calendar,
 .week {
   width: 98%;
@@ -239,4 +244,64 @@
 #form_pop_up input {
   height: 1.6rem;
   margin-bottom: 1rem;
+}
+
+.btn-login {
+  margin-left: 88%;
+  margin-top: 30px;
+  padding: 15px;
+  text-decoration: none;
+  border-radius: 10px;
+  color: #245b6f;
+  background: #d7e7f1;
+  transform: translateX(-30%);
+}
+
+.forms-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.form {
+  overflow: hidden;
+  min-width: 260px;
+  margin-top: 50px;
+  padding: 25px 30px;
+  border-radius: 10px;
+  transform-origin: top;
+  background-color: #d7e7f1;
+}
+
+.event-button {
+  width: 250px;
+  margin-left: 40%;
+  padding: 20px;
+  font-family: sans-serif;
+  font-size: 12pt;
+  background-color: #a7e245;
+  border-radius: 20px;
+  border: none;
+  font-weight: bold;
+}
+
+.dropdown {
+  width: 155px;
+  padding: 8px 0px;
+  border-radius: 5px;
+  border: none;
+}
+
+.input-block {
+  width: 185px;
+  margin-bottom: 20px;
+  padding: 10px;
+  border-radius: 10px;
+  border: gray;
+}
+
+.event-header {
+  margin-bottom: 30px;
+  text-align: center;
 }/*# sourceMappingURL=style.css.map */
