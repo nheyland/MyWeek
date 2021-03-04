@@ -7,42 +7,116 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
-    <link rel="stylesheet" href="{% static 'js/app.js' %}">
+
+    <script defer type="text/javascript" src="{% static 'js/app.js' %}"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
     <title>Event Details</title>
 </head>
 
 <body>
-    <section class="container">
-        <a href="/kill/" role="button" class="btn-login">Logout</a>
-        <div class="forms-section">
-            <form action="/create_event/" method="POST" class="form">
-                <h3 class="event-header">Enter Your Event</h3>
-                {% csrf_token %}
-                <input type="text" placeholder="Title" name="title" class="input-block">
-                <input type="text" placeholder="Description" name="desc" class="input-block">
-                <input type="datetime-local" required id='start' placeholder="YYYY-MM-DD HH:MM" name="start_time" class="input-block">
-                <input type="datetime-local" required id='end' placeholder="YYYY-MM-DD HH:MM" name="end_time" class="input-block">
-                <input type="text" placeholder="Address" name="address" class="input-block">
-                <select name="public" class="dropdown">
-                    <option value="True">Public</option>
-                    <option value="Fasle">Private</option>
-                </select>
-                <br>
-                <input type="submit" class="event-button">
-                {% if errors %}
-                {%for i in errors%}
-                {{i}}
-                {%endfor %}
-                {%endif%}
-            </form>
-        </div>
-        {{week | safe }}
-        {{cal | safe}}
-        <script>
-            function create(start, end) {
-                const y = document.getElementById('start')
-                const z = document.getElementById('end')
+
+    <div id='sidebar' class="sidebar" onmouseover="javascript:sidebar_open(true);" onmouseout="javascript:sidebar_open(false);">
+        <a id="menu_button" class="" href="javascript:sidebar_open(true);">Menu</a>
+        <a href="/u/profile/{{user.id}}/">My Profile</a>
+        <a href="">Explore</a>
+        <a href="">Invite others</a>
+        <a href="/kill/">Logout</a>
+    </div>
+
+    <div class="pop_up_form">
+        <form id="form_pop_up" action="/create_event/" method="POST">
+            {% csrf_token %}
+            <a href="javascript:;"><i id="rotate" onclick="javascript:form_pop_up(true);" class="fas fa-plus"></i></a>
+            <br>
+            <input type="text" placeholder="Title" name="title">
+            <textarea type="text" placeholder="Description" rows="10" name="desc"></textarea>
+            <input type="datetime-local" required id='start' placeholder="YYYY-MM-DD HH:MM" name="start_time">
+            <input type="datetime-local" required id='end' placeholder="YYYY-MM-DD HH:MM" name="end_time">
+            <input type="text" placeholder="Address" name="address">
+            <select name="public">
+                <option value="True">Public</option>
+                <option value="Fasle">Private</option>
+            </select>
+            <button> Add!</button>
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </form>
+    </div>
+
+    {{week | safe }}
+    {{cal | safe}}
+    <a id='show_cal' href="javascript:;" onclick="form_pop_up(true)"> Scheudle An Event!</a>
+    <a id='show_cal' href="javascript:;" onclick="show()"> See Full Calendar</a>
+
+    <script>
+
+        function sidebar_open(open) {
+            var x = document.getElementById('sidebar')
+            if (open == true) {
+                x.style.width = '50rem'
+                document.getElementById('menu_button').href = 'javascript:sidebar_open(false);'
+                document.getElementById('menu_button').style.opacity = '0%'
+                document.getElementById('menu_button').style.transition = 'opacity .5s'
+
+
+            } else {
+                x.style.width = '10rem'
+                document.getElementById('menu_button').href = 'javascript:sidebar_open(true);'
+                document.getElementById('menu_button').style.transition = 'opacity 1.5s'
+                document.getElementById('menu_button').style.opacity = '100%'
+            }
+
+        }
+        window.addEventListener('click', function (e) {
+            if (!e.target.matches('.sidebar')) {
+                sidebar_open(false)
+            }
+        })
+    </script>
+    <script>
+
+        function form_pop_up(open) {
+            var y = document.getElementById('rotate')
+            var x = document.getElementById('form_pop_up')
+            if (open == false) {
+                x.style.height = "3.5rem";
+                x.style.width = "3.5rem";
+                y.style.transition = '.5s all'
+                y.style.transform = 'rotate(90deg)';
+                y.setAttribute('onclick', 'javascript:form_pop_up(true);')
+
+            } else {
+                y.style.transition = '.5s all'
+                y.style.transform = 'rotate(45deg)';
+                y.setAttribute('onclick', 'javascript:form_pop_up(false);')
+                x.style.width = "15rem";
+                x.style.height = "35rem";
+            }
+        }
+
+
+        function show() {
+            var x = document.getElementById('calendar')
+            var y = document.getElementById('show_cal')
+            if (x.style.display === "block") {
+                x.style.display = "none";
+                y.innerText = 'Show Full Calendar';
+            } else {
+                x.style.display = "block";
+                y.innerText = 'Hide Full Calendar';
+            }
+
+        }
+        function create(start, end) {
+            const y = document.getElementById('start')
+            const z = document.getElementById('end')
 
                 if (/Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)) {
                     if (start.split(' ')[1] < 10) {
@@ -68,32 +142,74 @@
                     z.setAttribute('value', end)
                 }
             }
-            function reset() {
-                const reset = document.getElementsByClassName('hour')
-                for (var i = 0; i < reset.length; i++) {
-                    reset[i].style.backgroundColor = "";
+        }
+
+        const week = document.getElementById('week')
+
+        function reset() {
+            const reset = document.getElementsByClassName('hour')
+            for (var i = 0; i < reset.length; i++) {
+                reset[i].style.backgroundColor = "";
+                reset[i].style.border = "";
+            }
+        }
+        week.addEventListener("mousedown", function (down) {
+            let moved
+            let downListener = () => {
+                moved = false
+            }
+            week.addEventListener('mousedown', downListener)
+            let moveListener = () => {
+                moved = true
+            }
+            week.addEventListener('mousemove', moveListener)
+            let upListener = () => {
+                if (moved) {
+                    form_pop_up(true)
+
+                } else {
+                    form_pop_up(false)
                 }
             }
-            const week = document.getElementById('week')
-            week.addEventListener("mousedown", function (down) {
-                reset()
-                if (down.target.parentNode.parentNode.parentNode.className == 'week' && !down.target.classList.contains('event')) {
-                    document.getElementById(down.target.id).style.backgroundColor = 'pink';
-                    week.onmouseover = function (move) {
-                        if (Number(down.target.id.split(' ')[1]) < Number(move.target.id.split(' ')[1]) && down.target.id.split(' ')[0] == move.target.id.split(' ')[0]) {
-                            document.getElementById(move.target.id).style.backgroundColor = 'pink';
-
-                        }
-                    };
-                    week.addEventListener("mouseup", function (up) {
-                        create(down.target.id, up.target.id)
-                        document.getElementById(down.target.id).style.borderRadius = '.4rem .4rem 0 0';
-                        document.getElementById(up.target.id).style.borderRadius = '0 0 .4rem .4rem ';
-                        week.onmouseover = null
-
-                    });
-
+            reset()
+            week.addEventListener('mouseup', upListener)
+            if (down.target.parentNode.parentNode.parentNode.className == 'week' && !down.target.classList.contains('event')) {
+                document.getElementById(down.target.id).className = 'hour event_title'
+                document.getElementById(down.target.id).style.backgroundColor = 'pink';
+                document.getElementById(down.target.id).style.borderRight = '.1rem solid #0b181e';
+                document.getElementById(down.target.id).style.borderLeft = '.1rem solid #0b181e';
+                document.getElementById(down.target.id).style.borderTop = '.1rem solid #0b181e';
+                const reset = document.getElementsByClassName('hour')
+                for (var i = 0; i < reset.length; i++) {
+                    reset[i].style.borderRadius = "";
                 }
+                week.onmouseover = function (move) {
+                    if (Number(down.target.id.split(' ')[1]) < Number(move.target.id.split(' ')[1]) && down.target.id.split(' ')[0] == move.target.id.split(' ')[0]) {
+                        document.getElementById(move.target.id).style.backgroundColor = 'pink';
+                        document.getElementById(move.target.id).style.borderLeft = '.1rem solid #0b181e';
+                        document.getElementById(move.target.id).style.borderRight = '.1rem solid #0b181e';
+                        document.getElementById(move.target.id).style.borderTopLeftRadius = ' 0';
+                    }
+                };
+                week.addEventListener("mouseup", function (up) {
+                    create(down.target.id, up.target.id)
+                    document.getElementById(up.target.id).style.borderRight = '.1rem solid #0b181e';
+                    document.getElementById(up.target.id).style.borderLeft = '.1rem solid #0b181e';
+                    document.getElementById(up.target.id).style.borderBottom = '.1rem solid #0b181e';
+                    const reset = document.getElementsByClassName('hour')
+                    for (var i = 0; i < reset.length; i++) {
+                        reset[i].style.borderRadius = "";
+                    }
+                    document.getElementById(down.target.id).style.borderRadius = '.4rem .4rem 0 0';
+                    document.getElementById(up.target.id).style.borderRadius = '0 0 .4rem .4rem ';
+                    week.onmouseover = null
+
+
+                });
+            }
+
+        });
+    </script>
 
             });
         </script>

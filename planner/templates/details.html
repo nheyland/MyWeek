@@ -14,6 +14,30 @@
 </head>
 
 <body>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {%if edit%}
+    <form action="/process_edit" method="POST">
+        {% csrf_token %}
+        <input type="text" placeholder="Title" name="title" value="{{event.title}}">
+        <input type="text" placeholder="Description" name="desc" value="{{event.desc}}">
+        <input type="datetime-local" id='start' placeholder="YYYY-MM-DD HH:MM" name="start_time" value="{{start}}">
+        <input type="datetime-local" id='end' placeholder="YYYY-MM-DD HH:MM" name="end_time" value="{{end}}">
+        <input type="text" placeholder="Address" name="address" value="{{event.address}}">
+        <input type="hidden" name="id" value={{event.id}}>
+        <select name="public">
+            <option value="True">Public</option>
+            <option value="Fasle">Private</option>
+        </select>
+        <input type="submit">
+
+    </form>
+    {%else%}
     <h4>{{event.date}}</h4>
     <h4>{{event.title}}</h4>
     <h4>{{event.desc}}</h4>
@@ -21,6 +45,22 @@
     <h4>{{event.end_time}}</h4>
     <h4>{{event.address}}</h4>
 
+    <hr>
+    <h4>Created by: <a href="{% url 'viewProfile' event.created_by.id %}">{{ event.created_by.first_name }} {{ event.created_by.last_name }}</a></h4>
+    <h5>Invitees</h5>
+    {% if event.invitees.all %}
+    <ul>
+        {% for invitee in event.invitees.all %}
+        <li><a href="{% url 'viewProfile' invitee.id %}">{{ invitee.first_name }} {{ invitee.last_name }}</a></li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <hr>
+
+    <!-- EVENT DELETION NEEDS TO GO THROUGH CONFIRMATION PROCESS! /ew -->
+    <h4><a href="{% url 'confirmDelete' event.id %}">Delete Event</a></h4>
+    <h4><a href="/edit/{{event.id}}">Edit Event</a></h4>
+    {%endif%}
     <div id='map' style='width: 400px; height: 300px;'></div>
     <script>
         mapboxgl.accessToken = 'pk.eyJ1IjoibmhleWxhbmQiLCJhIjoiY2toZHI4ZWNqMDgwaTMwczFuNnpvcGFuMiJ9.4LH3G0a18_HQY8t55W83lg';
@@ -30,17 +70,54 @@
         zoom: 9,
             style: 'mapbox://styles/mapbox/streets-v11'
         });
-
         map.on('load', function () {
             var marker = new mapboxgl.Marker({
                 color: "#FF0000",
                 draggable: true
             }).setLngLat({{ geo }})
             .addTo(map);
-
         });
-
     </script>
+
+    <h4>Weather</h4>
+    <p>{{weather.dt}}</p>
+    <p>Day Temp: {{weather.day_temp}}</p>
+    <p>Night Temp: {{weather.night_temp}}</p>
+    <p>{{weather.main}}, {{weather.desc}}</p>
+    <img src="http://openweathermap.org/img/wn/{{weather.icon}}.png">
+    
+    <!-- YOU DON'T GET TO ADD A FRIEND TO THIS IF YOU'RE NOT THE PERSON WHO CREATED THE EVENT. -->
+    {% if event.created_by.id == request.session.user_id %}
+    <!-- PLACING SOCIAL PIECES OF THE PLANNER DOWN HERE FOR NOW. FRONT-END/LEAD CAN MOVE TO WHERE EVER. /ew -->
+    <h2>Invite A Friend!</h2>
+    {% if event.created_by.friends.all %}
+    <form action="{% url 'inviteToEvent' %}" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="eventURL" value="{% url 'eventDetail' event.id %}">
+        <input type="hidden" name="eventID" value="{{ event.id }}">
+        <select name="addFriend" id="addFriend">
+            <option selected>PICK A FRIEND!</option>
+            {% for friend in event.created_by.friends.all %}
+            <option value="{{ friend.id }}">{{ friend.first_name }}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="Add Friend!">
+    </form>
+    {% endif %}
+    <h3>Is your friend not a member of MyWeek?</h3>
+    <p>
+        No big deal! Send him an invite to join! Don't worry, we won't keep the email address or send spam!
+    </p>
+    <form action="{% url 'inviteFriend' %}" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="eventURL" value="{% url 'eventDetail' event.id %}">
+        <label for="invitee_name">Friend's Name:</label>
+        <input type="text" name="invitee_name" id="invitee_name">
+        <label for="invitee_email">Friend's Email:</label>
+        <input type="email" name="invitee_email" id="invitee_email">
+        <input type="submit" value="Invite A Buddy!">
+    </form>
+    {% endif %}
 </body>
 
 </html>

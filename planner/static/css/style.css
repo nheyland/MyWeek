@@ -1,7 +1,53 @@
 * {
-  margin: 0px;
-  list-style-type: none;
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Montserrat", sans-serif;
+  font-weight: bold;
+  color: #0b181e;
+}
+
+#form_pop_up {
+  background-color: #98d2eb;
+  transition: height 0.5s ease-in-out, width 0.5s ease-in-out;
+  position: absolute;
+  height: 3.5rem;
+  width: 3.5rem;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  line-height: 0;
+  overflow: hidden;
+  border-radius: 0.6rem 0 0.6rem 0;
+  border: 0.1rem solid #0b181e;
+  margin: 0 1rem;
+  padding: 1rem;
+}
+#form_pop_up select,
+#form_pop_up input {
+  font-size: 1.2rem;
+}
+#form_pop_up textarea,
+#form_pop_up input,
+#form_pop_up input[type=datetime-local] {
+  font-size: 0.8rem;
+  margin-bottom: 1rem;
+}
+#form_pop_up i {
+  margin-bottom: 1rem;
+  text-align: center;
+  font-size: 1.2rem;
+}
+#form_pop_up a {
+  text-align: center;
+  font-size: 2.4rem;
+}
+#form_pop_up select,
+#form_pop_up a,
+#form_pop_up button,
+#form_pop_up input {
+  height: 1.6rem;
+  margin-bottom: 1rem;
 }
 
 .container{
@@ -13,7 +59,7 @@
 .week {
   background-color: rgb(240, 240, 240);
   width: 98%;
-  margin: auto;
+  margin: 0 1rem;
   font-size: 13px;
   border-radius: 10px;
 }
@@ -26,12 +72,19 @@
   border-left: 0.01rem solid lightgrey;
   border-right: 0.01rem solid lightgrey;
   padding: 0.2rem;
+  max-width: 80rem;
+  margin-top: 4rem;
 }
 
-.calendar th {
-  padding: 10px;
-  text-align: center;
-  font-size: 18px;
+.calendar .month,
+.week .month {
+  font-size: 25px;
+  border-radius: 0.6rem 0.6rem 0 0;
+}
+
+.calendar .date,
+.week .date {
+  font-size: 16px;
 }
 
 .calendar td {
@@ -41,105 +94,169 @@
   border: 0.1rem solid lightgray;
 }
 
-.month {
-  font-size: 25px;
+.calendar .dow,
+.week .dow {
+  background-color: #d6e2f3;
+  text-align: center;
 }
 
-.date {
-  font-size: 16px;
+.calendar *::-moz-selection,
+.week *::-moz-selection {
+  background: transparent;
 }
 
-ul {
-  height: 100%;
-  padding: 0.2rem;
+.calendar *::-moz-selection, .week *::-moz-selection {
+  background: transparent;
 }
 
-s .time {
-  font-size: 0.6rem;
+.calendar *::selection,
+.week *::selection {
+  background: transparent;
+}
+
+.calendar *::-moz-selection,
+.week *::-moz-selection {
+  background: transparent;
 }
 
 a {
   color: #245b6f245b6f;
 }
 
-table,
-td {
-  border: 0.2rem solid lightgrey;
+.week *::-moz-selection {
+  background: transparent;
+}
+.week tr,
+.week td {
+  border: 0.01rem solid transparent;
+  border-left: 0.01rem solid transparent;
+  border-right: 0.01rem solid transparent;
+  padding: 0.2rem;
 }
 
-td {
-  max-width: 5rem;
+.calendar {
+  display: none;
+}
+
+table {
+  border: 0.1rem solid #0b181e;
+  border-radius: 0.6rem;
+  background-color: #d6e2f3;
+}
+
+.calendar .week_full {
+  background-color: white;
+}
+.calendar tr,
+.calendar td {
+  border: 0.01rem solid transparent;
+  border-left: 0.01rem solid #b2b1cf;
+  border-right: 0.01rem solid #b2b1cf;
+  padding: 0.2rem;
+}
+.calendar th {
+  padding: 10px;
+  text-align: center;
+  font-size: 18px;
+}
+.calendar td {
+  width: 200px;
+  height: 150px;
+  padding: 20px 0px 0px 5px;
+  border: 0.1rem solid #b2b1cf;
+}
+.calendar ul {
+  height: 100%;
+  padding: 0.2rem;
+  list-style-type: none;
+}
+
+.week td {
+  max-width: 4.2rem;
   min-width: 4rem;
 }
-
-.hour {
-  height: 1.2rem;
-}
-
-.hour:hover {
+.week .hour:hover {
   cursor: row-resize;
 }
-
-.event_start {
+.week .event_start {
   text-align: center;
-  background-color: #d7e7f1;
+  background-color: #98d2eb;
   border-radius: 0.4rem 0.4rem 0 0;
+  border-left: 0.1rem solid #0b181e;
+  border-right: 0.1rem solid #0b181e;
+  border-top: 0.1rem solid #0b181e;
 }
-.event_start a {
+.week .event_start a {
+  color: #0b181e;
   text-decoration: none;
 }
-
-.event_mid {
+.week .event_mid {
   text-align: center;
-  background-color: #d7e7f1;
+  background-color: #98d2eb;
+  border-left: 0.1rem solid #0b181e;
+  border-right: 0.1rem solid #0b181e;
 }
-
-.event_end {
+.week .event_end {
   text-align: center;
-  background-color: #d7e7f1;
+  background-color: #98d2eb;
   border-radius: 0 0 0.4rem 0.4rem;
+  border-left: 0.1rem solid #0b181e;
+  border-right: 0.1rem solid #0b181e;
+  border-bottom: 0.1rem solid #0b181e;
 }
-
-.calendar,
-.week {
-  max-width: 80rem;
-  margin-top: 4rem;
+.week .month {
+  background-color: #d6e2f3;
+  padding: 1rem;
 }
-.calendar .dow,
-.week .dow {
-  background-color: lightgrey;
-  text-align: center;
-}
-
-.odd {
-  background-color: #ededed;
-}
-
-.arrow {
+.week .arrow {
   text-decoration: none;
-  color: black;
+  color: 2.4rem;
 }
-
-.arrow:hover {
-  color: #a7e245;
+.week .arrow:hover {
+  color: #17a2b8;
 }
-
-.side_by_side {
-  display: flex;
+.week .hour {
+  border-left: 0.01rem solid #d6e2f3;
+  border-right: 0.01rem solid #d6e2f3;
+  border-radius: none;
 }
-
-.time {
+.week .odd {
+  background-color: #e1f2fe;
+}
+.week .even {
+  background-color: white;
+}
+.week .time {
   text-align: center;
-  background-color: lightgrey;
-  width: 4rem;
+  background-color: #d6e2f3;
+  width: 5rem;
 }
 
-table * *::-moz-selection {
-  background: transparent;
+.sidebar * {
+  white-space: nowrap;
 }
 
-table * *::selection {
-  background: transparent;
+.sidebar {
+  position: absolute;
+  display: flex;
+  width: 10rem;
+  right: 0;
+  top: 3rem;
+  background-color: #d6e2f3;
+  padding: 1rem;
+  border-bottom: 0.1rem solid #0b181e;
+  border-left: 0.1rem solid #0b181e;
+  border-top: 0.1rem solid #0b181e;
+  border-radius: 0.6rem 0 0 0.6rem;
+  transition: width 0.5s ease-in-out;
+  line-height: -1;
+  overflow: hidden;
+  z-index: 100000000;
+}
+.sidebar a {
+  margin: 0 2rem;
+  color: #0b181e;
+  text-decoration: none;
 }
 table * *::-moz-selection {
   background: transparent;
@@ -204,3 +321,11 @@ table * *::-moz-selection {
   margin-bottom: 30px;
   text-align: center;
 }
+.sidebar a:hover {
+  color: #98d2eb;
+}
+
+#menu_button {
+  opacity: 100%;
+  transition: opacity 0.5s;
+}/*# sourceMappingURL=style.css.map */

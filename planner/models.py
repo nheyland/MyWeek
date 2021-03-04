@@ -21,7 +21,7 @@ class EventManager(models.Manager):
             errors['title'] = "Title must be longer than three characters."
         if len(postData['desc']) < 5:
             errors['description'] = "Description must be longer than five characters"
-        if postData['start_time'] > postData['end_time']:
+        if timereformat(postData['start_time']) > timereformat(postData['end_time']):
             errors['invalid'] = "You can't end an event before it started"
         for event in user.created_event.all():
             print(event.start_time)
@@ -30,7 +30,7 @@ class EventManager(models.Manager):
                 errors['conflict'] = f"You have a sceduling conflict with {event.title}"
             if event.start_time <= timereformat(postData['end_time']) <= event.end_time:
                 errors['conflict'] = f"You have a sceduling conflict with {event.title}"
-
+        
         return errors
 
 
@@ -44,9 +44,7 @@ class Event(models.Model):
     address = models.CharField(max_length=255, null=True)
     public = models.BooleanField(default=False)
 
-    # This MtoM field allows events to have multiple invitees, while allowing users to be invited to
-    # multiple events!
     invitees = models.ManyToManyField(User,
-                                      related_name='invited_to')
+        related_name='invited_to') # Indentation change. /ew
 
     objects = EventManager()
