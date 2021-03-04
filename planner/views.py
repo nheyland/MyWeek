@@ -16,7 +16,8 @@ def planner(request, id=0):
     context = {
         'events': Event.objects.all(),
         'week': cal.whole_week(),
-        'cal': cal.whole_month()
+        'cal': cal.whole_month(),
+        'user': User.objects.get(id=request.session['user_id'])
     }
 
     if 'errors' in request.session.keys():
@@ -56,9 +57,9 @@ def details(request, id):
     }
     if context['event'].address:
         context['geo'] = Tools.geocode(Event.objects.get(id=id).address)
-        context['weather'] = Tools.weather(context['geo'][1],context['geo'][0], Event.objects.get(id=id).start_time)
+        context['weather'] = Tools.weather(
+            context['geo'][1], context['geo'][0], Event.objects.get(id=id).start_time)
     return render(request, 'details.html', context)
-
 
 
 def delete_event(request, id):
@@ -71,7 +72,8 @@ def delete_event(request, id):
                 Notify(invitee, event_to_delete)
         else:
             event_to_delete.delete()
-        messages.success(request, "The event was deleted. If so requested, all the invitees have been notified.")
+        messages.success(
+            request, "The event was deleted. If so requested, all the invitees have been notified.")
         return redirect("/planner/"+str(user))
     else:
         messages.error(request, "Sorry, your request is invalid.")
