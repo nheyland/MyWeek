@@ -1,0 +1,5 @@
+{% for result in search_results %}
+    <p><a href="{% url 'viewProfile' result.id %}">{{ result.first_name }} {{ result.last_name }} | {{ result.email }}</a></p>
+{% empty %}
+    <p>Sorry, couldn't find anyone with those search parameters.</p>
+{% endfor %}

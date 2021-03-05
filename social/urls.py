@@ -8,4 +8,5 @@ urlpatterns = [
     path('editProfile/<int:userID>/', SocialViews.editProfile, name = 'editProfile'),
     path('inviteFriend/', SocialViews.inviteFriend, name = 'inviteFriend'),
     path('inviteToEvent/', SocialViews.addFriendToEvent, name = 'inviteToEvent'),
+    path('friendSearch/', SocialViews.FriendSearch.as_view(), name = 'friendSearch')
 ]

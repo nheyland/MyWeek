@@ -9,6 +9,7 @@
     <script src='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.js'></script>
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css' rel='stylesheet' />
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <title>Document</title>
 
 </head>
@@ -104,6 +105,21 @@
         <input type="submit" value="Add Friend!">
     </form>
     {% endif %}
+    <h2>Search For Friends</h2>
+    <h4>Check and see if your friend is on MyWeek by searching the database!</h4>
+    <form id="friendSearch" action="{% url 'friendSearch' %}" method="GET">
+        <label for="byName">Search By Name</label>
+        <input type="text" name="firstName" id="byName" placeholder="First Name">
+        <input type="text" name="lastName" id="byName" placeholder="Last Name">
+        <label for="byEmail">Search By Email Address</label>
+        <input type="text" name="emailAddress" id="byEmail">
+        <input type="reset" value="Reset Form">
+        <input type="submit" value="Search">
+    </form>
+    <div id="friendZone">
+
+    </div>
+    <hr>
     <h3>Is your friend not a member of MyWeek?</h3>
     <p>
         No big deal! Send him an invite to join! Don't worry, we won't keep the email address or send spam!
@@ -118,6 +134,22 @@
         <input type="submit" value="Invite A Buddy!">
     </form>
     {% endif %}
+
+    <!-- ADD THE FRIEND SEARCH RESULTS INTO THE PAGE W/O REFRESHING PAGE. -->
+    <script>
+        $('#friendSearch').submit(function (e) {
+            e.preventDefault()
+            $.ajax({
+                url: '{% url "friendSearch" %}',
+                method: 'get',
+                data: $(this).serialize(),
+                success: function(serverResponse) {
+                    $( '#friendZone' ).html(serverResponse);
+                    $( '#friendSearch' ).trigger("reset");
+                }
+            })
+        })
+    </script>
 </body>
 
 </html>
