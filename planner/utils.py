@@ -181,10 +181,12 @@ class Tools:
         return d-timedelta(hours=tz[svg][zone])
 
     def geocode(x):
-        y = r.get('https://api.mapbox.com/geocoding/v5/mapbox.places/' + x +
-                  '.json?access_token=pk.eyJ1IjoibmhleWxhbmQiLCJhIjoiY2toZHI4ZWNqMDgwaTMwczFuNnpvcGFuMiJ9.4LH3G0a18_HQY8t55W83lg').json()
-
-        return y['features'][0]['center']
+        try:
+            y = r.get('https://api.mapbox.com/geocoding/v5/mapbox.places/' + x +
+                      '.json?access_token=pk.eyJ1IjoibmhleWxhbmQiLCJhIjoiY2toZHI4ZWNqMDgwaTMwczFuNnpvcGFuMiJ9.4LH3G0a18_HQY8t55W83lg').json()
+            return y['features'][0]['center']
+        except:
+            return None
 
     def weather(latitude, longitude, time):
 
