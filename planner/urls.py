@@ -9,6 +9,5 @@ urlpatterns = [
     path('edit/<int:id>', views.edit_event),
     path('delete/<int:id>', views.delete_event, name='deleteEvent'),
     path('process_edit', views.process_edit),
-    path('load_geo_all/', views.load_geo_all),
-
+    # path('load_geo_all/', views.load_geo_all),
 ]

@@ -66,7 +66,6 @@ def delete_event(request, id):
     if request.method == 'POST':
         event_to_delete = Event.objects.get(id=id)
         user = event_to_delete.created_by.id
-        # Function to email, text all users listed as invitees. Only runs if checkbox is active.
         if request.POST['notify'] == 'YES':
             for invitee in event_to_delete.invitees.all():
                 Notify(invitee, event_to_delete)
@@ -82,9 +81,6 @@ def delete_event(request, id):
 
 def edit_event(request, id):
     event = Event.objects.get(id=id)
-    # Naive time format is a pain, but I can alter this soon
-    # start_time = Event.objects.timereformat(event.start_time)
-    # end_time = Event.objects.timereformat(event.end_time)
     context = {
         'event': Event.objects.get(id=id),
         'edit': True,
