@@ -1,0 +1,12 @@
+{% for result in search_results %}
+    <p>
+        <a href="{% url 'viewProfile' result.id %}">{{ result.first_name }} {{ result.last_name }} | {{ result.email }}</a> 
+        <form action="{% url 'addFriend' %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="friendID" value="{{ result.id }}">
+            <input type="submit" value="Add {{ result.first_name }} as a friend!">
+        </form>
+    </p>
+{% empty %}
+    <p>Sorry, couldn't find anyone with those search parameters.</p>
+{% endfor %}
