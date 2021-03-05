@@ -1,12 +1,14 @@
 import os
 from dotenv import load_dotenv
 load_dotenv()
-from django.shortcuts import render, redirect, HttpResponseRedirect
+from django.shortcuts import render, redirect
 from login.models import User
 from planner.models import Event
 from django.core.mail import send_mail
 from django.contrib import messages
 from twilio.rest import Client
+from django.views.generic.list import ListView
+from django.db.models import Q
 
 
 # VIEW USER PROFILE
@@ -116,3 +118,18 @@ def confirmDeletionAndNotify(request, eventID):
         'invitees': invitees,
     }
     return render(request, 'social/confirm_delete.html', context)
+
+# FRIEND SEARCH.
+class FriendSearch(ListView):
+    model = User
+    template_name = 'social/friendsearch_return.html'
+    context_object_name = 'search_results'
+
+    def get_queryset(self):
+        result = super(FriendSearch, self).get_queryset()
+        queryFirst = self.request.GET.get('firstName')
+        queryLast = self.request.GET.get('lastName')
+        queryEmail = self.request.GET.get('emailAddress')
+        object_list = User.objects.filter(Q(first_name__icontains = queryFirst) & Q(last_name__icontains = queryLast) & Q(email__icontains = queryEmail))
+        result = object_list
+        return result
