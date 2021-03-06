@@ -101,16 +101,19 @@ function take_out_single(x) {
 var preset = [now.getFullYear() + '-' + take_out_single(Number(now.getMonth() + 1)) + '-' + take_out_single(now.getDate()), Number(now.getHours())]
 function reset() {
     const reset = document.getElementsByClassName('hour')
-    for (var i = 0; i < reset.length; i++) {
-        reset[i].style.backgroundColor = "";
-        reset[i].style.border = "";
-        if (Date.parse(reset[i].id.split(' ')[0]) < (Date.parse(now) - 24000000)) {
-            document.getElementById(reset[i].id).style.backgroundColor = '#7788993d'
-        }
-        if (reset[i].id.split(' ')[0] == preset[0]) {
-            if (Number(reset[i].id.split(' ')[1]) < Number(preset[1])) {
-                document.getElementById(reset[i].id).style.backgroundColor = '#7788993d'
+    for (var i = 25; i < reset.length; i++) {
+        if (i != '') {
+            reset[i].style.backgroundColor = "";
+            reset[i].style.border = "";
 
+            if (new Date(reset[i].id.split(' ')[0]) < new Date(preset[0])) {
+                document.getElementById(reset[i].id).style.backgroundColor = '#7788993d';
+            }
+            if (reset[i].id.split(' ')[0] == preset[0]) {
+                if (Number(reset[i].id.split(' ')[1]) < Number(preset[1])) {
+                    document.getElementById(reset[i].id).style.backgroundColor = '#7788993d'
+
+                }
             }
         }
     }
