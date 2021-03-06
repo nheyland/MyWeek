@@ -1,5 +1,6 @@
 window.onload = function () {
     reset()
+    show()
 }
 
 function sidebar_open(open) {
@@ -41,19 +42,20 @@ function form_pop_up(open) {
     }
 }
 
-
-
 function show() {
     var x = document.getElementById('calendar')
     var y = document.getElementById('show_cal')
     if (x.style.opacity == "0") {
-        console.log('here')
         x.style.opacity = "100%";
+        x.style.display = 'block';
         y.style.backgroundColor = 'pink';
+
         y.innerHTML = '<i class="fas fa-times"></i>';
     } else {
         y.style.backgroundColor = 'lightslategrey';
         x.style.opacity = "0";
+        x.style.display = 'block';
+
         y.innerHTML = '<i class="fas fa-calendar-alt">';
 
     }
