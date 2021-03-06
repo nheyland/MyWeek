@@ -3,7 +3,7 @@ var map = new mapboxgl.Map({
     container: 'map',
     center: [-98, 39],
     zoom: 2,
-    style: 'mapbox://styles/mapbox/streets-v11'
+    style: 'mapbox://styles/nheyland/cklx3z8vw5yt717lk0rui6ntl'
 });
 map.on('load', function () {
     map.addSource('event', {
@@ -12,8 +12,8 @@ map.on('load', function () {
             'type': 'FeatureCollection',
             'features': {{ geo | safe}}
 
-        }
-    });
+         }
+     });
 
 
 map.addLayer({
@@ -26,7 +26,7 @@ map.addLayer({
     },
     'filter': ['==', '$type', 'Point']
 });
-});
+ });
 
 map.on('click', 'event', function (e) {
     map.flyTo({
