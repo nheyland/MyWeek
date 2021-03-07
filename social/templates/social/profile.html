@@ -1,38 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
+{% load static%}
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/social_style.css' %}" />
     <title>{{ viewUser.first_name }}'s Profile</title>
 </head>
 <body>
-    <h1>{{ viewUser.first_name }}'s Profile</h1>
-    <h2>{{ viewUser.email }}</h2>
-    {% if viewUser.id == currentUser.id %}
-    <h2>{{ viewUser.phone }}</h2>
-    <a href="{% url 'editProfile' viewUser.id %}">Edit Profile</a>
-    {% endif %}
+    <div class="container">
+        <h1>{{ viewUser.first_name }}'s Profile</h1>
+        <div class="profile">
+            <h2>Email Address: {{ viewUser.email }}</h2>
+            {% if viewUser.id == currentUser.id %}
+            <h2>{{ viewUser.phone }}</h2>
+            <a href="{% url 'editProfile' viewUser.id %}" role="button" class="button">Edit Profile</a>
+            {% endif %}
 
-    <h2>Events Attending!</h2>
-    {% for event in viewUser.created_event.all %}
-        {% if event.public == True %}
-        <a href="{% url 'eventDetail' event.id %}">{{ event.title }}</a>
-        {% endif %}
-    {% endfor %}
+            <h2>Events Attending!</h2>
+            {% for event in viewUser.created_event.all %}
+                {% if event.public == True %}
+                <a href="{% url 'eventDetail' event.id %}">{{ event.title }}</a>
+                {% endif %}
+            {% endfor %}
 
-    <h2>List of friends!</h2>
-    {% if currentUser.id != viewUser.id %}
-    <form action="{% url 'addFriend' %}" method="POST">
-        {% csrf_token %}
-        <input type="hidden" name="friendID" value="{{ viewUser.id }}">
-        <input type="submit" value="Add {{ viewUser.first_name }} as a friend!">
-    </form>
-    {% endif %}
-    <ul>
-        {% for friend in viewUser.friends.all %}
-            <li>{{ friend.first_name }} {{ friend.last_name }}</li>
-        {% endfor %}
-    </ul>
+            <h2>List of friends!</h2>
+            {% if currentUser.id != viewUser.id %}
+            <form action="{% url 'addFriend' %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="friendID" value="{{ viewUser.id }}">
+                <input type="submit" value="Add {{ viewUser.first_name }} as a friend!">
+            </form>
+            {% endif %}
+            <ul>
+                {% for friend in viewUser.friends.all %}
+                    <li>{{ friend.first_name }} {{ friend.last_name }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
 </body>
 </html>
