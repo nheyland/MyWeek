@@ -12,6 +12,18 @@ html {
   padding: 30px;
 }
 
+.section-title {
+	font-size: 32px;
+	letter-spacing: 1px;
+	color: #fff;
+  text-align: center;
+}
+
+.planner{
+  margin-top: 25px;
+  margin-left: 15%;
+}
+
 .calendar,
 .week {
   width: 98%;
@@ -223,13 +235,16 @@ html {
 #form_pop_up select,
 #form_pop_up input {
   font-size: 1.2rem;
+  border-radius: 5px;
 }
 #form_pop_up textarea,
 #form_pop_up input,
 #form_pop_up input[type=datetime-local] {
+  border: none;
   font-size: 0.8rem;
   margin-bottom: 1rem;
   border-radius: 5px;
+  padding: 10px;
 }
 #form_pop_up i {
   margin-bottom: 1rem;
@@ -239,6 +254,14 @@ html {
 #form_pop_up a {
   text-align: center;
   font-size: 2.4rem;
+}
+#form_pop_up button{
+  padding: 20px;
+  border: none;
+  background-color: #a7e245;
+  border-radius: 10px;
+  text-align: center;
+  color: white;
 }
 #form_pop_up select,
 #form_pop_up a,

@@ -12,19 +12,100 @@
 }
 .profile{
     width: 50%;
+    color: lightslategray;
     margin: 20px 0% 20px 24%;
     text-align: center;
     border-radius: 20px;
-    padding: 20px;
-    background-color: turquoise;
+    padding: 30px;
+    animation: fade-in-box 1s ease 1s forwards;
+    background-color: #afbdc5;
+}
+#phonehelp{
+    font-style: italic;
+}
+.left{
+    display: inline-block;
+}
+.right{
+    display: inline-block;
+}
+.input{
+    margin-left: 15px;
+    padding: 5px;
+    border-radius: 5px;
+    border: none;
+    margin-bottom: 10px;
+}
+h4{
+    margin-bottom: 20px;
 }
 a{
+    margin-top: 10px;
     text-decoration: none;
+    color: rgb(127, 255, 255);
+    
+}
+a:hover{
+    color: #a7e245;
+    
 }
 .button{
-    margin: 10px;
-    padding: 15px;
+    background-color: #a7e245;
     border-radius: 10px;
-    background: lightslategray;
-    color: turquoise;
+    border: none;
+    color: white;
+    padding: 15px 24px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 20px;
+    display: inline-block;
+    margin: 30px;
+    cursor: pointer;
+}
+ul{
+    list-style: none;
+    color: #fff;
+}
+
+.events{
+    text-align: center;
+    width: 30%;
+    padding: 20px;
+    margin-right: 30px;
+    border-radius: 20px;
+    display: inline-block;
+    /* margin-top: 30px; */
+    height: 200px;
+    background-color: #afbdc5;
+}
+.friends{
+    text-align: center;
+    width: 30%;
+    padding: 20px;
+    border-radius: 20px;
+    display: inline-block;
+    /* margin-top: 30px; */
+    margin-bottom: 20px;
+    height: 200px;
+    background-color: #afbdc5;
+}
+.add-button{
+    padding: 5px;
+    border: none;
+    border-radius: 5px;
+    background-color: #cddbef;
+    color: white;
+    margin: 10px;
+}
+
+@keyframes fade-in-box {
+    from {
+        background: #3b4465;
+        border: 0px;
+    }
+
+    to {
+        background: #d7e7f1;
+        border: 1px solid white;
+    }
 }
