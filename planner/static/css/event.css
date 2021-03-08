@@ -132,6 +132,12 @@ li.success{
     color: #a7e245;
     margin-bottom: 10px;
 }
+#form-pop-up,
+ul.messages,
+li.error{
+    color: red;
+    margin-bottom: 10px;
+}
 .event-button {
     display: block;
     margin-left: 36%;
