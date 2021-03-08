@@ -146,6 +146,9 @@
     <div class="social">
       <div class="invite-friend">
         <h2>Invite A Friend!</h2>
+        {% if obligation %}
+          <p>{{obligation}}</p>
+        {% endif %}
         {% if event.created_by.friends.all %}
         <form action="{% url 'inviteToEvent' %}" method="POST">
           {% csrf_token %}
@@ -225,3 +228,4 @@
     </div>
   </body>
 </html>
+

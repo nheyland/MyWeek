@@ -21,6 +21,8 @@ class Calendar(HTMLCalendar):
         self.time_end = time_end
         self.events = Event.objects.filter(
             created_by=User.objects.get(id=request.session['user_id']), start_time__year=self.year)
+        self.attending = User.objects.get(
+            id=request.session['user_id']).invited_to.all()
 
     def dow_date_format(self, year, month, day):
         week_header_dates = ''
@@ -63,7 +65,8 @@ class Calendar(HTMLCalendar):
         return 'yes'
 
     def formatday(self, day, events):
-        events_per_day = events.filter(start_time__day=day)
+        events_per_day = events.filter(
+            start_time__day=day, start_time__month=self.month)
         d = ''
         for event in events_per_day:
             d += f"<li class='calendar_event'> <a href='/details/{event.id}''>{event.title}</a><p class='time'>{event.start_time.time } </p> </li >"
@@ -77,7 +80,7 @@ class Calendar(HTMLCalendar):
             week += self.formatday(d, events)
         return f'<tr> {week} </tr>'
 
-    def formathour(self, week, events, year, month, time_start, time_end):
+    def formathour(self, week, events, attend, year, month, time_start, time_end):
         big_row = ''
 
         def row(x):
@@ -88,21 +91,33 @@ class Calendar(HTMLCalendar):
                     if self.date == j:
                         date_arr = i
 
-            j = events.last()
-
             for i in date_arr:
                 hold = 0
-                for j in events.all():
+                for j in events:
                     if j.start_time.hour == x and j.start_time.day == i.day and j.start_time.month == i.month:
                         row += f"<td class='event event_start'><a href='/details/{j.id}'>{j.title}</a></td>"
                         hold += 1
-                for j in events.all():
+                for j in attend:
+                    if j.start_time.hour == x and j.start_time.day == i.day and j.start_time.month == i.month:
+                        print('yes')
+                        row += f"<td class='event attend_start'><a href='/details/{j.id}'>{j.title}</a></td>"
+                        hold += 1
+
+                for j in events:
                     if j.start_time.hour < x and j.end_time.hour > x and j.start_time.day == i.day and j.start_time.month == i.month:
                         row += f"<td class='event event_mid'></td>"
                         hold += 1
-                for j in events.all():
+                for j in attend:
+                    if j.start_time.hour < x and j.end_time.hour > x and j.start_time.day == i.day and j.start_time.month == i.month:
+                        row += f"<td class='event attend_mid'></td>"
+                        hold += 1
+                for j in events:
                     if j.end_time.hour == x and j.end_time.day == i.day and j.start_time.month == i.month:
                         row += f"<td class='event event_end'></td>"
+                        hold += 1
+                for j in attend:
+                    if j.end_time.hour == x and j.end_time.day == i.day and j.start_time.month == i.month:
+                        row += f"<td class='event attend_end'></td>"
                         hold += 1
                 if hold == 0:
 
@@ -138,6 +153,14 @@ class Calendar(HTMLCalendar):
     def whole_week(self):
         self.setfirstweekday(6)
         events = self.events
+        attend = self.attending
+        for i in attend:
+            print(i.title)
+
+        print('And')
+        for i in events:
+            print(i.title)
+
         cal = f'<table border="0" cellpadding="0" cellspacing="0" id="week" class="week">\n'
         cal += f'{self.day_picker(self.week)}\n'
         cal += f'<tr><th colspan="8" class="%s"> </th></tr>\n'
@@ -146,7 +169,7 @@ class Calendar(HTMLCalendar):
             for i in week:
                 if i[0] == self.day:
                     cal += f"<td class='dow'>Time</td>{self.dow_date_format(self.year, self.month, self.day)}\n"
-                    cal += f'{self.formathour(week, events, self.year, self.month, self.time_start, self.time_end)}\n'
+                    cal += f'{self.formathour(week, events, attend, self.year, self.month, self.time_start, self.time_end)}\n'
         return cal
 
 
@@ -177,7 +200,6 @@ class Tools:
         svg = 'dls' if time.localtime().tm_isdst < 0 else 'std'
         zone = User.objects.get(id=request.session['user_id']).tz if hasattr(
             User.objects.get(id=request.session['user_id']), 'tz') else 'est'
-
         return d-timedelta(hours=tz[svg][zone])
 
     def geocode(x):
@@ -198,7 +220,7 @@ class Tools:
             f'http://api.openweathermap.org/data/2.5/onecall?lat={str(latitude)}&lon={str(longitude)}&dt={str(unix_time)}&appid={OPEN_WEATHER}&units=imperial')
 
         json_data = json.loads(response.text)
-        daily_data_full = json_data['daily'][0]  # returns day of weather
+        daily_data_full = json_data['daily'][0]
         new_day = datetime.utcfromtimestamp(
             int(daily_data_full['dt'])).strftime('%Y-%m-%d %H:%M:%S')
         new_day = datetime.fromisoformat(new_day)
