@@ -59,6 +59,9 @@ def details(request, id):
         context['geo'] = Tools.geocode(Event.objects.get(id=id).address)
         context['weather'] = Tools.weather(
             context['geo'][1], context['geo'][0], Event.objects.get(id=id).start_time)
+    if 'obligation' in request.session.keys():
+        context['obligation'] = request.session['obligation']
+        del request.session['obligation']
     return render(request, 'details.html', context)
 
 
