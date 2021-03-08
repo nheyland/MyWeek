@@ -22,6 +22,7 @@
 
 <body>
     <section class="container">
+        <h1 class="section-title">Social Calendar</h1>
         <div id="menu_button" class="menu_button" onclick="javascript:sidebar_open(true);">
             <a class="" href="javascript:sidebar_open(true);"><i class="fas fa-compass"></i></a>
         </div>
@@ -46,7 +47,7 @@
                         <option value="True">Public</option>
                         <option value="False">Private</option>
                     </select>
-                    <button> Add!</button>
+                    <button>Submit</button>
                     {% if messages %}
                     <ul class="messages">
                         {% for message in messages %}

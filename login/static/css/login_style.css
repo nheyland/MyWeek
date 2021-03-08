@@ -10,7 +10,6 @@ body {
 	background: #3b4465;
 }
 
-
 .forms-section {
 	display: flex;
 	flex-direction: column;
@@ -76,7 +75,7 @@ body {
 }
 
 .form-wrapper.is-active .switcher-login {
-	color: rgb(148, 148, 148);
+	color: #fff;
 	transform: translateX(90px);
 }
 

@@ -7,38 +7,46 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/social_style.css' %}" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
     <title>{{ viewUser.first_name }}'s Profile</title>
 </head>
 <body>
     <div class="container">
         <h1>{{ viewUser.first_name }}'s Profile</h1>
         <div class="profile">
-            <h2>Email Address: {{ viewUser.email }}</h2>
+            <i class="fas fa-address-card fa-2x" style="color: lightslategray; margin-bottom: 10px;"></i>
+            <h4>Email: {{ viewUser.email }}</h4>
             {% if viewUser.id == currentUser.id %}
-            <h2>{{ viewUser.phone }}</h2>
+            <h4>Phone #: {{ viewUser.phone }}</h4>
             <a href="{% url 'editProfile' viewUser.id %}" role="button" class="button">Edit Profile</a>
             {% endif %}
-
-            <h2>Events Attending!</h2>
-            {% for event in viewUser.created_event.all %}
-                {% if event.public == True %}
-                <a href="{% url 'eventDetail' event.id %}">{{ event.title }}</a>
-                {% endif %}
-            {% endfor %}
-
-            <h2>List of friends!</h2>
-            {% if currentUser.id != viewUser.id %}
-            <form action="{% url 'addFriend' %}" method="POST">
-                {% csrf_token %}
-                <input type="hidden" name="friendID" value="{{ viewUser.id }}">
-                <input type="submit" value="Add {{ viewUser.first_name }} as a friend!">
-            </form>
-            {% endif %}
-            <ul>
-                {% for friend in viewUser.friends.all %}
-                    <li>{{ friend.first_name }} {{ friend.last_name }}</li>
-                {% endfor %}
-            </ul>
+            <div class="links">
+                <div class="events">
+                    <h2 style="text-decoration: underline;">Events Attending</h2>
+                    {% for event in viewUser.created_event.all %}
+                        {% if event.public == True %}
+                        <ul>
+                            <li><a href="{% url 'eventDetail' event.id %}">{{ event.title }}</a></li>
+                        </ul>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="friends">
+                    <h2 style="text-decoration: underline;">List of friends</h2>
+                    {% if currentUser.id != viewUser.id %}
+                    <form action="{% url 'addFriend' %}" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="friendID" value="{{ viewUser.id }}">
+                        <input type="submit" value="Add {{ viewUser.first_name }} as a friend!" class="add-button">
+                    </form>
+                    {% endif %}
+                    <ul>
+                        {% for friend in viewUser.friends.all %}
+                            <li>{{ friend.first_name }} {{ friend.last_name }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
 </body>
