@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'login',
     'planner',
     'social',
+    'explore',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
