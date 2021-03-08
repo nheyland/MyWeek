@@ -12,3 +12,63 @@ html {
   padding: 30px;
 }
 
+.menu_button {
+  position: absolute;
+  right: 0;
+  z-index: 100000000;
+  top: 1rem;
+  position: absolute;
+  width: 5rem;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  right: 0rem;
+  border-radius: 0.6rem 0 0 0.6rem;
+  transition: width 0.5s ease-in-out;
+  overflow: hidden;
+  z-index: 100000000;
+  font-size: 1.8rem;
+  background-color: #cddbef;
+  box-shadow: inset 0px 0px 0px 5px #fff;
+}
+.menu_button i {
+  color: white;
+}
+.menu_button a {
+  margin: 1rem 0;
+  color: #0b181e;
+  text-decoration: none;
+}
+.menu_button a:hover {
+  color: #5ccfe0;
+}
+
+.sidebar {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  width: 0;
+  overflow: hidden;
+  right: 0rem;
+  padding: 1rem 0;
+  top: 1rem;
+  background-color: #cddbef;
+  border-radius: 0.6rem 0 0 0.6rem;
+  transition: 0.5s;
+  z-index: 1000000;
+  box-shadow: inset 0px 0px 0px 5px #fff;
+}
+.sidebar * {
+  white-space: nowrap;
+}
+.sidebar a {
+  margin: 1rem 2rem;
+  color: white;
+  text-decoration: none;
+}
+.sidebar i {
+  color: white;
+}
+.sidebar a:hover {
+  color: #5ccfe0;
+}

@@ -1,25 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    {% load static%}
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
-    <script src="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.js"></script>
-    <link
-      href="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="{% static 'css/event.css' %}" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <title>Document</title>
-  </head>
 
-  <body>
-    <h1 class="section-title">Event Details</h1>
-    <div class="details">
-      <div id="form_pop_up">
+<head>
+  {% load static%}
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script defer type="text/javascript" src="{% static 'js/sidebar.js' %}"></script>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
+  <script src="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.js"></script>
+  <link href="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css" rel="stylesheet" />
+  <script defer type="text/javascript" src="{% static 'js/sidebar.js' %}"></script>
+  <link rel="stylesheet" href="{% static 'css/event.css' %}" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <title>Details</title>
+</head>
+
+<body>
+  <div id="menu_button" class="menu_button" onclick="javascript:sidebar_open(true);">
+    <a class="" href="javascript:sidebar_open(true);"><i class="fas fa-compass"></i></a>
+  </div>
+  <div id='sidebar' class="sidebar">
+    <a href="/planner/0"><i class="fas fa-calendar-alt"></i> My Schedule</a>
+    <a href="/u/profile/{{user.id}}/"><i class="fas fa-user"></i> My Profile</a>
+    <a href="/explore/"><i class="fas fa-globe-americas"></i> Explore</a>
+    <a href="/kill/"><i class="fas fa-door-open"></i> Logout</a>
+  </div>
+  <h1 class="section-title">Event Details</h1>
+  <div class="details">
+    <div id="form_pop_up">
       {% if messages %}
       <ul class="messages">
         {% for message in messages %}
@@ -29,203 +38,164 @@
         {% endfor %}
       </ul>
       {% endif %} {%if edit%}
-        <h2 class="edit_header">Edit Event</h2>
-        <form action="/process_edit" method="POST">
-          {% csrf_token %}
-          <input
-            type="text"
-            placeholder="Title"
-            name="title"
-            value="{{event.title}}"
-          />
-          <input
-            type="text"
-            placeholder="Description"
-            name="desc"
-            value="{{event.desc}}"
-          />
-          <input
-            type="datetime-local"
-            id="start"
-            placeholder="YYYY-MM-DD HH:MM"
-            name="start_time"
-            value="{{start}}"
-          />
-          <input
-            type="datetime-local"
-            id="end"
-            placeholder="YYYY-MM-DD HH:MM"
-            name="end_time"
-            value="{{end}}"
-          />
-          <input
-            type="text"
-            placeholder="Address"
-            name="address"
-            value="{{event.address}}"
-          />
-          <input type="hidden" name="id" value="{{event.id}}" />
-          <select name="public">
-            <option value="True">Public</option>
-            <option value="Fasle">Private</option>
-          </select>
-          <button type="submit" class="event-button">Submit</button>
-        </form>
-      </div>
-      <div>
-        {%else%}
-        <h3>{{event.date}}</h3>
-        <h2>{{event.title}}</h2>
-        <h4>{{event.desc}}</h4>
-        <h4><i class="fas fa-calendar-alt" style="color: white;"></i> {{event.start_time}}</h4>
-        <h4><i class="fas fa-calendar-alt" style="color: white;"></i> {{event.end_time}}</h4>
-        <h4><i class="fas fa-address-card" style="color: white;"></i> {{event.address}}</h4>
-      </div>
+      <h2 class="edit_header">Edit Event</h2>
+      <form action="/process_edit" method="POST">
+        {% csrf_token %}
+        <input type="text" placeholder="Title" name="title" value="{{event.title}}" />
+        <input type="text" placeholder="Description" name="desc" value="{{event.desc}}" />
+        <input type="datetime-local" id="start" placeholder="YYYY-MM-DD HH:MM" name="start_time" value="{{start}}" />
+        <input type="datetime-local" id="end" placeholder="YYYY-MM-DD HH:MM" name="end_time" value="{{end}}" />
+        <input type="text" placeholder="Address" name="address" value="{{event.address}}" />
+        <input type="hidden" name="id" value="{{event.id}}" />
+        <select name="public">
+          <option value="True">Public</option>
+          <option value="Fasle">Private</option>
+        </select>
+        <button type="submit" class="event-button">Submit</button>
+      </form>
+    </div>
+    <div>
+      {%else%}
+      <h3>{{event.date}}</h3>
+      <h2>{{event.title}}</h2>
+      <h4>{{event.desc}}</h4>
+      <h4><i class="fas fa-calendar-alt" style="color: white;"></i> {{event.start_time}}</h4>
+      <h4><i class="fas fa-calendar-alt" style="color: white;"></i> {{event.end_time}}</h4>
+      <h4><i class="fas fa-address-card" style="color: white;"></i> {{event.address}}</h4>
+    </div>
     <!-- </div>
     <div class="actions"> -->
-      <h5>
-        Created by:
-        <a href="{% url 'viewProfile' event.created_by.id %}"
-          >{{ event.created_by.first_name }} {{ event.created_by.last_name }}</a
-        >
-      </h5>
-      <div class="invite">
-        <h3 style="text-decoration: underline;">Invitees</h3>
-        {% if event.invitees.all %}
-        <ul>
-          {% for invitee in event.invitees.all %}
-          <li>
-            <a href="{% url 'viewProfile' invitee.id %}"
-              >{{ invitee.first_name }} {{ invitee.last_name }}</a
-            >
-          </li>
-          {% endfor %}
-        </ul>
-        {% endif %}
-      </div>
-
-      <!-- EVENT DELETION NEEDS TO GO THROUGH CONFIRMATION PROCESS! /ew -->
-      <div class="commands">
-        <h4><a href="{% url 'confirmDelete' event.id %}" class="delete">Delete Event</a>  |  <a href="/edit/{{event.id}}" class="edit">Edit Event</a></h4>
-        {%endif%}
-      </div>
-    </div>
-    <div class="map_weather">
-      <div class="map">
-      <div id="map" style="width: 400px; height: 300px;"></div>
-        <script>
-          mapboxgl.accessToken = 'pk.eyJ1IjoibmhleWxhbmQiLCJhIjoiY2toZHI4ZWNqMDgwaTMwczFuNnpvcGFuMiJ9.4LH3G0a18_HQY8t55W83lg';
-          var map = new mapboxgl.Map({
-              container: 'map',
-              center: {{ geo }},
-              zoom: 9,
-              style: 'mapbox://styles/nheyland/cklx3z8vw5yt717lk0rui6ntl'
-            });
-          map.on('load', function () {
-              var marker = new mapboxgl.Marker({
-                  color: "#FF0000",
-                  draggable: true
-              }).setLngLat({{ geo }})
-              .addTo(map);
-          });
-        </script>
-      </div>
-      <div class="weather">
-        <h2>Weather</h2>
-        <p>{{weather.dt}}</p>
-        <p>Day Temp: {{weather.day_temp}}</p>
-        <p>Night Temp: {{weather.night_temp}}</p>
-        <p>{{weather.main}}, {{weather.desc}}</p>
-        <img src="http://openweathermap.org/img/wn/{{weather.icon}}.png" />
-
-        <!-- YOU DON'T GET TO ADD A FRIEND TO THIS IF YOU'RE NOT THE PERSON WHO CREATED THE EVENT. -->
-        {% if event.created_by.id == request.session.user_id %}
-        <!-- PLACING SOCIAL PIECES OF THE PLANNER DOWN HERE FOR NOW. FRONT-END/LEAD CAN MOVE TO WHERE EVER. /ew -->
-      </div>
-    </div>
-    <div class="social">
-      <div class="invite-friend">
-        <h2>Invite A Friend!</h2>
-        {% if obligation %}
-          <p>{{obligation}}</p>
-        {% endif %}
-        {% if event.created_by.friends.all %}
-        <form action="{% url 'inviteToEvent' %}" method="POST">
-          {% csrf_token %}
-          <input
-            type="hidden"
-            name="eventURL"
-            value="{% url 'eventDetail' event.id %}"
-          />
-          <input type="hidden" name="eventID" value="{{ event.id }}" />
-          <select name="addFriend" id="addFriend" class="friend-input">
-            <option selected>PICK A FRIEND!</option>
-            {% for friend in event.created_by.friends.all %}
-            <option class="friend-input" value="{{ friend.id }}">{{ friend.first_name }}</option>
-            {% endfor %}
-          </select>
-          <input type="submit" class="friend-button" value="Add Friend!" />
-        </form>
-        {% endif %}
-      </div>
-      <div class="search-friends">
-        <h2>Search For Friends</h2>
-        <h4>
-          Check and see if your friend is on MyWeek by searching the database!
-        </h4>
-        <form id="friendSearch" action="{% url 'friendSearch' %}" method="GET">
-          <label for="byName">Search By Name</label>
-          <input type="text" name="firstName" id="byName" class="friend-input" placeholder="First Name" />
-          <input type="text" name="lastName" id="byName" class="friend-input" placeholder="Last Name" />
-          <br>
-          <label for="byEmail">Search By Email Address</label>
-          <input type="text" name="emailAddress" id="byEmail" class="friend-input"/>
-          <br>
-          <input type="reset" value="Reset Form" class="friend-button" />
-          <input type="submit" value="Search" class="friend-button" />
-        </form>
-        <div id="friendZone"></div>
-      </div>
-      <div class="friend-member">
-        <h3>Is your friend not a member of MyWeek?</h3>
-        <p>
-          No big deal! Send him an invite to join! Don't worry, we won't keep the
-          email address or send spam!
-        </p>
-        <form action="{% url 'inviteFriend' %}" method="POST">
-          {% csrf_token %}
-          <input
-            type="hidden"
-            name="eventURL"
-            value="{% url 'eventDetail' event.id %}"
-          />
-          <label for="invitee_name">Friend's Name:</label>
-          <input type="text" name="invitee_name" id="invitee_name" class="friend-input"/>
-          <br>
-          <label for="invitee_email">Friend's Email:</label>
-          <input type="email" name="invitee_email" id="invitee_email" class="friend-input" />
-          <br>
-          <input type="submit" value="Invite A Buddy!" class="friend-button"/>
-        </form>
-      </div>
+    <h5>
+      Created by:
+      <a href="{% url 'viewProfile' event.created_by.id %}">{{ event.created_by.first_name }} {{ event.created_by.last_name }}</a>
+    </h5>
+    <div class="invite">
+      <h3 style="text-decoration: underline;">Invitees</h3>
+      {% if event.invitees.all %}
+      <ul>
+        {% for invitee in event.invitees.all %}
+        <li>
+          <a href="{% url 'viewProfile' invitee.id %}">{{ invitee.first_name }} {{ invitee.last_name }}</a>
+        </li>
+        {% endfor %}
+      </ul>
       {% endif %}
+    </div>
 
-      <!-- ADD THE FRIEND SEARCH RESULTS INTO THE PAGE W/O REFRESHING PAGE. -->
+    <!-- EVENT DELETION NEEDS TO GO THROUGH CONFIRMATION PROCESS! /ew -->
+    <div class="commands">
+      <h4><a href="{% url 'confirmDelete' event.id %}" class="delete">Delete Event</a> | <a href="/edit/{{event.id}}" class="edit">Edit Event</a></h4>
+      {%endif%}
+    </div>
+  </div>
+  <div class="map_weather">
+    <div class="map">
+      <div id="map" style="width: 400px; height: 300px;"></div>
       <script>
-        $("#friendSearch").submit(function (e) {
-          e.preventDefault();
-          $.ajax({
-            url: '{% url "friendSearch" %}',
-            method: "get",
-            data: $(this).serialize(),
-            success: function (serverResponse) {
-              $("#friendZone").html(serverResponse);
-              $("#friendSearch").trigger("reset");
-            },
+        mapboxgl.accessToken = 'pk.eyJ1IjoibmhleWxhbmQiLCJhIjoiY2toZHI4ZWNqMDgwaTMwczFuNnpvcGFuMiJ9.4LH3G0a18_HQY8t55W83lg';
+        var map = new mapboxgl.Map({
+          container: 'map',
+          center: {{ geo }},
+        zoom: 9,
+          style: 'mapbox://styles/nheyland/cklx3z8vw5yt717lk0rui6ntl'
+            });
+        map.on('load', function () {
+          var marker = new mapboxgl.Marker({
+            color: "#FF0000",
+            draggable: true
+          }).setLngLat({{ geo }})
+          .addTo(map);
           });
-        });
       </script>
     </div>
-  </body>
-</html>
+    <div class="weather">
+      <h2>Weather</h2>
+      <p>{{weather.dt}}</p>
+      <p>Day Temp: {{weather.day_temp}}</p>
+      <p>Night Temp: {{weather.night_temp}}</p>
+      <p>{{weather.main}}, {{weather.desc}}</p>
+      <img src="http://openweathermap.org/img/wn/{{weather.icon}}.png" />
 
+      <!-- YOU DON'T GET TO ADD A FRIEND TO THIS IF YOU'RE NOT THE PERSON WHO CREATED THE EVENT. -->
+      {% if event.created_by.id == request.session.user_id %}
+      <!-- PLACING SOCIAL PIECES OF THE PLANNER DOWN HERE FOR NOW. FRONT-END/LEAD CAN MOVE TO WHERE EVER. /ew -->
+    </div>
+  </div>
+  <div class="social">
+    <div class="invite-friend">
+      <h2>Invite A Friend!</h2>
+      {% if obligation %}
+      <p>{{obligation}}</p>
+      {% endif %}
+      {% if event.created_by.friends.all %}
+      <form action="{% url 'inviteToEvent' %}" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="eventURL" value="{% url 'eventDetail' event.id %}" />
+        <input type="hidden" name="eventID" value="{{ event.id }}" />
+        <select name="addFriend" id="addFriend" class="friend-input">
+          <option selected>PICK A FRIEND!</option>
+          {% for friend in event.created_by.friends.all %}
+          <option class="friend-input" value="{{ friend.id }}">{{ friend.first_name }}</option>
+          {% endfor %}
+        </select>
+        <input type="submit" class="friend-button" value="Add Friend!" />
+      </form>
+      {% endif %}
+    </div>
+    <div class="search-friends">
+      <h2>Search For Friends</h2>
+      <h4>
+        Check and see if your friend is on MyWeek by searching the database!
+      </h4>
+      <form id="friendSearch" action="{% url 'friendSearch' %}" method="GET">
+        <label for="byName">Search By Name</label>
+        <input type="text" name="firstName" id="byName" class="friend-input" placeholder="First Name" />
+        <input type="text" name="lastName" id="byName" class="friend-input" placeholder="Last Name" />
+        <br>
+        <label for="byEmail">Search By Email Address</label>
+        <input type="text" name="emailAddress" id="byEmail" class="friend-input" />
+        <br>
+        <input type="reset" value="Reset Form" class="friend-button" />
+        <input type="submit" value="Search" class="friend-button" />
+      </form>
+      <div id="friendZone"></div>
+    </div>
+    <div class="friend-member">
+      <h3>Is your friend not a member of MyWeek?</h3>
+      <p>
+        No big deal! Send him an invite to join! Don't worry, we won't keep the
+        email address or send spam!
+      </p>
+      <form action="{% url 'inviteFriend' %}" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="eventURL" value="{% url 'eventDetail' event.id %}" />
+        <label for="invitee_name">Friend's Name:</label>
+        <input type="text" name="invitee_name" id="invitee_name" class="friend-input" />
+        <br>
+        <label for="invitee_email">Friend's Email:</label>
+        <input type="email" name="invitee_email" id="invitee_email" class="friend-input" />
+        <br>
+        <input type="submit" value="Invite A Buddy!" class="friend-button" />
+      </form>
+    </div>
+    {% endif %}
+
+    <!-- ADD THE FRIEND SEARCH RESULTS INTO THE PAGE W/O REFRESHING PAGE. -->
+    <script>
+      $("#friendSearch").submit(function (e) {
+        e.preventDefault();
+        $.ajax({
+          url: '{% url "friendSearch" %}',
+          method: "get",
+          data: $(this).serialize(),
+          success: function (serverResponse) {
+            $("#friendZone").html(serverResponse);
+            $("#friendSearch").trigger("reset");
+          },
+        });
+      });
+    </script>
+  </div>
+</body>
+
+</html>
