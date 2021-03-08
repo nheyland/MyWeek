@@ -8,6 +8,7 @@ $openH: 35rem;
 $openW: 15rem;
 $closedH: 3.5rem;
 $closedW: 3.5rem;
+$attend: #b471db;
 * {
   margin: 0;
   padding: 0;
@@ -127,9 +128,28 @@ html {
       text-decoration: none;
     }
   }
+  .attend_start {
+    text-align: center;
+    background-color: $attend;
+    border-radius: 0.4rem 0.4rem 0 0;
+    border-left: 0.1rem solid $text;
+    border-right: 0.1rem solid $text;
+    border-top: 0.1rem solid $text;
+
+    a {
+      color: $text;
+      text-decoration: none;
+    }
+  }
   .event_mid {
     text-align: center;
     background-color: $event;
+    border-left: 0.1rem solid $text;
+    border-right: 0.1rem solid $text;
+  }
+  .attend_mid {
+    text-align: center;
+    background-color: $attend;
     border-left: 0.1rem solid $text;
     border-right: 0.1rem solid $text;
   }
@@ -137,6 +157,14 @@ html {
   .event_end {
     text-align: center;
     background-color: $event;
+    border-radius: 0 0 0.4rem 0.4rem;
+    border-left: 0.1rem solid $text;
+    border-right: 0.1rem solid $text;
+    border-bottom: 0.1rem solid $text;
+  }
+  .attend_end {
+    text-align: center;
+    background-color: $attend;
     border-radius: 0 0 0.4rem 0.4rem;
     border-left: 0.1rem solid $text;
     border-right: 0.1rem solid $text;
