@@ -23,6 +23,7 @@ window.addEventListener('click', function (e) {
         sidebar_open(false)
     }
 })
+
 function form_pop_up(open) {
     var y = document.getElementById('rotate')
     var x = document.getElementById('form_pop_up')
@@ -64,7 +65,6 @@ function show() {
 function create(start, end) {
     const y = document.getElementById('start')
     const z = document.getElementById('end')
-
     if (/Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)) {
         if (start.split(' ')[1] < 10) {
             start = start.split(' ')
@@ -100,6 +100,7 @@ function take_out_single(x) {
         return x
     }
 }
+
 var preset = [now.getFullYear() + '-' + take_out_single(Number(now.getMonth() + 1)) + '-' + take_out_single(now.getDate()), Number(now.getHours())]
 function reset() {
     const reset = document.getElementsByClassName('hour')
