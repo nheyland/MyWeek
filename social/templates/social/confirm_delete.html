@@ -1,14 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     {% load static %}
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/event.css' %}" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
     <title>Confirm Deletion of Event</title>
+    <script defer type="text/javascript" src="{% static 'js/sidebar.js' %}"></script>
 </head>
+
 <body>
+    <div id="menu_button" class="menu_button" onclick="javascript:sidebar_open(true);">
+        <a class="" href="javascript:sidebar_open(true);"><i class="fas fa-compass"></i></a>
+    </div>
+    <div id='sidebar' class="sidebar">
+        <a href="/planner/0"><i class="fas fa-calendar-alt"></i> My Schedule</a>
+        <a href="/u/profile/{{user.id}}/"><i class="fas fa-user"></i> My Profile</a>
+        <a href="/explore/"><i class="fas fa-globe-americas"></i> Explore</a>
+        <a href="/kill/"><i class="fas fa-door-open"></i> Logout</a>
+    </div>
     <div class="details">
         <h1 class="delete">You are about to delete an event.</h1>
         <div class="event-details">
@@ -30,20 +43,20 @@
                     <input type="radio" name="notify" id="notify" value="NO" checked=True hidden>
                     <input type="radio" name="notify" id="notify" value="YES">
                 </fieldset>
-            <h3>Are you sure you want to delete this event?</h3>
-            <button type="submit">Yes, Delete The Event.</button>
-        </form>
-        <a href="{% url 'eventDetail' event.id %}"><button>No. Return Me To The Event.</button></a>
-        {% else %}
-        <form action="{% url 'deleteEvent' event.id %}" method="POST">
-            {% csrf_token %}
-            <h3>Are you sure you want to delete this event?</h3>
-            <!-- NEED THIS HIDDEN INPUT FOR THE DELETION VIEW TO FUNCTION PROPERLY. -->
-            <input type="radio" name="notify" id="notify" value="NO" checked=True hidden>
-            <button type="submit" class="delete_button">Yes, Delete The Event.</button>
-        </form>
-        <a href="{% url 'eventDetail' event.id %}"><button class="return_button">No. Return Me To The Event.</button></a>
-        {% endif %}
+                <h3>Are you sure you want to delete this event?</h3>
+                <button type="submit">Yes, Delete The Event.</button>
+            </form>
+            <a href="{% url 'eventDetail' event.id %}"><button>No. Return Me To The Event.</button></a>
+            {% else %}
+            <form action="{% url 'deleteEvent' event.id %}" method="POST">
+                {% csrf_token %}
+                <h3>Are you sure you want to delete this event?</h3>
+                <!-- NEED THIS HIDDEN INPUT FOR THE DELETION VIEW TO FUNCTION PROPERLY. -->
+                <input type="radio" name="notify" id="notify" value="NO" checked=True hidden>
+                <button type="submit" class="delete_button">Yes, Delete The Event.</button>
+            </form>
+            <a href="{% url 'eventDetail' event.id %}"><button class="return_button">No. Return Me To The Event.</button></a>
+            {% endif %}
         </div>
     </div>
 </body>
