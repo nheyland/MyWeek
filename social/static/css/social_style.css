@@ -45,8 +45,10 @@ a{
     color: rgb(127, 255, 255);
     
 }
+
 a:hover{
-    color: #a7e245;
+    /* color: #a7e245; */
+    color: blue;
     
 }
 .button{
@@ -62,6 +64,7 @@ a:hover{
     margin: 30px;
     cursor: pointer;
 }
+
 ul{
     list-style: none;
     color: #fff;

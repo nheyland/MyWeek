@@ -36,7 +36,7 @@
       <th>Start Time</th>
       <th>End Time</th>
       <th>Address</th>
-      <th>Attedance</th>
+      <th>Attendance</th>
     </tr>
     {% for e in events%}
     <tr>
@@ -45,7 +45,7 @@
       <td>{{e.start_time}}</td>
       <td>{{e.end_time}}</td>
       <td>{{e.address}}</td>
-      <td>{{e.invitees|length}}</td>
+      <td>{{e.invitees|length|add:'1'}}</td>
     </tr>
     {% endfor %}
 
