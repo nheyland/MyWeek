@@ -35,3 +35,4 @@ def kill(request):
     if 'user_id' in request.session.keys():
         del request.session['user_id']
     return redirect('/')
+

@@ -88,7 +88,8 @@ def edit_event(request, id):
         'event': Event.objects.get(id=id),
         'edit': True,
         'start': 'start_time',
-        'end': 'end_time'
+        'end': 'end_time',
+        'user': User.objects.get(id=request.session['user_id'])
     }
     if context['event'].address:
         context['geo'] = Tools.geocode(Event.objects.get(id=id).address)

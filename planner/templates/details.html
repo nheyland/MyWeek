@@ -43,8 +43,8 @@
         {% csrf_token %}
         <input type="text" placeholder="Title" name="title" value="{{event.title}}" />
         <input type="text" placeholder="Description" name="desc" value="{{event.desc}}" />
-        <input type="datetime-local" id="start" placeholder="YYYY-MM-DD HH:MM" name="start_time" value="{{start}}" />
-        <input type="datetime-local" id="end" placeholder="YYYY-MM-DD HH:MM" name="end_time" value="{{end}}" />
+        <input type="datetime-local" id="start" placeholder="YYYY-MM-DD HH:MM" name="start_time" value="{{event.start_time}}" />
+        <input type="datetime-local" id="end" placeholder="YYYY-MM-DD HH:MM" name="end_time" value="{{event.end_time}}" />
         <input type="text" placeholder="Address" name="address" value="{{event.address}}" />
         <input type="hidden" name="id" value="{{event.id}}" />
         <select name="public">
@@ -88,6 +88,7 @@
       {%endif%}
     </div>
   </div>
+  {% if geo %}
   <div class="map_weather">
     <div class="map">
       <div id="map" style="width: 400px; height: 300px;"></div>
@@ -116,11 +117,10 @@
       <p>{{weather.main}}, {{weather.desc}}</p>
       <img src="http://openweathermap.org/img/wn/{{weather.icon}}.png" />
 
-      <!-- YOU DON'T GET TO ADD A FRIEND TO THIS IF YOU'RE NOT THE PERSON WHO CREATED THE EVENT. -->
-      {% if event.created_by.id == request.session.user_id %}
-      <!-- PLACING SOCIAL PIECES OF THE PLANNER DOWN HERE FOR NOW. FRONT-END/LEAD CAN MOVE TO WHERE EVER. /ew -->
     </div>
   </div>
+  {% endif%}
+  {% if event.created_by.id == request.session.user_id %}
   <div class="social">
     <div class="invite-friend">
       <h2>Invite A Friend!</h2>
