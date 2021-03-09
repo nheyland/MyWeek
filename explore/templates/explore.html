@@ -14,7 +14,6 @@
   <link href="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
-  <title>Explore Events</title>
 </head>
 
 <body>
@@ -26,6 +25,7 @@
     <a href="/u/profile/{{user.id}}/"><i class="fas fa-user"></i> My Profile</a>
     <a href="/explore/"><i class="fas fa-globe-americas"></i> Explore</a>
     <a href="/kill/"><i class="fas fa-door-open"></i> Logout</a>
+
   </div>
 
   <h1 class="section-title">Explore Events</h1>
@@ -41,9 +41,10 @@
   </div>
   </form>
   <div class="map">
-    <div id="map" style="height: 300px; width: 100%;"></div>
+    <div id="map" style="height: 100%; width:100%"></div>
+
   </div>
-  <div class="table-title">
+  <div class=" table-title">
     <h3>Events</h3>
   </div>
   <div>
@@ -73,6 +74,7 @@
 
     </table>
   </div>
+
   <script defer>
     mapboxgl.accessToken = 'pk.eyJ1IjoibmhleWxhbmQiLCJhIjoiY2toZHI4ZWNqMDgwaTMwczFuNnpvcGFuMiJ9.4LH3G0a18_HQY8t55W83lg';
     var map = new mapboxgl.Map({
@@ -86,9 +88,11 @@
         'type': 'geojson',
         'data': {
           'type': 'FeatureCollection',
-          'features': {{ geo | safe }}
-        }
-      });
+          'features': {{ geo | safe}}
+
+               }
+           });
+
 
     map.addLayer({
       'id': 'event',
@@ -96,42 +100,39 @@
       'source': 'event',
       'paint': {
         'circle-radius': 6,
-        'circle-color': '#00be7f'
+        'circle-color': '#a7e245',
+        'circle-stroke-width': 1,
+        'circle-stroke-color': 'black',
       },
       'filter': ['==', '$type', 'Point']
     });
+       });
 
     map.on('click', 'event', function (e) {
-      var coordinates = e.features[0].geometry.coordinates.slice();
-      var description = e.features[0].properties.description;
-
-      // Ensure that if the map is zoomed out such that multiple
-      // copies of the feature are visible, the popup appears
-      // over the copy being pointed to.
-      while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-      }
-
-      new mapboxgl.Popup()
-        .setLngLat(coordinates)
-        .setHTML(description)
-        .addTo(map);
+      map.flyTo({
+        center: e.features[0].geometry.coordinates
+      });
     });
-
-    // Change the cursor to a pointer when the mouse is over the places layer.
     map.on('mouseenter', 'event', function () {
       map.getCanvas().style.cursor = 'pointer';
     });
-
-    // Change it back to a pointer when it leaves.
     map.on('mouseleave', 'event', function () {
       map.getCanvas().style.cursor = '';
     });
+    map.on('click', 'event', function (e) {
+      var coordinates = e.features[0].geometry.coordinates.slice();
+      var name = e.features[0].properties.name;
+      var desc = e.features[0].properties.desc;
+      var link = e.features[0].properties.link;
+      while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+      }
+      new mapboxgl.Popup()
+        .setLngLat(coordinates)
+        .setHTML(`<a style="text-decoration: none;font-size: 1.0rem" href="${link}" <h3>` + name + '</h3> </a>')
+        .addTo(map);
     });
-
-
   </script>
-
 </body>
 
 </html>
