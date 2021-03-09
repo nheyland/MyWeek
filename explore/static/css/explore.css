@@ -24,10 +24,13 @@ input.search {
   border-radius: 10px;
   margin-right: 15px;
 }
-.mapboxgl-canvas {
+.map {
   margin-top: 20px;
   border-radius: 10px;
   border: #afbdc5 10px solid;
+  height: 400px;
+  width: 100%;
+  margin-bottom: 20px;
 }
 input#start,
 input#end {
@@ -45,9 +48,7 @@ input#end {
   border-radius: 10px;
   background-color: #a7e245;
 }
-.map {
-  margin-bottom: 20px;
-}
+
 h3 {
   margin-bottom: 30px;
   font-size: 24px;
@@ -91,7 +92,7 @@ th:last-child {
 
 tr {
   border-top: 1px solid #c1c3d1;
-  border-bottom-: 1px solid #c1c3d1;
+  border-bottom: 1px solid #c1c3d1;
   color: #666b85;
   font-size: 16px;
   font-weight: normal;
