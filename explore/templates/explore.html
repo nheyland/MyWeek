@@ -7,49 +7,74 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/explore.css' %}" />
   <link rel="preconnect" href="https://fonts.gstatic.com">
+  <script defer type="text/javascript" src="{% static 'js/sidebar.js' %}"></script>
   <script src="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.js"></script>
   <link href="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css" rel="stylesheet" />
-
-
   <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
 </head>
 
 <body>
-  <form action="/explore/search_events/" method="POST">
-    {% csrf_token %}
-    <input type="text" placeholder="Search Events" name="event_search" />
-    <input type="datetime-local" id="start" placeholder="YYYY-MM-DD HH:MM" name="start_time" />
-    <input type="datetime-local" id="end" placeholder="YYYY-MM-DD HH:MM" name="end_time" />
+  <div id="menu_button" class="menu_button" onclick="javascript:sidebar_open(true);">
+    <a class="" href="javascript:sidebar_open(true);"><i class="fas fa-compass"></i></a>
+  </div>
+  <div id='sidebar' class="sidebar">
+    <a href="/planner/0"><i class="fas fa-calendar-alt"></i> My Schedule</a>
+    <a href="/u/profile/{{user.id}}/"><i class="fas fa-user"></i> My Profile</a>
+    <a href="/explore/"><i class="fas fa-globe-americas"></i> Explore</a>
+    <a href="/kill/"><i class="fas fa-door-open"></i> Logout</a>
 
-    <input type="submit">
+  </div>
+
+  <h1 class="section-title">Explore Events</h1>
+  <div class="form">
+    <form action="/explore/search_events/" method="POST">
+      {% csrf_token %}
+      <input type="text" placeholder="Search Events" name="event_search" class="search" />
+      <input type="datetime-local" id="start" placeholder="YYYY-MM-DD HH:MM" name="start_time" />
+      <input type="datetime-local" id="end" placeholder="YYYY-MM-DD HH:MM" name="end_time" />
+
+
+      <input type="submit" class="explore-button">
+  </div>
   </form>
   <div class="map">
-    <div id="map" style="height: 300px; width: 100%;"></div>
-  </div>
-  <table>
-    <tr>
-      <th>Title</th>
-      <th>Description</th>
-      <th>Start Time</th>
-      <th>End Time</th>
-      <th>Address</th>
-      <th>Attendance</th>
-    </tr>
-    {% for e in events%}
-    <tr>
-      <td><a href="/details/{{e.id}}">{{e.title}}</a></td>
-      <td>{{e.desc}}</td>
-      <td>{{e.start_time}}</td>
-      <td>{{e.end_time}}</td>
-      <td>{{e.address}}</td>
-      <td>{{e.invitees|length|add:'1'}}</td>
-    </tr>
-    {% endfor %}
+    <div id="map" style="height: 100%; width:100%"></div>
 
-  </table>
+  </div>
+  <div class=" table-title">
+    <h3>Events</h3>
+  </div>
+  <div>
+    <table class="table-fill">
+      <thead>
+        <tr>
+          <th class="text-left">Title</th>
+          <th class="text-left">Description</th>
+          <th class="text-left">Start Time</th>
+          <th class="text-left">End Time</th>
+          <th class="text-left">Address</th>
+          <th class="text-left">Attedance</th>
+        </tr>
+      </thead>
+      <tbody class="table-hover">
+        {% for e in events%}
+        <tr>
+          <td class="text-left"><a href="/details/{{e.id}}">{{e.title}}</a></td>
+          <td class="text-left">{{e.desc}}</td>
+          <td class="text-left">{{e.start_time}}</td>
+          <td class="text-left">{{e.end_time}}</td>
+          <td class="text-left">{{e.address}}</td>
+          <td class="text-left">{{e.invitees|length|add:'1'}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+
+    </table>
+  </div>
+
   <script defer>
     mapboxgl.accessToken = 'pk.eyJ1IjoibmhleWxhbmQiLCJhIjoiY2toZHI4ZWNqMDgwaTMwczFuNnpvcGFuMiJ9.4LH3G0a18_HQY8t55W83lg';
     var map = new mapboxgl.Map({
@@ -75,7 +100,9 @@
       'source': 'event',
       'paint': {
         'circle-radius': 6,
-        'circle-color': '#00be7f'
+        'circle-color': '#a7e245',
+        'circle-stroke-width': 1,
+        'circle-stroke-color': 'black',
       },
       'filter': ['==', '$type', 'Point']
     });
@@ -106,7 +133,6 @@
         .addTo(map);
     });
   </script>
-
 </body>
 
 </html>

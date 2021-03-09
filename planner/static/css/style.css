@@ -2,7 +2,8 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Montserrat", sans-serif;
+  font-family: Roboto, -apple-system, "Helvetica Neue", "Segoe UI", Arial,
+    sans-serif;
   font-weight: bold;
   color: #0b181e;
 }
@@ -13,13 +14,13 @@ html {
 }
 
 .section-title {
-	font-size: 32px;
-	letter-spacing: 1px;
-	color: #fff;
+  font-size: 32px;
+  letter-spacing: 1px;
+  color: #fff;
   text-align: center;
 }
 
-.planner{
+.planner {
   margin-top: 25px;
   margin-left: 15%;
 }
@@ -183,7 +184,6 @@ html {
   width: 5rem;
 }
 
-
 .menu_button {
   position: absolute;
   right: 0;
@@ -200,7 +200,8 @@ html {
   overflow: hidden;
   z-index: 100000000;
   font-size: 1.8rem;
-  background-color: lightslategray;
+  background-color: #cddbef;
+  box-shadow: inset 0px 0px 0px 5px #fff;
 }
 .menu_button i {
   color: white;
@@ -223,10 +224,11 @@ html {
   right: 0rem;
   padding: 1rem 0;
   top: 1rem;
-  background-color: lightslategray;
+  background-color: #cddbef;
   border-radius: 0.6rem 0 0 0.6rem;
   transition: 0.5s;
   z-index: 1000000;
+  box-shadow: inset 0px 0px 0px 5px #fff;
 }
 .sidebar * {
   white-space: nowrap;
@@ -265,7 +267,7 @@ html {
 }
 #form_pop_up textarea,
 #form_pop_up input,
-#form_pop_up input[type=datetime-local] {
+#form_pop_up input[type="datetime-local"] {
   border: none;
   font-size: 0.8rem;
   margin-bottom: 1rem;
@@ -281,7 +283,7 @@ html {
   text-align: center;
   font-size: 2.4rem;
 }
-#form_pop_up button{
+#form_pop_up button {
   padding: 20px;
   border: none;
   background-color: #a7e245;
@@ -369,4 +371,4 @@ html {
 }
 #show_cal i {
   color: white;
-}/*# sourceMappingURL=style.css.map */
+} /*# sourceMappingURL=style.css.map */

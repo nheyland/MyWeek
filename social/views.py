@@ -19,7 +19,8 @@ def viewProfile(request, userID):
     viewUser = User.objects.get(id=userID)
     context = {
         'viewUser': viewUser,
-        'currentUser': currentUser
+        'currentUser': currentUser,
+        'user': User.objects.get(id=request.session['user_id'])
     }
     return render(request, 'social/profile.html', context)
 
@@ -136,6 +137,7 @@ def confirmDeletionAndNotify(request, eventID):
     context = {
         'event': event,
         'invitees': invitees,
+        'user': User.objects.get(id=request.session['user_id'])
     }
     return render(request, 'social/confirm_delete.html', context)
 
