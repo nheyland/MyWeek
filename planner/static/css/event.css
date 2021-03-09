@@ -194,6 +194,7 @@ li.error{
   border: none;
   border-radius: 5px;
   padding: 5px;
+  color:black;
 }
 .friend-button {
   background-color: #a7e245;
