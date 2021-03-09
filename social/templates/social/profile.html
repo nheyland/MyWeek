@@ -9,8 +9,20 @@
     <link rel="stylesheet" href="{% static 'css/social_style.css' %}" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
     <title>{{ viewUser.first_name }}'s Profile</title>
+    <script defer type="text/javascript" src="{% static 'js/sidebar.js' %}"></script>
+
 </head>
+
 <body>
+    <div id="menu_button" class="menu_button" onclick="javascript:sidebar_open(true);">
+        <a class="" href="javascript:sidebar_open(true);"><i class="fas fa-compass"></i></a>
+    </div>
+    <div id='sidebar' class="sidebar">
+        <a href="/planner/0"><i class="fas fa-calendar-alt"></i> My Schedule</a>
+        <a href="/u/profile/{{user.id}}/"><i class="fas fa-user"></i> My Profile</a>
+        <a href="/explore/"><i class="fas fa-globe-americas"></i> Explore</a>
+        <a href="/kill/"><i class="fas fa-door-open"></i> Logout</a>
+    </div>
     <div class="container">
         <h1>{{ viewUser.first_name }}'s Profile</h1>
         <div class="profile">
@@ -24,11 +36,11 @@
                 <div class="events">
                     <h2 style="text-decoration: underline;">Events Attending</h2>
                     {% for event in viewUser.created_event.all %}
-                        {% if event.public == True %}
-                        <ul>
-                            <li><a href="{% url 'eventDetail' event.id %}">{{ event.title }}</a></li>
-                        </ul>
-                        {% endif %}
+                    {% if event.public == True %}
+                    <ul>
+                        <li><a href="{% url 'eventDetail' event.id %}">{{ event.title }}</a></li>
+                    </ul>
+                    {% endif %}
                     {% endfor %}
                 </div>
                 <div class="friends">
@@ -42,7 +54,7 @@
                     {% endif %}
                     <ul>
                         {% for friend in viewUser.friends.all %}
-                            <li>{{ friend.first_name }} {{ friend.last_name }}</li>
+                        <li>{{ friend.first_name }} {{ friend.last_name }}</li>
                         {% endfor %}
                     </ul>
                 </div>
@@ -50,4 +62,5 @@
         </div>
     </div>
 </body>
+
 </html>

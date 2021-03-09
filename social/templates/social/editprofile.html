@@ -1,15 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 {% load static%}
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script defer type="text/javascript" src="{% static 'js/sidebar.js' %}"></script>
+
     <link rel="stylesheet" href="{% static 'css/social_style.css' %}" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
     <title>Editing {{user.first_name}}'s Profile</title>
 </head>
+
 <body>
+    <div id="menu_button" class="menu_button" onclick="javascript:sidebar_open(true);">
+        <a class="" href="javascript:sidebar_open(true);"><i class="fas fa-compass"></i></a>
+    </div>
+    <div id='sidebar' class="sidebar">
+        <a href="/planner/0"><i class="fas fa-calendar-alt"></i> My Schedule</a>
+        <a href="/u/profile/{{user.id}}/"><i class="fas fa-user"></i> My Profile</a>
+        <a href="/explore/"><i class="fas fa-globe-americas"></i> Explore</a>
+        <a href="/kill/"><i class="fas fa-door-open"></i> Logout</a>
+    </div>
     <div class="container">
         <h1>Edit Profile</h1>
         <div class="profile">
@@ -35,4 +48,5 @@
         </div>
     </div>
 </body>
+
 </html>
