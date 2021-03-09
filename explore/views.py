@@ -2,6 +2,7 @@ from django.shortcuts import render
 from planner.utils import Tools
 from planner.models import Event
 from .utils import load_geo_all
+from login.models import User
 
 
 def all(request):
@@ -27,6 +28,7 @@ def all(request):
     context = {
         'geo': load_geo_all(),
         'events': events,
-        'attendance': attendance
+        'attendance': attendance,
+        'user': User.objects.get(id=request.session['user_id'])
     }
     return render(request, 'explore.html', context)
