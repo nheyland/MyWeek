@@ -19,6 +19,7 @@ urllib3 = "==1.26.3"
 Django = "==3.1.7"
 python-dotenv = "*"
 twilio = "*"
+phonenumbers = "*"
 
 [dev-packages]
 

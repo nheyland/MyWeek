@@ -6,7 +6,7 @@ from django.core.mail import send_mail
 from planner.models import Event
 from login.models import User
 from django.shortcuts import render, redirect
-import os
+import os, phonenumbers
 from . import util
 from dotenv import load_dotenv
 
@@ -37,9 +37,9 @@ def editProfile(request, userID):
             userToUpdate.email = request.POST['email']
             # GOT TO PROPERLY FORMAT PHONE NUMBER, IF THEY ADDED ONE!
             if request.POST['phone']:
-                phoneNumber = '+1'
-                phoneNumber += request.POST['phone']
-                userToUpdate.phone = phoneNumber
+                phoneNumber = phonenumbers.parse(request.POST['phone'], 'US')
+                phoneNumberCleaned = phonenumbers.format_number(phoneNumber, phonenumbers.PhoneNumberFormat.E164)
+                userToUpdate.phone = phoneNumberCleaned
             userToUpdate.save()
             return redirect('viewProfile', userID)
         else:
@@ -49,7 +49,6 @@ def editProfile(request, userID):
             return render(request, 'social/editprofile.html', context)
 
 # ADD TO FRIENDS LIST
-
 
 def addFriend(request):
     currentUser = User.objects.get(id=request.session['user_id'])
@@ -67,7 +66,7 @@ def inviteFriend(request):
         userSending = User.objects.get(id=request.session['user_id'])
         eventURL = request.POST['eventURL']
         subject = f'{userSending.first_name} has invited you to join MyWeek!'
-        message = f"Hi there, {request.POST['invitee_name']}! {userSending.first_name} {userSending.last_name} is planning an event at http://localhost:8000{eventURL} and would like to invite you, but you're not a MyWeek user! \n Sign up to be included in this and future events! http://localhost:8000"
+        message = f"Hi there, {request.POST['invitee_name']}! {userSending.first_name} {userSending.last_name} is planning an event at http://54.185.185.71/{eventURL} and would like to invite you, but you're not a MyWeek user! \n Sign up to be included in this and future events! http://localhost:8000"
         invitee = request.POST['invitee_email']
         send_mail(
             subject,
@@ -97,7 +96,7 @@ def addFriendToEvent(request):
         if util.no_obligations(event, friend, request):
             event.invitees.add(friend)
             subject = f'{userInviting.first_name} has invited you to their event!'
-            message = f"Hi there, {friend.first_name}! {userInviting.first_name} {userInviting.last_name} is planning an event at http://localhost:8000{eventURL} and has added you to the event. This only means that you were invited and in no way means you actually have to show up. ;) \n Regards, MyWeek."
+            message = f"Hi there, {friend.first_name}! {userInviting.first_name} {userInviting.last_name} is planning an event at http://54.185.185.71/{eventURL} and has added you to the event. This only means that you were invited and in no way means you actually have to show up. ;) \n Regards, MyWeek."
             send_mail(
                 subject,
                 message,
@@ -113,7 +112,7 @@ def addFriendToEvent(request):
                 message = client.messages \
                                 .create(
                                     messaging_service_sid='MG18a350dc9187f88d26f477f64c72fc68',
-                                    body=f"Hi, {friend.first_name}! {userInviting.first_name} {userInviting.last_name} is planning an event at http://localhost:8000{eventURL} and has added you to the event. This only means that you were invited and in no way means you actually have to show up. ;) Regards, MyWeek.",
+                                    body=f"Hi, {friend.first_name}! {userInviting.first_name} {userInviting.last_name} is planning an event at http://54.185.185.71/{eventURL} and has added you to the event. This only means that you were invited and in no way means you actually have to show up. ;) Regards, MyWeek.",
                                     to=friend.phone
                                 )
 
