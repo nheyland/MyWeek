@@ -46,7 +46,7 @@ a {
   color: rgb(127, 255, 255);
 }
 a:hover {
-  color: #a7e245;
+  color: blue;
 }
 .button {
   background-color: #a7e245;
