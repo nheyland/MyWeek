@@ -9,9 +9,17 @@
 </head>
 
 <body>
+
     <section class="forms-section">
         <h1 class="section-title">Social Calendar</h1>
         <div class="forms">
+            {% if messages %}
+                <ul>
+                    {% for message in messages %}
+                        <li class="messages">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
             <div class="form-wrapper is-active">
                                 <!-- 
         _                 _       
@@ -86,6 +94,7 @@
         </div>
     </section>
     <script src="{% static 'js/app.js' %}"></script>
+
 </body>
 
 </html>
