@@ -87,8 +87,8 @@ def edit_event(request, id):
     context = {
         'event': Event.objects.get(id=id),
         'edit': True,
-        'start': 'start_time',
-        'end': 'end_time',
+        'start': event.start_time.replace(tzinfo=None).isoformat(timespec='minutes'),
+        'end': event.end_time.replace(tzinfo=None).isoformat(timespec='minutes'),
         'user': User.objects.get(id=request.session['user_id'])
     }
     if context['event'].address:
