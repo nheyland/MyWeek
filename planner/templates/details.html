@@ -43,8 +43,9 @@
         {% csrf_token %}
         <input type="text" placeholder="Title" name="title" value="{{event.title}}" />
         <input type="text" placeholder="Description" name="desc" value="{{event.desc}}" />
-        <input type="datetime-local" id="start" placeholder="YYYY-MM-DD HH:MM" name="start_time" value="{{event.start_time}}" />
-        <input type="datetime-local" id="end" placeholder="YYYY-MM-DD HH:MM" name="end_time" value="{{event.end_time}}" />
+        <input type="datetime-local" id="start" name="start_time" value="{{start}}" />
+        <input type="datetime-local" id="end" name="end_time" value="{{end}}" />
+
         <input type="text" placeholder="Address" name="address" value="{{event.address}}" />
         <input type="hidden" name="id" value="{{event.id}}" />
         <select name="public">

@@ -84,11 +84,12 @@ def delete_event(request, id):
 
 def edit_event(request, id):
     event = Event.objects.get(id=id)
+    times = Event.objects.get_times(id=id)
     context = {
         'event': Event.objects.get(id=id),
         'edit': True,
-        'start': 'start_time',
-        'end': 'end_time',
+        'start': times[0],
+        'end': times[1],
         'user': User.objects.get(id=request.session['user_id'])
     }
     if context['event'].address:
