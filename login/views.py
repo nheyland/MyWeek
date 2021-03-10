@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
 from login.models import User
 import bcrypt
-
+from django.contrib import messages
 
 def registering(request):
     request.session['registering'] = True
@@ -9,15 +9,21 @@ def registering(request):
 
 
 def register(request):
-    User.objects.create(
-        password=bcrypt.hashpw(
-            request.POST['password'].encode(), bcrypt.gensalt()).decode(),
-        email=request.POST['email'],
-        first_name=request.POST['first_name'],
-        last_name=request.POST['last_name'],
-    )
-    print('New User Registered')
-    return redirect('/')
+    errors = User.objects.user_validation(request.POST)
+    if errors:
+        for key, value in errors.items():
+            messages.error(request, value)
+        return redirect('/')
+    else:
+        User.objects.create(
+            password=bcrypt.hashpw(
+                request.POST['password'].encode(), bcrypt.gensalt()).decode(),
+            email=request.POST['email'],
+            first_name=request.POST['first_name'],
+            last_name=request.POST['last_name'],
+        )
+        print('New User Registered')
+        return redirect('/')
 
 
 def login(request):
