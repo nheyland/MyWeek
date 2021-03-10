@@ -83,7 +83,7 @@
       {% endif %}
     </div>
 
-    <!-- EVENT DELETION NEEDS TO GO THROUGH CONFIRMATION PROCESS! /ew -->
+    {% if event.created_by.id == request.session.user_id %}
     <div class="commands">
       <h4><a href="{% url 'confirmDelete' event.id %}" class="delete">Delete Event</a> | <a href="/edit/{{event.id}}" class="edit">Edit Event</a></h4>
       {%endif%}
