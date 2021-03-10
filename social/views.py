@@ -6,7 +6,8 @@ from django.core.mail import send_mail
 from planner.models import Event
 from login.models import User
 from django.shortcuts import render, redirect
-import os, phonenumbers
+import os
+import phonenumbers
 from . import util
 from dotenv import load_dotenv
 
@@ -39,7 +40,8 @@ def editProfile(request, userID):
             # GOT TO PROPERLY FORMAT PHONE NUMBER, IF THEY ADDED ONE!
             if request.POST['phone']:
                 phoneNumber = phonenumbers.parse(request.POST['phone'], 'US')
-                phoneNumberCleaned = phonenumbers.format_number(phoneNumber, phonenumbers.PhoneNumberFormat.E164)
+                phoneNumberCleaned = phonenumbers.format_number(
+                    phoneNumber, phonenumbers.PhoneNumberFormat.E164)
                 userToUpdate.phone = phoneNumberCleaned
             userToUpdate.save()
             return redirect('viewProfile', userID)
@@ -50,6 +52,7 @@ def editProfile(request, userID):
             return render(request, 'social/editprofile.html', context)
 
 # ADD TO FRIENDS LIST
+
 
 def addFriend(request):
     currentUser = User.objects.get(id=request.session['user_id'])

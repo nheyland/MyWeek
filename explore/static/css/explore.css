@@ -184,7 +184,7 @@ td.text-right {
   overflow: hidden;
   z-index: 100000000;
   font-size: 1.8rem;
-  background-color: #cddbef;
+  background-color: #353636;
   box-shadow: inset 0px 0px 0px 5px #fff;
 }
 .menu_button i {
@@ -206,19 +206,20 @@ td.text-right {
   width: 0;
   overflow: hidden;
   right: 0rem;
+  height: 100vh;
   padding: 1rem 0;
-  top: 1rem;
-  background-color: #cddbef;
-  border-radius: 0.6rem 0 0 0.6rem;
+  top: 0rem;
+  background-color: #353636;
   transition: 0.5s;
   z-index: 1000000;
+  font-size: 1.4rem;
   box-shadow: inset 0px 0px 0px 5px #fff;
 }
 .sidebar * {
   white-space: nowrap;
 }
 .sidebar a {
-  margin: 1rem 2rem;
+  margin: 2rem 2rem;
   color: white;
   text-decoration: none;
 }

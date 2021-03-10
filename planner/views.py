@@ -53,7 +53,8 @@ def create_event(request):
 
 def details(request, id):
     context = {
-        'event': Event.objects.get(id=id)
+        'event': Event.objects.get(id=id),
+        'user': User.objects.get(id=request.session['user_id']),
     }
     if context['event'].address:
         context['geo'] = Tools.geocode(Event.objects.get(id=id).address)

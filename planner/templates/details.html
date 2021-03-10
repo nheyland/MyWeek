@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
   <script src="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.js"></script>
   <link href="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css" rel="stylesheet" />
-  <script defer type="text/javascript" src="{% static 'js/sidebar.js' %}"></script>
+  <script defer type="text/javascript" src="{% static 'js/sidebar_planner.js' %}"></script>
   <link rel="stylesheet" href="{% static 'css/event.css' %}" />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <title>{{ event.title }} Details</title>
@@ -50,7 +50,7 @@
         <input type="hidden" name="id" value="{{event.id}}" />
         <select name="public">
           <option value="True">Public</option>
-          <option value="Fasle">Private</option>
+          <option value="False">Private</option>
         </select>
         <button type="submit" class="event-button">Submit</button>
       </form>
@@ -92,7 +92,7 @@
   {% if geo %}
   <div class="map_weather">
     <div class="map">
-      <div id="map" style="width: 400px; height: 300px;"></div>
+      <div id="map" style="width: 450px; height: 300px;"></div>
       <script>
         mapboxgl.accessToken = 'pk.eyJ1IjoibmhleWxhbmQiLCJhIjoiY2toZHI4ZWNqMDgwaTMwczFuNnpvcGFuMiJ9.4LH3G0a18_HQY8t55W83lg';
         var map = new mapboxgl.Map({
