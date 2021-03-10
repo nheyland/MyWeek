@@ -32,6 +32,16 @@ html {
   max-width: 80rem;
   margin-top: 4rem;
 }
+h2 {
+  color: white;
+  text-align: center;
+  top: 1rem;
+  position: absolute;
+  border: 0.2rem solid white;
+  padding: 0.6rem;
+  background-color: #353636;
+  border-radius: 0.6rem;
+}
 
 .calendar {
   border: 0.1rem solid #0b181e;

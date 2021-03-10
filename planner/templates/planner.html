@@ -19,11 +19,20 @@
             document.getElementById('show_cal').style.transition = 'background-color 0.5s';
         }
     </script>
+    <script>
+        window.addEventListener('load', (event) => {
+            var date = String(new Date())
+            console.log(date.split(''))
+            document.getElementById('date').innerText =  date.split(' ')[0] + ' ' + date.split(' ')[1] + ' ' + date.split(' ')[2]
+
+        });
+    </script>
 </head>
 
 <body>
     <section class="container">
-        <h1 class="section-title">Social Calendar</h1>
+        <h1 class="section-title">My Plans</h1>
+        <h2 id="date"></h2>
         <div id="menu_button" class="menu_button" onclick="javascript:sidebar_open(true);">
             <a class="" href="javascript:sidebar_open(true);"><i class="fas fa-compass"></i></a>
         </div>

@@ -16,6 +16,11 @@ html {
   background: #3b4465;
   padding: 30px;
 }
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .section-title {
   margin-bottom: 20px;
   font-size: 32px;
@@ -38,9 +43,10 @@ ul {
 .details {
   border: #fff 5px solid;
   display: inline-block;
-  width: 50%;
+  width: fill;
   color: lightslategray;
-  margin: 10px 0% 10px 24%;
+  min-width: 40rem;
+  max-width: 50rem;
   text-align: center;
   border-radius: 20px;
   padding: 30px;
@@ -52,19 +58,30 @@ ul {
   display: inline-block;
   width: 50%;
   color: lightslategray;
-  margin: 10px 0% 10px 24%;
+  align-items: center;
   text-align: center;
   border-radius: 20px;
   padding: 30px;
   animation: fade-in-box 1s ease 1s forwards;
   background-color: #afbdc5;
 }
+.map {
+  width: 100%;
+  border: #3b4465 10px solid;
+  border-radius: 1rem;
+}
+#map {
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
 .map_weather {
+  align-items: center;
   border: #fff 5px solid;
   display: inline-block;
-  width: 50%;
+  width: 90%;
   color: lightslategray;
-  margin: 10px 0% 10px 24%;
   text-align: center;
   border-radius: 20px;
   padding: 30px;
@@ -74,9 +91,9 @@ ul {
 .social {
   border: #fff 5px solid;
   display: inline-block;
-  width: 50%;
+  width: 70%;
   color: lightslategray;
-  margin: 10px 0% 10px 24%;
+  margin-top: 2rem;
   text-align: center;
   border-radius: 20px;
   padding: 30px;
@@ -92,12 +109,7 @@ ul {
 .edit {
   display: inline;
 }
-.map {
-  border-radius: 10px;
-  border: #3b4465 10px solid;
-  margin-right: 60px;
-  display: inline-block;
-}
+
 .weather {
   margin-left: 60px;
   display: inline-block;
