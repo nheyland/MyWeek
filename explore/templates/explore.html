@@ -67,7 +67,7 @@
           <td class="text-left">{{e.start_time}}</td>
           <td class="text-left">{{e.end_time}}</td>
           <td class="text-left">{{e.address}}</td>
-          <td class="text-left">{{e.invitees.object.all|length|add:'1'}}</td>
+          <td class="text-left">{{e.invitees.all|length|add:'1'}}</td>
         </tr>
         {% endfor %}
       </tbody>
