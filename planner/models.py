@@ -38,26 +38,6 @@ class EventManager(models.Manager):
                     errors['conflict'] = f"You have a sceduling conflict with {event.title}"
             
         return errors
-
-    def get_times(self, id):
-    # "2018-06-14T00:00"
-        e = Event.objects.get(id=id)
-        starts = [e.start_time.month, e.start_time.day, e.start_time.hour, e.start_time.minute]
-        ends = [e.end_time.month, e.end_time.day, e.end_time.hour, e.end_time.minute]
-
-        for x in range(len(starts)):
-            if starts[x] < 10:
-                starts[x] = '0'+str(starts[x])
-            else:
-                starts[x] = str(starts[x])
-            if ends[x] < 10:
-                ends[x] = '0'+str(ends[x])
-            else:
-                ends[x] = str(ends[x])
-
-        start_time = str(e.start_time.year)+"-"+starts[0]+"-"+starts[1]+"T"+starts[2]+":"+starts[3]
-        end_time = str(e.end_time.year)+"-"+ends[0]+"-"+ends[1]+"T"+ends[2]+":"+ends[3]
-        return (start_time,end_time)
         
 class Event(models.Model):
     created_by = models.ForeignKey(
