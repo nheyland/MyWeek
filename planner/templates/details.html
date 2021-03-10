@@ -37,7 +37,8 @@
         </li>
         {% endfor %}
       </ul>
-      {% endif %} {%if edit%}
+      {% endif %} 
+      {%if edit%}
       <h2 class="edit_header">Edit Event</h2>
       <form action="/process_edit" method="POST">
         {% csrf_token %}
@@ -55,8 +56,8 @@
         <button type="submit" class="event-button">Submit</button>
       </form>
     </div>
+    {%else%}
     <div>
-      {%else%}
       <h3>{{event.date}}</h3>
       <h2>{{event.title}}</h2>
       <h4>{{event.desc}}</h4>
@@ -64,6 +65,7 @@
       <h4><i class="fas fa-calendar-alt" style="color: white;"></i> {{event.end_time}}</h4>
       <h4><i class="fas fa-address-card" style="color: white;"></i> {{event.address}}</h4>
     </div>
+    {%endif%}
     <!-- </div>
     <div class="actions"> -->
     <h5>
@@ -83,7 +85,7 @@
       {% endif %}
     </div>
 
-    <!-- EVENT DELETION NEEDS TO GO THROUGH CONFIRMATION PROCESS! /ew -->
+    {% if event.created_by.id == request.session.user_id %}
     <div class="commands">
       <h4><a href="{% url 'confirmDelete' event.id %}" class="delete">Delete Event</a> | <a href="/edit/{{event.id}}" class="edit">Edit Event</a></h4>
       {%endif%}
